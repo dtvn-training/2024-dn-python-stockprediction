@@ -1,6 +1,7 @@
 use stock_prediction;
+
 CREATE TABLE users(
-	userid int not null primary key auto_increment,
+	userid varchar(50) not null primary key ,
     username varchar(20) not null,
     password varchar(30) not null,
     email varchar(50) not null unique key,
@@ -9,20 +10,18 @@ CREATE TABLE users(
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
 	updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
-
 CREATE TABLE stocklist(
-	stockid int not null primary key auto_increment ,
+	stockid varchar(50) not null primary key ,
     symboy varchar(10) not null unique key,
-    company_name varchar(30) not null ,
-    company_detail varchar(200) not null,
-    previous_close_price double not null,
-    total int not null
+    company_name varchar(60) not null ,
+    company_detail varchar(200) ,
+    previous_close_price double not null
 );
 
 CREATE TABLE comments(
-commentid int not null primary key auto_increment,
-userid int not null ,
-stockid int not null,
+commentid varchar(50)  not null primary key ,
+userid varchar(50) not null ,
+stockid varchar(50) not null,
 comment_text varchar(200),
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
 updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -30,16 +29,16 @@ foreign key (userid) references users(userid),
 foreign key (stockid) references stocklist(stockid)
 );
 CREATE TABLE StockFollow (
-followid int not null primary key  auto_increment ,
-userid int not null,
-stockid int not null ,
+followid varchar(50) not null primary key  ,
+userid varchar(50) not null,
+stockid varchar(50) not null ,
 foreign key (userid) references users(userid),
 foreign key (stockid) references stocklist(stockid)
 
 );
 CREATE TABLE stockhistory(
-id int not null primary key auto_increment,
-stockid int not null  ,
+id varchar(50) not null primary key ,
+stockid varchar(50) not null  ,
 date datetime not null ,
 open double not null,
 high double not null,
@@ -49,9 +48,9 @@ vollumn double not null,
 foreign key (stockid) references stocklist(stockid)
 );
 CREATE TABLE stockprediction(
-predictionid int not null  primary key auto_increment,
-stockid int not null ,
-userid int not null,
+predictionid varchar(50) not null  primary key ,
+stockid varchar(50) not null ,
+userid varchar(50) not null,
 date datetime not null ,
 text_prediction varchar(300) not null,
 foreign key (userid) references users(userid),
