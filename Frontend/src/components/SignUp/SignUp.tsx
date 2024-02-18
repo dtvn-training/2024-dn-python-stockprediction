@@ -1,6 +1,8 @@
 import { memo } from 'react';
 import type { FC } from 'react';
-
+import React, { useState } from "react";
+import axios from 'axios';
+import {useNavigate} from "react-router-dom";
 import resets from '../_resets.module.css';
 import { ChevronRight } from './ChevronRight/ChevronRight';
 import { EnvelopeLightSolid } from './EnvelopeLightSolid/EnvelopeLightSolid';
@@ -16,6 +18,13 @@ interface Props {
 }
 /* @figmaId 2333:220 */
 export const SignUp: FC<Props> = memo(function SignUp(props = {}) {
+
+  const [email,setEmail] = useState('');
+  const [password,setPassword] = useState('');
+
+  const navigate = useNavigate();
+
+
   return (
     <div className={`${resets.storybrainResets} ${classes.root}`}>
       <div className={classes.line20}>
@@ -31,13 +40,13 @@ export const SignUp: FC<Props> = memo(function SignUp(props = {}) {
         <IconlyBoldProfileIcon className={classes.icon4} />
       </div>
       <div className={classes.frame4}>
-        <input className={classes.ten} type="text" id="lname" name="myInput" placeholder='Tên'/>
+        <input className={classes.ten} type="text" id="name" name="myInput" placeholder='Tên'/>
         {/* <div className={classes.ten}>Tên</div> */}
       </div>
       <div className={classes.rectangle12}></div>
       <div className={classes.frame8}>
         {/* <div className={classes.soIenThoai}>Số điện thoại</div> */}
-        <input className={classes.soIenThoai} type="text" id="lname" name="myInput" placeholder='Số điện thoại'/>
+        <input className={classes.soIenThoai} type="password" name="myInput" placeholder='Mật khẩu'/>
       </div>
       <MobileLightSolid
         className={classes.mobileLightSolid}
@@ -65,7 +74,7 @@ export const SignUp: FC<Props> = memo(function SignUp(props = {}) {
       <div className={classes.rectangle3}></div>
       <div className={classes.frame7}>
         {/* <div className={classes.email}>Email</div> */}
-        <input className={classes.email} type="text" id="lname" name="myInput" placeholder='Email'/>
+        <input className={classes.email} type="text" value={email} placeholder='Email'/>
       </div>
       <EnvelopeLightSolid
         className={classes.envelopeLightSolid}
