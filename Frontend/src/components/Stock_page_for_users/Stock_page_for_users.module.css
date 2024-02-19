@@ -76,7 +76,7 @@
   background-color: #0f1729;
   overflow: hidden;
 }
-.line21 {
+.line {
   position: absolute;
   left: 37px;
   top: 157px;
@@ -85,12 +85,13 @@
   height: 1px;
   max-height: 100%;
   overflow: visible;
+  margin-top:10px
 }
 .icon4 {
   width: 100%;
   height: 100%;
 }
-.cTCPThuySanMekong {
+.companyinfo {
   color: #fff;
   font-size: 20px;
   line-height: 27.5px;
@@ -105,7 +106,7 @@
   white-space: nowrap;
   flex-direction: column;
 }
-.aAMHSK {
+.symbol {
   color: #fff;
   font-size: 16px;
   line-height: 27.5px;
@@ -176,24 +177,22 @@
   background-size: cover;
   transform: translateX(-50%);
 }
-.image14 {
+.tabledetail {
   position: absolute;
   left: 613px;
   top: 189px;
-  width: 280.6035px;
   height: 350px;
-  background-image:/* webpackIgnore: true */ url('/assets/image14.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
-.image12 {
+.predictcontent {
   position: absolute;
   left: calc(50% - -0.5px);
   top: 618px;
   width: 747px;
   height: 181px;
-  background-image:/* webpackIgnore: true */ url('/assets/image12.jpg');
+  
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

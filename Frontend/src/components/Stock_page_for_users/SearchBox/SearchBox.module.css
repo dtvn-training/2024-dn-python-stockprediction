@@ -1,19 +1,21 @@
-.root {
-    opacity: 0.8;
-    position: absolute;
-    left: 130px;
-    top: 135px;
-    width: 16px;
-    height: 16px;
-    align-items: flex-start;
+
+  .searchContainer{
+    border: 1px solid #fff;
+    border-radius: 10px;
+    padding: 5px;
+    
   }
-  .star1 {
-    position: absolute;
-    left: 1px;
-    top: 1px;
-    width: 16px;
-    height: 16px;
-    overflow: visible;
+  .searchContainer input::placeholder{
+    color: #fff;
+    border: none;
+  }
+  .searchContainer input{
+    color: #fff;
+    outline: none;
+  }
+
+  .btnsearch{
+    color: #fff;
   }
   .icon {
     width: 100%;

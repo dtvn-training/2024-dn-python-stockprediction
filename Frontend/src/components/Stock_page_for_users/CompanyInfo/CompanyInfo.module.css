@@ -1,0 +1,14 @@
+.companyinfo{
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    margin-bottom: 10px;
+}
+.companyinfo svg{
+    color: yellow;
+}
+.symbol{
+   display: flex;
+   flex-direction: row;
+   gap:10px;
+}

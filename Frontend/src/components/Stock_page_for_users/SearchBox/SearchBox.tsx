@@ -8,10 +8,10 @@ const SearchBox = () => {
         type="text"
         id="searchInput"
         className={classes.search}
-        placeholder="search"
+        placeholder="search..."
       />
       <button className={classes.btnsearch} onClick={handleSearch}>
-      <SearchIcon/>
+        <SearchIcon />
       </button>
     </div>
   );

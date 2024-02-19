@@ -1,0 +1,12 @@
+.predict{
+    display: flex;
+    flex-direction:row;
+    gap: 25px;
+}
+.predict .contentpredict{
+    color: #fff;
+    
+}
+.contentpredict .content{
+    white-space: normal;
+}
