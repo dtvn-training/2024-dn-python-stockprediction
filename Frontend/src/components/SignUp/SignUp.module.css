@@ -23,7 +23,7 @@
 .root {
   position: relative;
   width: 100%;
-  height: 800px;
+  height: 100%;
   align-items: flex-start;
   background-color: #0f1729;
   overflow: hidden;
@@ -53,12 +53,17 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.registerForm{
+  position: relative;
+  display: block;
+  margin: 140px auto;
+}
+
 .frame2 {
-  position: absolute;
-  left: 247px;
-  top: 152px;
   width: min-content;
   height: min-content;
+  padding: 10px 0;
 }
 .AngKi {
   color: #fff;
@@ -71,36 +76,79 @@
   white-space: nowrap;
   flex-direction: column;
 }
-.frame3 {
-  position: absolute;
-  left: 251px;
-  top: 149px;
-  width: 267px;
-  height: 24px;
-}
-.rectangle1 {
-  position: absolute;
-  left: 251px;
-  top: 217px;
+
+.rectangle {
+  margin: 8px 0;
+  padding: 8px;
   width: 443px;
   height: 64px;
   border-radius: 10px;
   background-color: #f5f5f7;
 }
+
+.rectangleName {
+  position: relative;
+}
+
+
+.rectangleEmail {
+  position: relative;
+}
+
+.rectanglePassword{
+  position: relative;
+}
+
+
+.labelRegister{
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+    font-size: 18px;
+  color: #fff;
+}
+
 .iconlyBoldProfile {
-  position: absolute;
   left: 28.3298%;
   right: 69.1332%;
   top: 29.625%;
   bottom: 67.375%;
   overflow: visible;
+  width: 23px;
+  height: 23px;
 }
 .icon4 {
   width: 100%;
   height: 100%;
 }
-.frame4 {
+
+/* icon name */
+.iconlyBoldProfile {
   position: absolute;
+  top: 22px;
+  left: 14px;
+  width: 23px;
+  height: 23px;
+}
+
+/* icon email */
+.envelopeLightSolid.envelopeLightSolid {
+  position: absolute;
+  top: 33px;
+  left: 14px;
+  width: 23px;
+  height: 23px;
+  transform: translateY(-50%);
+}
+
+/* icon pass */
+.interfaceEssentialLock.interfaceEssentialLock {
+  position: absolute;
+  top: 24px;
+  left: 13px;
+  width: 25px;
+  height: 23px;
+}
+.frame4 {
   left: 310px;
   top: 237px;
   width: min-content;
@@ -118,7 +166,6 @@
   flex-direction: column;
 }
 .rectangle12 {
-  position: absolute;
   left: 251px;
   top: 304px;
   width: 443px;
@@ -127,29 +174,43 @@
   background-color: #f5f5f7;
 }
 .frame8 {
-  position: absolute;
   left: 310px;
   top: calc(50% - 63px);
   width: min-content;
   height: min-content;
   transform: translateY(-50%);
 }
-.soIenThoai {
+
+.input {
+  padding-left: 40px;
+  outline: none;
   color: #8b8fa8;
-  font-size: 16px;
+  width: 100%;
+  font-size: 20px;
   font-weight: 500;
   font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
     'Liberation Sans', sans-serif;
-  width: min-content;
-  height: min-content;
+  border-color: #fff;
+  /* width: 400px;
+  height: 64px; */
+  border-radius: 10px;
+  background-color: #f5f5f7;
   white-space: nowrap;
   flex-direction: column;
 }
+
+.inputName{
+  height: 48px;
+}
+
+.inputPass {
+
+}
 .next_BTN {
-  position: absolute;
-  left: 552px;
-  top: 506px;
-  width: 141px;
+  margin: 20px 0;
+  margin-left: auto;
+  justify-content: flex-end;
+  width: 140px;
   height: 70px;
   flex-direction: column;
   align-items: flex-start;
@@ -168,7 +229,7 @@
   align-items: center;
   background-color: #007dfa;
 }
-.tiepTuc {
+.signIn {
   color: #fff;
   font-size: 22px;
   font-weight: 600;
@@ -183,13 +244,7 @@
   width: 33px;
   height: min-content;
 }
-.frame82 {
-  position: absolute;
-  left: 251px;
-  top: 619px;
-  width: min-content;
-  height: min-content;
-}
+
 .banACoTaiKhoan {
   color: #393d6e;
   font-size: 16px;
@@ -202,7 +257,6 @@
   flex-direction: column;
 }
 .frame9 {
-  position: absolute;
   left: 603px;
   top: 619px;
   width: min-content;
@@ -220,7 +274,6 @@
   flex-direction: column;
 }
 .line2 {
-  position: absolute;
   left: 251px;
   top: 602px;
   width: 443px;
@@ -231,7 +284,6 @@
   margin-bottom: -1px;
 }
 .rectangle3 {
-  position: absolute;
   left: 251px;
   top: 398px;
   width: 443px;
@@ -239,22 +291,28 @@
   border-radius: 10px;
   background-color: #f5f5f7;
 }
+
+.frame3 {
+  display: flex;
+  flex-direction: column;
+}
+
 .frame7 {
-  position: absolute;
   left: 310px;
   top: calc(50% - -30px);
   width: min-content;
   height: min-content;
   transform: translateY(-50%);
 }
-.email {
-  color: #8b8fa8;
-  font-size: 16px;
-  font-weight: 500;
-  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  width: min-content;
-  height: min-content;
-  white-space: nowrap;
-  flex-direction: column;
+
+.loginGroup{
+  display: block;
+  margin: 8px 0;
+  padding: 8px 0;
+}
+
+.loginAction{
+  display: flex;
+  margin: 12px 0;
+  justify-content: space-between;
 }

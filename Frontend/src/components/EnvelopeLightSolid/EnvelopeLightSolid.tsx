@@ -1,8 +1,8 @@
 import { memo } from 'react';
 import type { FC, ReactNode } from 'react';
 
-import resets from '../../_resets.module.css';
-import classes from './MobileLightSolid.module.css';
+import resets from '../_resets.module.css';
+import classes from './EnvelopeLightSolid.module.css';
 import { ShapeIcon } from './ShapeIcon.js';
 
 interface Props {
@@ -14,8 +14,8 @@ interface Props {
     shape?: ReactNode;
   };
 }
-/* @figmaId 2346:72 */
-export const MobileLightSolid: FC<Props> = memo(function MobileLightSolid(props = {}) {
+/* @figmaId 2346:74 */
+export const EnvelopeLightSolid: FC<Props> = memo(function EnvelopeLightSolid(props = {}) {
   return (
     <div className={`${resets.storybrainResets} ${props.classes?.root || ''} ${props.className || ''} ${classes.root}`}>
       <div className={classes.shape}>{props.swap?.shape || <ShapeIcon className={classes.icon} />}</div>

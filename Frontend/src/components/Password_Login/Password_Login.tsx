@@ -2,8 +2,8 @@ import { memo } from 'react';
 import type { FC } from 'react';
 
 import resets from '../_resets.module.css';
-import { ChevronRight } from './ChevronRight/ChevronRight';
-import { EnvelopeLightSolid } from './EnvelopeLightSolid/EnvelopeLightSolid';
+import { ChevronRight } from '../ChevronRight/ChevronRight';
+import { EnvelopeLightSolid } from '../EnvelopeLightSolid/EnvelopeLightSolid';
 import { InterfaceEssentialLock_StyleFi } from './InterfaceEssentialLock_StyleFi/InterfaceEssentialLock_StyleFi';
 import { Line20Icon } from './Line20Icon.js';
 import classes from './Password_Login.module.css';
