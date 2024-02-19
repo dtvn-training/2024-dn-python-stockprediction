@@ -20,44 +20,48 @@ export const Password_Login: FC<Props> = memo(function Password_Login(props = {}
         <Line20Icon className={classes.icon2} />
       </div>
       <div className={classes.image10}></div>
-      <div className={classes.frame2}>
-        <div className={classes.AngNhap}>Đăng nhập</div>
-      </div>
-      <div className={classes.frame3}></div>
-      <div className={classes.rectangle1}></div>
-      <div className={classes.frame4}>
-        <div className={classes.matKhau}>Mật khẩu</div>
-      </div>
-      <div className={classes.next_BTN}>
-        <div className={classes.next_Icon}>
-          <div className={classes.next}>
-            <div className={classes.AngNhap2}>Đăng nhập</div>
-            <div className={classes.icon3}>
-              <ChevronRight />
-            </div>
+
+      <div className={classes.loginForm}>
+        <div className={classes.frame2}>
+          <div className={classes.AngNhap}>Đăng nhập</div>
+        </div>
+
+        <div className={classes.frame3}>
+          <label className={classes.labelLogin}>Email</label>
+          <div className={`${classes.rectangle} ${classes.rectangleEmail}`}>
+            <EnvelopeLightSolid
+              className={classes.envelopeLightSolid}
+              swap={{
+                shape: <ShapeIcon className={classes.icon} />,
+              }}
+            />
+            <input className={`${classes.input} ${classes.inputEmail}`} placeholder='Email'/>
+          </div>
+          <label className={classes.labelLogin}>Mật khẩu</label>
+          <div className={`${classes.rectangle} ${classes.rectanglePassword}`}>
+            <InterfaceEssentialLock_StyleFi className={classes.interfaceEssentialLock} />
+            <input className={`${classes.input} ${classes.inputPassword}`} placeholder='Mật khẩu'/>
+          </div>
+          <div className={classes.next_BTN}>
+            <a className={classes.next_Icon} href='#'>
+              <div className={classes.next}>
+                <div className={classes.AngNhap2}>Đăng nhập</div>
+                <div className={classes.icon3}>
+                  <ChevronRight />
+                </div>
+              </div>
+            </a>
           </div>
         </div>
+        <div className={classes.register}>
+          <div className={classes.frame8}>
+            <a href='#' className={classes.banChuaCoTaiKhoan}>Bạn chưa có tài khoản?</a>
+          </div>
+          <div className={classes.frame9}>
+            <a href='#' className={classes.AngKi}>Đăng kí </a>
+          </div>
+        </div>  
       </div>
-      <div className={classes.frame8}>
-        <div className={classes.banChuaCoTaiKhoan}>Bạn chưa có tài khoản?</div>
-      </div>
-      <div className={classes.frame9}>
-        <div className={classes.AngKi}>Đăng kí </div>
-      </div>
-      <div className={classes.line2}></div>
-      <div className={classes.rectangle3}></div>
-      <div className={classes.frame7}>
-        <div className={classes.maXacThuc}>Mã xác thực</div>
-      </div>
-      <EnvelopeLightSolid
-        className={classes.envelopeLightSolid}
-        swap={{
-          shape: <ShapeIcon className={classes.icon} />,
-        }}
-      />
-      <InterfaceEssentialLock_StyleFi className={classes.interfaceEssentialLock} />
-      <div className={classes.guiMa}>Gửi mã</div>
-      <div className={classes.frame12}></div>
     </div>
   );
 });

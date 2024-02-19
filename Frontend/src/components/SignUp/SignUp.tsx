@@ -22,9 +22,6 @@ export const SignUp: FC<Props> = memo(function SignUp(props = {}) {
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
 
-  const navigate = useNavigate();
-
-
   return (
     <div className={`${resets.storybrainResets} ${classes.root}`}>
       <div className={classes.line20}>
