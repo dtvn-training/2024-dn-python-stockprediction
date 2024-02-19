@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import type { FC } from 'react';
 
-import resets from '../../_resets.module.css';
+import resets from '../_resets.module.css';
 import { ChevronRight2 } from '../ChevronRight2/ChevronRight2';
 import classes from './ChevronRight.module.css';
 import { GroupIcon } from './GroupIcon.js';
