@@ -22,7 +22,7 @@
 }
 .root {
   position: relative;
-  width: 946px;
+  width: 100%;
   height: 800px;
   align-items: flex-start;
   background-color: #0f1729;
@@ -48,7 +48,7 @@
   top: 18px;
   width: 188.1081px;
   height: 48px;
-  background-image:/* webpackIgnore: true */ url('/assets/image10.jpg');
+  background-image:/* webpackIgnore: true */ url('/assets/logo.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
