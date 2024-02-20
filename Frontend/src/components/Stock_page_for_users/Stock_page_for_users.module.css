@@ -1,111 +1,44 @@
-.interfaceEssentialTrash.interfaceEssentialTrash {
-  opacity: 0.75;
-  left: 90.0634%;
-  right: 7.611%;
-  bottom: 228px;
-  height: 22px;
-}
 .icon {
   width: 100%;
   height: 100%;
 }
-.avatarGoesHere.avatarGoesHere {
-  left: 10.0423%;
-  right: 87.4207%;
-  top: 83%;
-  bottom: 15.4%;
-  background-color: initial;
-  background-image:/* webpackIgnore: true */ url('/assets/avatarGoesHere.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-.interfaceEssentialTrash2.interfaceEssentialTrash2 {
-  opacity: 0.75;
-  left: 90.0634%;
-  right: 7.611%;
-  bottom: 564px;
-  height: 22px;
-}
+
 .icon2 {
   width: 100%;
   height: 100%;
 }
-.avatarGoesHere2.avatarGoesHere2 {
-  left: 10.0423%;
-  right: 87.4207%;
-  top: 60.6%;
-  bottom: 37.8%;
-  background-color: initial;
-  background-image:/* webpackIgnore: true */ url('/assets/avatarGoesHere2.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-.avatarGoesHere3.avatarGoesHere3 {
-  left: 10.0423%;
-  right: 87.4207%;
-  top: 71.8%;
-  bottom: 26.6%;
-  background-color: initial;
-  background-image:/* webpackIgnore: true */ url('/assets/avatarGoesHere3.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-.interfaceEssentialTrash3.interfaceEssentialTrash3 {
-  opacity: 0.75;
-  left: 90.0634%;
-  right: 7.611%;
-  bottom: 396px;
-  height: 22px;
-}
+
 .icon3 {
   width: 100%;
   height: 100%;
 }
-.userCircle.userCircle {
-  left: 824px;
-  top: calc(50% - 709px);
-}
+
+
 .root {
-  position: relative;
-  width: 946px;
-  height: 1500px;
-  align-items: flex-start;
+  width: 100%;
+  min-height: 900vh;
   background-color: #0f1729;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px
 }
-.line {
-  position: absolute;
-  left: 37px;
-  top: 157px;
-  width: 871.0001px;
-  max-width: 100%;
-  height: 1px;
-  max-height: 100%;
-  overflow: visible;
-  margin-top:10px
-}
+
+
 .icon4 {
   width: 100%;
   height: 100%;
 }
+
 .companyinfo {
   color: #fff;
   font-size: 20px;
-  line-height: 27.5px;
   font-weight: bold;
   font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
     'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 50px;
-  top: 108px;
-  width: min-content;
-  height: min-content;
-  white-space: nowrap;
-  flex-direction: column;
+  margin: 10px 120px;
+  margin-top: 100px;
 }
+
 .symbol {
   color: #fff;
   font-size: 16px;
@@ -113,7 +46,7 @@
   font-weight: bold;
   font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
     'Liberation Sans', sans-serif;
-  position: absolute;
+
   left: 50px;
   top: 129px;
   width: min-content;
@@ -121,598 +54,76 @@
   white-space: nowrap;
   flex-direction: column;
 }
-._891 {
-  color: #fff;
-  font-size: 20px;
-  line-height: 27.5px;
-  font-weight: bold;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 846px;
-  top: 108px;
-  width: min-content;
-  height: min-content;
-  white-space: nowrap;
+
+
+
+.container {
+  display: flex;
   flex-direction: column;
-}
-._00 {
-  color: #fff;
-  font-size: 16px;
-  line-height: 27.5px;
-  font-weight: bold;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 794px;
-  top: 129px;
-  width: min-content;
-  height: min-content;
-  white-space: nowrap;
-  flex-direction: column;
-}
-.line22 {
-  position: absolute;
-  left: 34px;
-  top: 556px;
-  width: 871.0001px;
-  max-width: 100%;
-  height: 1px;
-  max-height: 100%;
-  overflow: visible;
-}
-.icon5 {
-  width: 100%;
-  height: 100%;
-}
-.image13 {
-  position: absolute;
-  left: calc(50% - 143.3077px);
-  top: 189px;
-  width: 555.3846px;
-  height: 350px;
-  background-image:/* webpackIgnore: true */ url('/assets/image13.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  transform: translateX(-50%);
-}
-.tabledetail {
-  position: absolute;
-  left: 613px;
-  top: 189px;
-  height: 350px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-.predictcontent {
-  position: absolute;
-  left: calc(50% - -0.5px);
-  top: 618px;
-  width: 747px;
-  height: 181px;
-  
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  transform: translateX(-50%);
-}
-.duOan {
-  color: #fff;
-  font-size: 20px;
-  line-height: 27.5px;
-  font-weight: bold;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 108px;
-  top: 568px;
-  width: min-content;
-  height: min-content;
-  white-space: nowrap;
-  flex-direction: column;
-}
-.themBinhLuan {
-  color: #63637b;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 500;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 238px;
-  top: 825px;
-  width: min-content;
-  height: min-content;
-  text-align: end;
-  align-items: end;
-  white-space: nowrap;
-  flex-direction: column;
-}
-.thaoLuan {
-  color: #fff;
-  font-size: 20px;
-  line-height: 27.5px;
-  font-weight: bold;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 108px;
-  top: 821px;
-  width: min-content;
-  height: min-content;
-  white-space: nowrap;
-  flex-direction: column;
-}
-.rectangle1362 {
-  position: absolute;
-  left: 87px;
-  top: 1223px;
-  width: 800px;
-  height: 130px;
-  background-color: #0f1729;
-  box-shadow: 0px 1px 0px #e7e7ef, inset 0px -1px 0px #e7e7ef;
-}
-.rectangle1363 {
-  position: absolute;
-  left: 87px;
-  top: 1223px;
-  width: 800px;
-  height: 130px;
-  background-color: #0f1729;
-  box-shadow: 0px 1px 0px #e7e7ef, inset 0px -1px 0px #e7e7ef;
-}
-.edit {
-  color: #fff;
-  font-size: 12px;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 361px;
-  top: 1250px;
-  width: min-content;
-  height: min-content;
-  white-space: nowrap;
-  flex-direction: column;
-}
-.borderBottom {
-  position: absolute;
-  left: 87px;
-  top: 1233px;
-  width: 800px;
-  height: 80px;
-  box-shadow: inset 0px -1px 0px #e7e7ef;
-}
-.comment {
-  color: #63637b;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 500;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 813px;
-  top: 1323px;
-  width: min-content;
-  height: min-content;
-  text-align: end;
-  align-items: end;
-  white-space: nowrap;
-  flex-direction: column;
-}
-.reactIcon {
-  position: absolute;
-  left: 793px;
-  top: 1325px;
-  width: 15.9999px;
-  height: 16px;
-  overflow: visible;
-}
-.icon6 {
-  width: 100%;
-  height: 100%;
-}
-.highlight {
-  position: absolute;
-  left: 95px;
-  top: 1321px;
-  width: 24px;
-  height: 24px;
-  border-radius: 12px;
-  background-color: #f6f6f6;
-}
-.unnamed {
-  color: #63637b;
-  font-size: 18px;
-  font-family: slack-icons, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 98px;
-  top: 1324px;
-  width: min-content;
-  height: min-content;
-  white-space: nowrap;
-  flex-direction: column;
-}
-.text {
-  color: #fff;
-  font-size: 16px;
-  line-height: 24px;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 126px;
-  top: 1277px;
-  width: 559px;
-  height: min-content;
-  flex-direction: column;
-}
-.michaelBusch {
-  color: #fff;
-  font-size: 14px;
-  line-height: 16px;
-  font-weight: 600;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 127px;
-  top: 1249px;
-  width: min-content;
-  height: min-content;
-  white-space: nowrap;
-  flex-direction: column;
-}
-._1HourAgo {
-  color: #fff;
-  font-size: 12px;
-  line-height: 16px;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 230px;
-  top: 1249px;
-  width: min-content;
-  height: min-content;
-  white-space: nowrap;
-  flex-direction: column;
-}
-.rectangle13622 {
-  position: absolute;
-  left: 87px;
-  top: 887px;
-  width: 800px;
-  height: 130px;
-  background-color: #0f1729;
-  box-shadow: 0px 1px 0px #e7e7ef, inset 0px -1px 0px #e7e7ef;
-}
-.rectangle13632 {
-  position: absolute;
-  left: 87px;
-  top: 887px;
-  width: 800px;
-  height: 130px;
-  background-color: #0f1729;
-  box-shadow: 0px 1px 0px #e7e7ef, inset 0px -1px 0px #e7e7ef;
-}
-.edit2 {
-  color: #fff;
-  font-size: 12px;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 361px;
-  top: 914px;
-  width: min-content;
-  height: min-content;
-  white-space: nowrap;
-  flex-direction: column;
-}
-.borderBottom2 {
-  position: absolute;
-  left: 87px;
-  top: 897px;
-  width: 800px;
-  height: 80px;
-  box-shadow: inset 0px -1px 0px #e7e7ef;
-}
-.comment2 {
-  color: #63637b;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 500;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 813px;
-  top: 987px;
-  width: min-content;
-  height: min-content;
-  text-align: end;
-  align-items: end;
-  white-space: nowrap;
-  flex-direction: column;
-}
-.reactIcon2 {
-  position: absolute;
-  left: 793px;
-  top: 989px;
-  width: 15.9999px;
-  height: 16px;
-  overflow: visible;
-}
-.icon7 {
-  width: 100%;
-  height: 100%;
-}
-.highlight2 {
-  position: absolute;
-  left: 95px;
-  top: 985px;
-  width: 24px;
-  height: 24px;
-  border-radius: 12px;
-  background-color: #f6f6f6;
-}
-.unnamed2 {
-  color: #63637b;
-  font-size: 18px;
-  font-family: slack-icons, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 98px;
-  top: 988px;
-  width: min-content;
-  height: min-content;
-  white-space: nowrap;
-  flex-direction: column;
-}
-.text2 {
-  color: #fff;
-  font-size: 16px;
-  line-height: 24px;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 126px;
-  top: 941px;
-  width: 559px;
-  height: min-content;
-  flex-direction: column;
-}
-.michaelBusch2 {
-  color: #fff;
-  font-size: 14px;
-  line-height: 16px;
-  font-weight: 600;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 127px;
-  top: 913px;
-  width: min-content;
-  height: min-content;
-  white-space: nowrap;
-  flex-direction: column;
-}
-._1HourAgo2 {
-  color: #fff;
-  font-size: 12px;
-  line-height: 16px;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 230px;
-  top: 913px;
-  width: min-content;
-  height: min-content;
-  white-space: nowrap;
-  flex-direction: column;
-}
-.rectangle13623 {
-  position: absolute;
-  left: 87px;
-  top: 1055px;
-  width: 800px;
-  height: 130px;
-  background-color: #0f1729;
-  box-shadow: 0px 1px 0px #e7e7ef, inset 0px -1px 0px #e7e7ef;
-}
-.rectangle13633 {
-  position: absolute;
-  left: 87px;
-  top: 1055px;
-  width: 800px;
-  height: 130px;
-  background-color: #0f1729;
-  box-shadow: 0px 1px 0px #e7e7ef, inset 0px -1px 0px #e7e7ef;
-}
-.edit3 {
-  color: #fff;
-  font-size: 12px;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 361px;
-  top: 1082px;
-  width: min-content;
-  height: min-content;
-  white-space: nowrap;
-  flex-direction: column;
-}
-.borderBottom3 {
-  position: absolute;
-  left: 87px;
-  top: 1065px;
-  width: 800px;
-  height: 80px;
-  box-shadow: inset 0px -1px 0px #e7e7ef;
-}
-.comment3 {
-  color: #63637b;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 500;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 813px;
-  top: 1155px;
-  width: min-content;
-  height: min-content;
-  text-align: end;
-  align-items: end;
-  white-space: nowrap;
-  flex-direction: column;
-}
-.reactIcon3 {
-  position: absolute;
-  left: 793px;
-  top: 1157px;
-  width: 15.9999px;
-  height: 16px;
-  overflow: visible;
-}
-.icon8 {
-  width: 100%;
-  height: 100%;
-}
-.highlight3 {
-  position: absolute;
-  left: 95px;
-  top: 1153px;
-  width: 24px;
-  height: 24px;
-  border-radius: 12px;
-  background-color: #f6f6f6;
-}
-.unnamed3 {
-  color: #63637b;
-  font-size: 18px;
-  font-family: slack-icons, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 98px;
-  top: 1156px;
-  width: min-content;
-  height: min-content;
-  white-space: nowrap;
-  flex-direction: column;
-}
-.text3 {
-  color: #fff;
-  font-size: 16px;
-  line-height: 24px;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 126px;
-  top: 1109px;
-  width: 559px;
-  height: min-content;
-  flex-direction: column;
-}
-.michaelBusch3 {
-  color: #fff;
-  font-size: 14px;
-  line-height: 16px;
-  font-weight: 600;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 127px;
-  top: 1081px;
-  width: min-content;
-  height: min-content;
-  white-space: nowrap;
-  flex-direction: column;
-}
-._1HourAgo3 {
-  color: #fff;
-  font-size: 12px;
-  line-height: 16px;
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  position: absolute;
-  left: 230px;
-  top: 1081px;
-  width: min-content;
-  height: min-content;
-  white-space: nowrap;
-  flex-direction: column;
-}
-.search {
-  position: absolute;
-  left: 543px;
-  top: calc(50% - 709px);
-  width: 236.4444px;
-  height: 38px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  transform: translateY(-50%);
-  color: #fff;
-}
-.btnsearch{
-  display: block;
-  width: 10px;
-  height: 10px;
-}
-.logo {
-  position: absolute;
-  left: 26px;
-  top: calc(50% - 709px);
-  width: 188.1081px;
-  height: 48px;
-  background-image:/* webpackIgnore: true */ url('/assets/image1.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  transform: translateY(-50%);
-}
-.btnsearch svg{
-  width: 10px;
-  height: 10px;
+
+  margin: 0px 120px;
+  padding: 0px;
+  height: fit-content;
+  padding-right: 50px;
 
 }
-.darkmode {
-  position: absolute;
-  left: 472px;
-  top: calc(50% - 709px);
-  width: 66.2857px;
-  height: 48px;
-  background-image:/* webpackIgnore: true */ url('/assets/image2.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  transform: translateY(-50%);
+
+.detail {
+  justify-content: flex-start;
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  margin: 0px;
+  margin-top: 200px;
+  margin-bottom: 50px;
+
+
 }
-.homepage {
+
+.image13 {
+  width: 60%;
+  height: auto;
+
+}
+
+
+.predictcontent {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.labelpredict {
+  font-size: 48px;
   color: #fff;
-  font-size: 20px;
-  line-height: 27.5px;
   font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
     'Liberation Sans', sans-serif;
-  position: absolute;
-  left: calc(50% - 198.5px);
-  top: calc(50% - 709px);
-  width: min-content;
-  height: min-content;
-  white-space: nowrap;
+}
+
+.discusscomment {
+  margin-top: 50px;
+  display: flex;
+  color: #fff;
   flex-direction: column;
-  transform: translate(-50%, -50%);
+  gap: 30px;
 }
-.line20 {
-  position: absolute;
-  left: 48.9976px;
-  top: 70.4746px;
-  width: 871.0001px;
-  max-width: 100%;
-  height: 1px;
-  max-height: 100%;
-  overflow: visible;
+
+.discusscomment .text {
+  font-size: 48px;
+  color: #fff;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
 }
-.icon9 {
-  width: 100%;
-  height: 100%;
+
+.line {
+  width: 200px;
+
+}
+
+.wiritecomment {
+  width: fit-content;
+  background-color: rgba(255, 255, 255, 0.05);
+  font-size: 18px;
+  font-weight: 700px;
+  border-radius: 15px;
 }

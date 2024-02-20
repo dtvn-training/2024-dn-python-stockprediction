@@ -1,6 +1,5 @@
-
 import classes from "./SearchBox.module.css";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
 const SearchBox = () => {
   return (
     <div className={classes.searchContainer}>
@@ -17,8 +16,6 @@ const SearchBox = () => {
   );
 };
 
-const handleSearch = () => {
-  // Xử lý logic tìm kiếm ở đây
-};
+const handleSearch = () => {};
 
 export default SearchBox;
