@@ -1,52 +1,47 @@
-import axios from "axios";
+import { useState } from 'react';
+import axios from 'axios';
+import {useToken} from '../../components/token'
 
-const login = (data: { email: string; password: string }) => {
-  // return instance.post(ENDPOINTS.LOGIN, { ...data, deviceId: "deviceId" });
-  return axios.post(
-    "https://fiveglassesnews-backend.onrender.com/v1/login/local",
-    {
-      ...data,
-      deviceId: "",
-    }
-  );
-};
+export function useLoginForm() {
+  const [loginForm, setLoginForm] = useState({
+    email: "",
+    password: ""
+  });
+  const { setToken } = useToken();
+  function logmeIn(event: React.FormEvent<HTMLFormElement>) {
+    // Your existing code
+    axios.post("http://127.0.0.1:5000/token", {
+      email: loginForm.email,
+      password: loginForm.password
+    })
+    .then((response) => {
+      setToken(response.data.access_token);
+      setLoginForm({ email: "", password: "" });
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
 
-const myProfile = () => {
-  const accessToken = sessionStorage.getItem("accessToken");
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target;
+    setLoginForm(prevState => ({ ...prevState, [name]: value }));
+  }
 
-  return axios.get(
-    "https://fiveglassesnews-backend.onrender.com/v1/self/my-profile",
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
-};
+  function logMeOut() {
+    axios({
+      method: "POST",
+      url:"http://127.0.0.1:5000/logout",
+    })
+    .then((response) => {
+       props.token()
+    }).catch((error) => {
+      if (error.response) {
+        console.log(error.response)
+        console.log(error.response.status)
+        console.log(error.response.headers)
+        }
+    })}
 
-const refreshToken = () => {
-  const accessToken = sessionStorage.getItem("accessToken");
-  const refreshToken = sessionStorage.getItem("refreshToken");
-
-  return axios.put(
-    "https://fiveglassesnews-backend.onrender.com/v1/refresh",
-    {
-      deviceId: "",
-      refreshToken: refreshToken,
-      type: "ACCESS_TOKEN",
-    },
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
-};
-
-export const AuthApi = {
-  login,
-  myProfile,
-  refreshToken,
-};
+  return { loginForm, handleChange, logmeIn, logMeOut };
+}

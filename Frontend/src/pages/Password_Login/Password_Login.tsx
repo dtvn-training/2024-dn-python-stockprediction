@@ -9,53 +9,14 @@ import { InterfaceEssentialLock_StyleFi } from './InterfaceEssentialLock_StyleFi
 import { Line20Icon } from './Line20Icon';
 import classes from './Password_Login.module.css';
 import { ShapeIcon } from './ShapeIcon';
-import {useToken} from '../../components/token'
+import {useLoginForm} from '../../services/api/authencication.api'
 interface Props {
   className?: string;
 }
 
 export const Password_Login: FC<Props> = memo(function Password_Login(props: Props = {}) {
 
-  const [loginForm, setloginForm] = useState({
-    email: "",
-    password: ""
-  });
-  const { token, removeToken, setToken } = useToken();
-
-  function logmeIn(event: React.FormEvent<HTMLFormElement>): void {
-    event.preventDefault();
-    axios({
-      method: "POST",
-      url: "http://127.0.0.1:5000/token",
-      data: {
-        email: loginForm.email,
-        password: loginForm.password
-      }
-    })
-      .then((response) => {
-        props.setToken(response.data.access_token);
-      })
-      .catch((error) => {
-        if (error.response) {
-          console.log(error.response);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        }
-      });
-
-    setloginForm({
-      email: "",
-      password: ""
-    });
-  }
-
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
-    const { value, name } = event.target;
-    
-    setloginForm(prevNote => ({
-      ...prevNote, [name]: value
-    }));
-  }
+  const { loginForm, handleChange, logmeIn } = useLoginForm();
 
   return (
 
