@@ -1,7 +1,6 @@
 import { memo } from 'react';
 import type { FC } from 'react';
-
-import resets from '../../_resets.module.css';
+import resets from '../../../components/_resets.module.css';
 import classes from './InterfaceEssentialLock_StyleFi.module.css';
 import { StyleFilledIcon } from './StyleFilledIcon.js';
 
