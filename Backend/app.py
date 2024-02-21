@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify, session
 from datetime import datetime, timedelta, timezone
 from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
 from flask_cors import CORS
-
+import json
 
 app = Flask(__name__)
  
@@ -74,33 +74,68 @@ def my_profile():
 def hello_world():
     return "Hello, World!"
  
+# @app.route("/signup", methods=["POST"])
+# def signup():
+#     fullname = request.json.get("fullname", None)
+#     email = request.json.get("email", None)
+#     password = request.json.get("password", None)
+
+#     initial_users = [
+#         {"email": "test1@gmail.com", "password": "1234"},
+#         {"email": "test2@gmail.com", "password": "1234"},
+#         {"email": "test3@gmail.com", "password": "1234"},
+#     ]
+ 
+#     user_exists = any(user["email"] == email for user in initial_users)
+ 
+#     if user_exists:
+#         return jsonify({"error": "Email already exists"}), 409
+     
+#     # hashed_password = bcrypt.generate_password_hash(password)
+#     # new_user = User(email=email, password=hashed_password)
+#     # db.session.add(new_user)
+#     # db.session.commit()
+ 
+#     # session["user_id"] = new_user.id
+ 
+#     # return jsonify({
+#     #     "id": new_user.id,
+#     #     "email": new_user.email
+#     # })
+
+#     return jsonify({
+#         "id": "1",
+#         "email": "a@gmail.com"
+#     })
 @app.route("/signup", methods=["POST"])
 def signup():
-    # email = request.json["email"]
-    # password = request.json["password"]
- 
-    # user_exists = User.query.filter_by(email=email).first() is not None
- 
-    # if user_exists:
-    #     return jsonify({"error": "Email already exists"}), 409
-     
-    # hashed_password = bcrypt.generate_password_hash(password)
-    # new_user = User(email=email, password=hashed_password)
-    # db.session.add(new_user)
-    # db.session.commit()
- 
-    # session["user_id"] = new_user.id
- 
-    # return jsonify({
-    #     "id": new_user.id,
-    #     "email": new_user.email
-    # })
+    fullname = request.json.get("fullname", None)
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    
+    if fullname == "":
+        return jsonify({"error": "Fullname is required"}), 400
+    if email == "":
+        return jsonify({"error": "Email is required"}), 400
+    if password == "":
+        return jsonify({"error": "Password is required"}), 400
+    
+    with open("users.json", "r") as file:
+        users = json.load(file)
+    
+    user_exists = any(user["email"] == email for user in users)
+    
+    if user_exists:
+        return jsonify({"error": "Email already exists"}), 409
+    
+    new_user = {"fullname": fullname, "email": email, "password": password}
+    users.append(new_user)
+    
+    with open("users.json", "w") as file:
+        json.dump(users, file, indent=4)
+    
+    return jsonify(new_user)
 
-    return jsonify({
-        "id": "1",
-        "email": "a@gmail.com"
-    })
- 
 @app.route("/login", methods=["POST"])
 def login_user():
     email = request.json["email"]
