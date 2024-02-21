@@ -7,7 +7,7 @@ import TableDetail from "./TableDetail/TableDetail";
 import Predict from "./Predict/Predict";
 import Discuss from "./Discuss/Discuss";
 import CommentBox from "./CommentBox/CommentBox";
-import Header from "./Header/Header";
+import Header from "../Header/Header";
 
 interface Props {
   className?: string;

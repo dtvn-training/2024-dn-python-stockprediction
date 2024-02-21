@@ -1,7 +1,6 @@
 import { memo, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import type { FC } from 'react';
-import axios from "axios";
 import resets from '../../components/_resets.module.css';
 import { ChevronRight } from '../../components/ChevronRight/ChevronRight';
 import { EnvelopeLightSolid } from '../../components/EnvelopeLightSolid/EnvelopeLightSolid';
