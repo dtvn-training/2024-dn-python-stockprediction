@@ -20,8 +20,7 @@ export const Stock_page_for_users: FC<Props> = memo(
         <Header />
         <div className={classes.companyinfo}>
           <CompanyInfo
-            companyname="Ngân hàng Thương Mại Cổ Phần Á Châu"
-            symbol="ACB"
+            symbol="BID"
             follow={false}
           />
         </div>
@@ -34,6 +33,7 @@ export const Stock_page_for_users: FC<Props> = memo(
             </div>
             <div className={classes.tabledetail}>
               <TableDetail
+                symbol="BID"
                 open="27500"
                 high="28000"
                 low="26000"
