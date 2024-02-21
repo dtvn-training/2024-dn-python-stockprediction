@@ -1,0 +1,4 @@
+.chartbox{
+    display: flex;
+    flex-direction: column;
+}

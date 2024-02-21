@@ -8,6 +8,7 @@ import Predict from "./Predict/Predict";
 import Discuss from "./Discuss/Discuss";
 import CommentBox from "./CommentBox/CommentBox";
 import Header from "./Header/Header";
+import Candlestick from "./Candlestick/Candlestick";
 
 interface Props {
   className?: string;
@@ -19,21 +20,17 @@ export const Stock_page_for_users: FC<Props> = memo(
       <div className={` ${classes.root}`}>
         <Header />
         <div className={classes.companyinfo}>
-          <CompanyInfo
-            symbol="BID"
-            follow={false}
-          />
+          <CompanyInfo symbol="BID" follow={false} />
         </div>
 
         <div className={classes.container}>
           <Line />
           <div className={classes.detail}>
             <div className={classes.image13}>
-              <img src="../assets/image13.jpg" alt="" />
+              <Candlestick />
             </div>
             <div className={classes.tabledetail}>
               <TableDetail
-                symbol="BID"
                 open="27500"
                 high="28000"
                 low="26000"
