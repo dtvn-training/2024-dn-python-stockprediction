@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import type { FC } from 'react';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { MenuItem, Select } from '@mui/material';
@@ -6,28 +6,53 @@ import resets from '../../components/_resets.module.css';
 import classes from './Dashboard.module.css';
 import { Line20Icon } from '../../components/Line20lcon.tsx/Line20Icon.js';
 import { ListboxComponent_Property1Defa } from './ListboxComponent_Property1Defa/ListboxComponent_Property1Defa';
-// import { UserCircle } from './UserCircle/UserCircle';
+import axios from 'axios';
 import Header from '../../components/Header/Header';
 interface Props {
   className?: string;
 }
 /* @figmaId 2346:153 */
 export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
+  const [stocks, setStocks] = useState([]);
+
+  useEffect(() => {
+      getAllStocks()
+          .then(data => {
+              setStocks(data);
+          })
+          .catch(error => {
+              console.log('Error fetching stocks:', error);
+          });
+  }, []);
+
+  const getAllStocks = async () => {
+      try {
+          const response = await axios.get("http://127.0.0.1:5000/getAllStocks");
+          return response.data;
+      } catch (error) {
+          throw error;
+      }
+  };
+
+  console.log(stocks, 'stock');
+
+  
+  
   const columns: GridColDef[] = [
     { 
       field: 'Mã chứng khoán', 
       headerName: 'Mã CK', 
       width: 200,
       valueGetter: (params: GridValueGetterParams) =>
-        `${params.row.maCK || ''}`,
+        `${params.row.symboy || ''}`,
     },
     { 
       field: 'Giá', 
       headerName: 'Giá', 
       width: 100,
       valueGetter: (params: GridValueGetterParams) => {
-        if (typeof params.row.price === 'number') {
-          return params.row.price.toFixed(2);
+        if (typeof params.row.previous_close_price === 'number') {
+          return params.row.previous_close_price.toFixed(2);
         } else {
           return '0.00';
         }
@@ -38,8 +63,8 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       headerName: '+/-', 
       width: 100,
       valueGetter: (params: GridValueGetterParams) => {
-        if (typeof params.row.inc_dec === 'number') {
-          return params.row.inc_dec.toFixed(2);
+        if (typeof params.row.diffirence === 'number') {
+          return params.row.diffirence.toFixed(2);
         } else {
           return '0.00';
         }
@@ -62,8 +87,8 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       headerName: 'Tổng khối lượng',
       width: 200,
       valueGetter: (params: GridValueGetterParams) => {
-        if (typeof params.row.total === 'number') {
-          return params.row.total.toFixed(2);
+        if (typeof params.row.volume === 'number') {
+          return params.row.volume.toFixed(2);
         } else {
           return '0.00';
         }
@@ -84,17 +109,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
     },
   ];
   
-  const rows = [
-    { id: 1, maCK: 'ACB', price: 100, inc_dec: 1.00, percent: 0.00, total: 1000 },
-    { id: 2, maCK: 'BID', price: 100, inc_dec: -1.00, percent: 1.00, total: 0 },
-    { id: 3, maCK: 'CTG', price: 100, inc_dec: 0.00, percent: 1.00, total: 1000 },
-    { id: 4, maCK: 'EIB', price: 100, inc_dec: 1.00, percent: 1.00, total: 1000 },
-    { id: 5, maCK: 'HDB', price: 100, inc_dec: 1.00, percent: 1.00, total: 1000 },
-    { id: 6, maCK: 'MBB', price: 100, inc_dec: 0.00, percent: 1.00, total: 1000 },
-    { id: 7, maCK: 'MSB', price: 100.0055, inc_dec: 1.00, percent: 1.00, total: 1000 },
-    { id: 8, maCK: 'OCB', price: 100, inc_dec: 1.00, percent: 1.00, total: 1000 },
-    { id: 9, maCK: 'SHB', price: 100, inc_dec: 1.00, percent: 1.00, total: 1000 },
-  ];
+  const rows = stocks;
   
   return (
     <div className={`${resets.storybrainResets} ${classes.root}`}>

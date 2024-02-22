@@ -130,13 +130,14 @@ def get_stock_list(stockCode):
 @app.route('/getAllStocks', methods=['GET'])
 def get_stock_lists():
 
-    stocks = StockList.query.all()
+    stockArr = StockList.query.all()
     history = StockHistory.query.all()
+    stocks=[]
     # print(stock)
     # print('....')
     # print(history[6])
     # print(',,,')
-    for stock in stocks:
+    for stock in stockArr:
         print(stock,'..')
         stock_info = (
             StockHistory.query.filter_by(stockid=stock.stockid)
@@ -144,19 +145,22 @@ def get_stock_lists():
             .limit(2)
         )
         print(stock_info[0].open - stock_info[1].close)
-        stock_dict = {
+         
+        stock = {
+            "id":stock.stockid,
             "stockid": stock.stockid,
             "symboy": stock.symboy,
             "company_name": stock.company_name,
             "company_detail": stock.company_detail,
             "previous_close_price": stock.previous_close_price,
-            # price
+            "percent": (stock_info[0].open - stock_info[1].close)*100/stock.previous_close_price,
             "diffirence": stock_info[0].open - stock_info[1].close, 
             "volume": stock_info[0].volume,
         }
+        stocks.append(stock)
 
     return (
-        jsonify(stock_dict)
+        jsonify(stocks)
     )
 
 if __name__ == "__main__":
