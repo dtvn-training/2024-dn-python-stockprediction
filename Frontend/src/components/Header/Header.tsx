@@ -8,7 +8,6 @@ const Header: React.FC = () => {
     <div className={classes.header}>
       <div className={classes.leftheader}>
         <div className={classes.logo}></div>
-        <div className={classes.homepage}>Trang chủ</div>
       </div>
       <div className={classes.rightheader}>
         {/* <div className={classes.darkmode}></div> */}
