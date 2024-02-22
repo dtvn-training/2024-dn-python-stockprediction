@@ -19,97 +19,29 @@ import RangeSelector, {
   Aggregation as RsAggregation,
   Behavior,
   RangeSelectorTypes,
-} from 'devextreme-react/range-selector';
-// import { dataSource } from "./data";
+} from "devextreme-react/range-selector";
 
-// function App() {
-//   const [visualRange, setVisualRange] = useState({});
-
-//   const updateVisualRange = useCallback((e: RangeSelectorTypes.ValueChangedEvent) => {
-//     setVisualRange(e.value);
-//   }, [setVisualRange]);
-
-//   return (
-//     <div id="chart-demo">
-//       <Chart
-//         id="zoomedChart"
-//         dataSource={dataSource}
-//         title="Google Inc. Stock Prices"
-//       >
-//         <Series
-//           type="candlestick"
-//           openValueField="Open"
-//           highValueField="High"
-//           lowValueField="Low"
-//           closeValueField="Close"
-//           argumentField="Date"
-//         >
-//           <Aggregation enabled={true} />
-//         </Series>
-//         <ArgumentAxis
-//           visualRange={visualRange}
-//           valueMarginsEnabled={false}
-//           argumentType="datetime"
-//         >
-//           <Grid visible={true} />
-//           <Label visible={false} />
-//         </ArgumentAxis>
-//         <ValueAxis valueType="numeric" />
-//         <Margin right={10} />
-//         <Legend visible={false} />
-//         <Tooltip enabled={true} />
-//       </Chart>
-//       <RangeSelector
-//         dataSource={dataSource}
-//         onValueChanged={updateVisualRange}
-//       >
-//         <Size height={120} />
-//         <RsChart>
-//           <RsValueAxis valueType="numeric" />
-//           <RsSeries
-//             type="line"
-//             valueField="Open"
-//             argumentField="Date"
-//           >
-//             <RsAggregation enabled={true} />
-//           </RsSeries>
-//         </RsChart>
-//         <Scale
-//           placeholderHeight={20}
-//           minorTickInterval="day"
-//           tickInterval="month"
-//           valueType="datetime"
-//           aggregationInterval="week"
-//         />
-//         <Behavior
-//           snapToTicks={false}
-//           valueChangeMode="onHandleMove"
-//         />
-//       </RangeSelector>
-//     </div>
-//   );
-// }
-
-// export default App;
-
-import React, { FC,useCallback, useState, useEffect } from "react";
-import {  getStockImage } from "./CandlestickReq";
+import React, { FC, useCallback, useState, useEffect } from "react";
+import { getStockImage } from "./CandlestickReq";
 import classes from "./Candlestick.module.css";
 
 const Candlestick: FC = () => {
-  const [chartImage, setChartImage] = useState<string | null>(null);
+  const [chartImage, setChartImage] = useState<any | null>(null);
   const [visualRange, setVisualRange] = useState({});
 
-  const updateVisualRange = useCallback((e: RangeSelectorTypes.ValueChangedEvent) => {
-    setVisualRange(e.value);
-  }, [setVisualRange]);
+  const updateVisualRange = useCallback(
+    (e: RangeSelectorTypes.ValueChangedEvent) => {
+      setVisualRange(e.value);
+    },
+    [setVisualRange]
+  );
 
   useEffect(() => {
     const fetchImage = async () => {
       try {
-        const image = await getStockImage("BID");
-        setChartImage(image);
-        console.log(chartImage);
+        const imageJson = await getStockImage("BID");
+        const stockDict = JSON.parse(imageJson);
+        setChartImage(stockDict.chart_data);
       } catch (error) {
         console.error("Error fetching stock image:", error);
       }
@@ -117,14 +49,9 @@ const Candlestick: FC = () => {
 
     fetchImage();
   }, []);
-  console.log(chartImage);
   return (
-    <div id="chart-demo">
-      {/* <Chart
-        id="zoomedChart"
-        dataSource={dataSource}
-        title="Google Inc. Stock Prices"
-      >
+    <div className={classes.chart}>
+      <Chart id="zoomedChart" dataSource={chartImage} title="BID stock">
         <Series
           type="candlestick"
           openValueField="Open"
@@ -148,18 +75,11 @@ const Candlestick: FC = () => {
         <Legend visible={false} />
         <Tooltip enabled={true} />
       </Chart>
-      <RangeSelector
-        dataSource={dataSource}
-        onValueChanged={updateVisualRange}
-      >
+      <RangeSelector dataSource={chartImage} onValueChanged={updateVisualRange}>
         <Size height={120} />
         <RsChart>
           <RsValueAxis valueType="numeric" />
-          <RsSeries
-            type="line"
-            valueField="Open"
-            argumentField="Date"
-          >
+          <RsSeries type="line" valueField="Open" argumentField="Date">
             <RsAggregation enabled={true} />
           </RsSeries>
         </RsChart>
@@ -170,11 +90,8 @@ const Candlestick: FC = () => {
           valueType="datetime"
           aggregationInterval="week"
         />
-        <Behavior
-          snapToTicks={false}
-          valueChangeMode="onHandleMove"
-        />
-      </RangeSelector> */}
+        <Behavior snapToTicks={false} valueChangeMode="onHandleMove" />
+      </RangeSelector>
     </div>
   );
 };

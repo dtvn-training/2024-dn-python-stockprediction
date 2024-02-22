@@ -11,6 +11,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.io as pio
 from datetime import datetime
+import numpy as np
 
 
 app = Flask(__name__)
@@ -32,7 +33,6 @@ def stockchart(stockCode):
     stock_infos = (
         StockHistory.query.filter_by(stockid=stock.stockid)
         .order_by(desc(StockHistory.date))
-        .limit(200)
         .all()
     )
 
@@ -62,28 +62,44 @@ def stockchart(stockCode):
     }
 
     df = pd.DataFrame(data)
-    
     # Tính toán các đường trung bình động
     df['SMA5'] = df['Close'].rolling(5).mean()
     df['SMA20'] = df['Close'].rolling(20).mean()
     df['SMA50'] = df['Close'].rolling(50).mean()
     df['SMA75'] = df['Close'].rolling(75).mean()
-
+    df.replace({np.nan: None}, inplace=True)
     chart_data = {
-        'dates': df.index.tolist(),
-        'open': df['Open'].tolist(),
-        'high': df['High'].tolist(),
-        'low': df['Low'].tolist(),
-        'close': df['Close'].tolist(),
-        'volume':df['Volume'].tolist(),
-        'sma5': df['SMA5'].tolist(),
-        'sma20': df['SMA20'].tolist(),
-        'sma50': df['SMA50'].tolist(),
-        'sma75': df['SMA75'].tolist(),
+        "dates": df["Date"].tolist(),
+        "open": df["Open"].tolist(),
+        "high": df["High"].tolist(),
+        "low": df["Low"].tolist(),
+        "close": df["Close"].tolist(),
+        "volume": df["Volume"].tolist(),
+        "sma5": df["SMA5"].tolist(),
+        "sma20": df["SMA20"].tolist(),
+        "sma50": df["SMA50"].tolist(),
+        "sma75": df["SMA75"].tolist(),
     }
+    dataSource = []
 
-# Gửi dữ liệu JSON về frontend
-    return jsonify({'chart_data': chart_data})
+    for i in range(len(chart_data["dates"])):
+        data_point = {
+            "Date": chart_data["dates"][i],
+            "Open": chart_data["open"][i],
+            "High": chart_data["high"][i],
+            "Low": chart_data["low"][i],
+            "Close": chart_data["close"][i],
+            "Volume": chart_data["volume"][i],
+            # "SMA5": chart_data["sma5"][i],
+            # "SMA20": chart_data["sma20"][i],
+            # "SMA50": chart_data["sma50"][i],
+            # "SMA75": chart_data["sma75"][i],
+        }
+        dataSource.append(data_point)
+    print(dataSource)
+
+    # Gửi dữ liệu JSON về frontend
+    return jsonify({"chart_data": dataSource})
 
 @app.route('/stock/<stockCode>', methods=['GET','POST','UPDATE'],)
 def get_stock_list(stockCode):
