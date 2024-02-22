@@ -1,14 +1,17 @@
-import axios from "axios";
+
 
 const API_BASE_URL = "http://127.0.0.1:5000";
 
-export const getStockdata = async (symbol: string): Promise<any> => {
+
+export const getStockImage = async (symbol: string): Promise<string> => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/stock/${symbol}`);
-    console.log(response);
-    return response.data;
+    const response = await fetch(`${API_BASE_URL}/stock-chart/${symbol}`);
+    const data = await response.json();
+    console.log(data)
+    return data.chart_data;
   } catch (error) {
-    console.error("Error fetching company data:", error);
+    console.error("Error fetching stock image:", error);
     throw error;
   }
 };
+

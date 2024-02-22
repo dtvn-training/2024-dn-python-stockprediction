@@ -1,33 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import classes from "./Predict.module.css";
+import { PostPredictText, getPredictText } from "./PredictReq";
 
-interface PredictProps {
-  content: string;
-}
-
-const Predict: React.FC<PredictProps> = ({ content }) => {
+const Predict = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedContent, setEditedContent] = useState(content);
+  const [editedContent, setEditedContent] = useState<string>("");
+  const [PredictText, setPredictText] = useState<any | null>(null);
 
   const handleEditClick = () => {
     setIsEditing(true);
+    setEditedContent(PredictText?.textPrediction || ""); // Gán giá trị từ textPrediction khi bấm chỉnh sửa
   };
 
-  const handleSaveClick = () => {
-    alert("Nhận định về cổ phiếu đã được cập nhật");
+  const handleSaveClick = async () => {
+    const stockCode = "BID";
+    const userId = "123";
+
+    await PostPredictText(userId, stockCode, editedContent);
     setIsEditing(false);
+    
+    alert("Nhận định về cổ phiếu đã được cập nhật");
+    fetchData();
+
   };
 
   const handleCancelClick = () => {
-    setEditedContent(content);
     setIsEditing(false);
   };
 
-  const handleTextareaChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEditedContent(event.target.value);
   };
+
+  const fetchData = async () => {
+    try {
+      const data = await getPredictText("BID");
+      setPredictText(data);
+      setEditedContent(data?.textPrediction || "");
+    } catch (error) {
+      console.error("Error fetching company data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div className={classes.predict}>
@@ -43,7 +60,7 @@ const Predict: React.FC<PredictProps> = ({ content }) => {
             spellCheck={false}
           />
         ) : (
-          <span className={classes.content}>{content}</span>
+          <span className={classes.content}>{PredictText?.textPrediction}</span>
         )}
         <div className={classes.updatecontent}>
           {isEditing ? (

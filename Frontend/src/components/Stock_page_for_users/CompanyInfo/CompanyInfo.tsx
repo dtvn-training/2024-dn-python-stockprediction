@@ -1,4 +1,4 @@
-import React, { FC, useState,useEffect  } from "react";
+import React, {  useState,useEffect  } from "react";
 import classes from "./CompanyInfo.module.css";
 import { Star } from "@mui/icons-material";
 import {getCompanyData} from "./CompanyInfoReq"
