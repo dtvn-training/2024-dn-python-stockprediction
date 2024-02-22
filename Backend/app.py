@@ -1,18 +1,23 @@
 from flask import Flask, request, jsonify, session
-# from flask_bcrypt import Bcrypt #pip install Flask-Bcrypt = https://pypi.org/project/Flask-Bcrypt/
-# from flask_cors import CORS, cross_origin #ModuleNotFoundError: No module named 'flask_cors' = pip install Flask-Cors
-# from models import db, User
+from flask_sqlalchemy import SQLAlchemy
+from models import db, StockList,StockHistory
+import json
 from datetime import datetime, timedelta, timezone
 from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
 from flask_cors import CORS
-
+import MySQLdb
 
 app = Flask(__name__)
- 
-app.config['SECRET_KEY'] = 'python-team'
+app.config["SQLALCHEMY_DATABASE_URI"] = (
+    "mysql://root:1234@127.0.0.1:3306/stock_prediction"
+)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 jwt = JWTManager(app)
 CORS(app)  
+db.init_app(app)
+
 @app.after_request
 def refresh_expiring_jwts(response):
     try:
@@ -58,17 +63,7 @@ def my_profile():
     }
 
     return response_body
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///flaskdb.db'
- 
-# SQLALCHEMY_TRACK_MODIFICATIONS = False
-# SQLALCHEMY_ECHO = True
-  
-# bcrypt = Bcrypt(app) 
-# CORS(app, supports_credentials=True)
-# db.init_app(app)
-  
-# with app.app_context():
-#     db.create_all()
+
  
 @app.route("/")
 def hello_world():
@@ -76,26 +71,6 @@ def hello_world():
  
 @app.route("/signup", methods=["POST"])
 def signup():
-    # email = request.json["email"]
-    # password = request.json["password"]
- 
-    # user_exists = User.query.filter_by(email=email).first() is not None
- 
-    # if user_exists:
-    #     return jsonify({"error": "Email already exists"}), 409
-     
-    # hashed_password = bcrypt.generate_password_hash(password)
-    # new_user = User(email=email, password=hashed_password)
-    # db.session.add(new_user)
-    # db.session.commit()
- 
-    # session["user_id"] = new_user.id
- 
-    # return jsonify({
-    #     "id": new_user.id,
-    #     "email": new_user.email
-    # })
-
     return jsonify({
         "id": "1",
         "email": "a@gmail.com"
@@ -121,6 +96,68 @@ def login_user():
         "email": user.email
     })
 
+@app.route('/stock/<stockCode>', methods=['GET'])
+def get_stock_list(stockCode):
+
+    stock = StockList.query.filter_by(symboy=stockCode).first()
+    stock_info = (
+        StockHistory.query.filter_by(stockid=stock.stockid)
+        .order_by(StockHistory.date.desc())
+        .first()
+    )
+    if not stock:
+        return jsonify({'error': 'Stock not found'}), 404
+    stock_dict = {
+        "stockid": stock.stockid,
+        "symboy": stock.symboy,
+        "company_name": stock.company_name,
+        "company_detail": stock.company_detail,
+        "previous_close_price": stock.previous_close_price,
+        "date": str(stock_info.date),
+        "open": stock_info.open,
+        "high": stock_info.high,
+        "low": stock_info.low,
+        "close": stock_info.close,
+        "volume": stock_info.volume,
+    }
+
+    return (
+        json.dumps(stock_dict, ensure_ascii=False).encode("utf8"),
+        200,
+        {"Content-Type": "application/json; charset=utf-8"},
+    )
+
+@app.route('/getAllStocks', methods=['GET'])
+def get_stock_lists():
+
+    stocks = StockList.query.all()
+    history = StockHistory.query.all()
+    # print(stock)
+    # print('....')
+    # print(history[6])
+    # print(',,,')
+    for stock in stocks:
+        print(stock,'..')
+        stock_info = (
+            StockHistory.query.filter_by(stockid=stock.stockid)
+            .order_by(StockHistory.date.desc())
+            .limit(2)
+        )
+        print(stock_info[0].open - stock_info[1].close)
+        stock_dict = {
+            "stockid": stock.stockid,
+            "symboy": stock.symboy,
+            "company_name": stock.company_name,
+            "company_detail": stock.company_detail,
+            "previous_close_price": stock.previous_close_price,
+            # price
+            "diffirence": stock_info[0].open - stock_info[1].close, 
+            "volume": stock_info[0].volume,
+        }
+
+    return (
+        jsonify(stock_dict)
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
