@@ -3,16 +3,15 @@ from flask_sqlalchemy import SQLAlchemy
 from models import db, StockList,StockHistory,StockPrediction
 from sqlalchemy import desc
 from flask_cors import CORS
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
 import json
 import pandas as pd
-import plotly.graph_objects as go
-import plotly.io as pio
 from datetime import datetime
 import numpy as np
-
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = (
@@ -35,14 +34,12 @@ def stockchart(stockCode):
         .order_by(desc(StockHistory.date))
         .all()
     )
-
     dates = []
     opens = []
     highs = []
     lows = []
     closes = []
     volumes = []
-
     for stock_info in stock_infos:
         dates.append(stock_info.date.strftime('%Y-%m-%d'))
         opens.append(stock_info.open)
@@ -50,8 +47,6 @@ def stockchart(stockCode):
         lows.append(stock_info.low)
         closes.append(stock_info.close)
         volumes.append(stock_info.volume)
-
-    # Tạo DataFrame từ dữ liệu
     data = {
         'Date': dates,
         'Open': opens,
@@ -60,9 +55,7 @@ def stockchart(stockCode):
         'Close': closes,
         'Volume': volumes
     }
-
     df = pd.DataFrame(data)
-    # Tính toán các đường trung bình động
     df['SMA5'] = df['Close'].rolling(5).mean()
     df['SMA20'] = df['Close'].rolling(20).mean()
     df['SMA50'] = df['Close'].rolling(50).mean()
@@ -81,7 +74,6 @@ def stockchart(stockCode):
         "sma75": df["SMA75"].tolist(),
     }
     dataSource = []
-
     for i in range(len(chart_data["dates"])):
         data_point = {
             "Date": chart_data["dates"][i],
@@ -90,36 +82,35 @@ def stockchart(stockCode):
             "Low": chart_data["low"][i],
             "Close": chart_data["close"][i],
             "Volume": chart_data["volume"][i],
-            # "SMA5": chart_data["sma5"][i],
-            # "SMA20": chart_data["sma20"][i],
-            # "SMA50": chart_data["sma50"][i],
-            # "SMA75": chart_data["sma75"][i],
         }
         dataSource.append(data_point)
-    print(dataSource)
-
-    # Gửi dữ liệu JSON về frontend
-    return jsonify({"chart_data": dataSource})
+    plt.figure(figsize=(5, 3))
+    plt.plot(df['Date'], df['SMA5'], label='SMA5')
+    plt.plot(df['Date'], df['SMA20'], label='SMA20')
+    plt.plot(df['Date'], df['SMA50'], label='SMA50')
+    plt.plot(df['Date'], df['SMA75'], label='SMA75')
+    plt.ylabel('SMA Values')
+    plt.legend()
+    plt.gca().xaxis.set_major_locator(plt.MaxNLocator(nbins=5))
+    plt.title('SMA Line Chart')
+    img_buffer = BytesIO()
+    plt.savefig(img_buffer, format='png')
+    img_buffer.seek(0)
+    plt.close()
+    img_base64 = base64.b64encode(img_buffer.getvalue()).decode('utf-8')
+    return jsonify({"chart_data": dataSource,"chart_SMA":img_base64})
 
 @app.route('/stock/<stockCode>', methods=['GET','POST','UPDATE'],)
 def get_stock_list(stockCode):
-
-
     stock = StockList.query.filter_by(symboy=stockCode).first()
-
     if request.method == 'POST':
-        # Handle POST request to update text_prediction
         data = request.get_json()
-
         new_text_prediction = data.get('text_prediction')
-
         if not stock:
             return jsonify({'error': 'Stock not found'}), 404
-
         stock_prediction = StockPrediction.query.filter_by(stockid=stock.stockid).first()
 
         if not stock_prediction:
-            # Create a new StockPrediction record if it doesn't exist
             stock_prediction = StockPrediction(
                 stockid=stock.stockid,
                 userid='user_id_placeholder',  # You need to replace this with the actual user ID
@@ -128,20 +119,15 @@ def get_stock_list(stockCode):
             )
             db.session.add(stock_prediction)
         else:
-            # Update the existing StockPrediction record
             stock_prediction.text_prediction = new_text_prediction
-
         db.session.commit()
-
         return jsonify({'success': True}), 200
-    
     if request.method == 'GET':
         stock_info = (
             StockHistory.query.filter_by(stockid=stock.stockid)
             .order_by(StockHistory.date.desc())
             .first()
         )
-
         if not stock:
             return jsonify({'error': 'Stock not found'}), 404
         stock_dict = {
@@ -165,31 +151,24 @@ def get_stock_list(stockCode):
 @app.route('/admin/predictions/<stockCode>', methods=['POST'])
 def predictions(stockCode):
     stock = StockList.query.filter_by(symboy=stockCode).first()
-
     if not stock:
         return jsonify({'error': 'Stock not found'}), 404
-
     if request.method == 'POST':
         data = request.get_json()
-        new_text_prediction = data.get('textPrediction')  # Adjust to match the frontend's field name
-        
+        new_text_prediction = data.get('textPrediction') 
         stock_prediction = StockPrediction.query.filter_by(stockid=stock.stockid).first()
-
         if not stock_prediction:
-            # Create a new StockPrediction record if it doesn't exist
+            
             stock_prediction = StockPrediction(
                 stockid=stock.stockid,
-                userid=data.get('userid'),  # Replace with the actual user ID
+                userid=data.get('userid'),  
                 date=datetime.now(),
                 text_prediction=new_text_prediction
             )
             db.session.add(stock_prediction)
         else:
-            # Update the existing StockPrediction record
             stock_prediction.text_prediction = new_text_prediction
-
         db.session.commit()
-
         return jsonify({'success': True, 'predictionId': stock_prediction.predictionid}), 200
 
 @app.route('/user/predictions/<stockCode>')
@@ -197,13 +176,9 @@ def get_predictions(stockCode):
     stock = StockList.query.filter_by(symboy=stockCode).first()
     if not stock:
         return jsonify({'error': 'Stock not found'}), 404
-
     stock_prediction = StockPrediction.query.filter_by(stockid=stock.stockid).first()
-
     if not stock_prediction:
         return jsonify({'error': 'Prediction not found for this stock'}), 404
-
     return jsonify({'textPrediction': stock_prediction.text_prediction}), 200
-
 if __name__ == '__main__':
     app.run()

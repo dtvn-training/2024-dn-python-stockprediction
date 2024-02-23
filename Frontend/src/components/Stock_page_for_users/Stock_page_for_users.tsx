@@ -44,7 +44,7 @@ export const Stock_page_for_users: FC<Props> = memo(
             <div className={classes.labelpredict}>
               <span>Dự đoán</span>
             </div>
-            <Predict  />
+            <Predict />
           </div>
           <div className={classes.discusscomment}>
             <Line />

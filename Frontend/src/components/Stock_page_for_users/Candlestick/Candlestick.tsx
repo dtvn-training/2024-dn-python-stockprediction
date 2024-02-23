@@ -1,4 +1,3 @@
-
 import Chart, {
   Series,
   Aggregation,
@@ -9,7 +8,8 @@ import Chart, {
   Margin,
   Legend,
   Tooltip,
-} from 'devextreme-react/chart';
+  CommonSeriesSettings,
+} from "devextreme-react/chart";
 import RangeSelector, {
   Size,
   Scale,
@@ -24,23 +24,22 @@ import RangeSelector, {
 import React, { FC, useCallback, useState, useEffect } from "react";
 import { getStockImage } from "./CandlestickReq";
 import classes from "./Candlestick.module.css";
-
 const Candlestick: FC = () => {
   const [chartImage, setChartImage] = useState<any | null>(null);
   const [visualRange, setVisualRange] = useState({});
-
+  const [SMAdata, setSMAdata] = useState<string  | null>(null);
   const updateVisualRange = useCallback(
     (e: RangeSelectorTypes.ValueChangedEvent) => {
       setVisualRange(e.value);
     },
     [setVisualRange]
   );
-
   useEffect(() => {
     const fetchImage = async () => {
       try {
         const imageJson = await getStockImage("BID");
         const stockDict = JSON.parse(imageJson);
+        setSMAdata(stockDict.chart_SMA);
         setChartImage(stockDict.chart_data);
       } catch (error) {
         console.error("Error fetching stock image:", error);
@@ -92,6 +91,12 @@ const Candlestick: FC = () => {
         />
         <Behavior snapToTicks={false} valueChangeMode="onHandleMove" />
       </RangeSelector>
+      <div>
+      {SMAdata && (
+        <img src={`data:image/png;base64,${SMAdata}`} alt="SMA Chart"  style={{ width: '900px', height: 'auto' }}/>
+      )}
+      </div>
+
     </div>
   );
 };

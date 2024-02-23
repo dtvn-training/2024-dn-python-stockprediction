@@ -7,5 +7,6 @@
     flex-direction: column;
     width: 800px;
     background-color: white;
+    gap:10px;
 
 }
