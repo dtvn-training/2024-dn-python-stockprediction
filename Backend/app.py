@@ -8,6 +8,8 @@ from flask_cors import CORS
 import MySQLdb
 
 app = Flask(__name__)
+app.config['JWT_SECRET_KEY'] = 'python'
+
 app.config["SQLALCHEMY_DATABASE_URI"] = (
     "mysql://root:1234@127.0.0.1:3306/stock_prediction"
 )
@@ -153,8 +155,12 @@ def get_stock_lists():
             "company_name": stock.company_name,
             "company_detail": stock.company_detail,
             "previous_close_price": stock.previous_close_price,
-            "percent": (stock_info[0].open - stock_info[1].close)*100/stock.previous_close_price,
-            "diffirence": stock_info[0].open - stock_info[1].close, 
+            "date": str(stock_info[0].date),
+            "open": stock_info[0].open,
+            "high": stock_info[0].high,
+            "low": stock_info[0].low,
+            "percent": (stock_info[0].open - stock.previous_close_price)*100/stock.previous_close_price,
+            "diffirence": stock_info[0].open - stock.previous_close_price, 
             "volume": stock_info[0].volume,
         }
         stocks.append(stock)

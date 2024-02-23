@@ -1,9 +1,17 @@
-import React from 'react';
-import SearchBox from "./SearchBox/SearchBox";
+// Header.tsx
+import React, { useState } from 'react';
+import Button from '@mui/material/Button';
 import { UserCircle } from "../Stock_page_for_users/UserCircle/UserCircle";
+import {Password_Login} from '../../pages/Password_Login/Password_Login'; // Import the LoginPage component
 import classes from "./Header.module.css";
 
 const Header: React.FC = () => {
+  const [showLoginForm, setShowLoginForm] = useState(false);
+
+  const handleLoginClick = () => {
+    setShowLoginForm(true);
+  };
+
   return (
     <div className={classes.header}>
       <div className={classes.leftheader}>
@@ -12,7 +20,8 @@ const Header: React.FC = () => {
       <div className={classes.rightheader}>
         {/* <div className={classes.darkmode}></div> */}
         <div className={classes.search}>
-          <SearchBox />
+          <Button variant="outlined" onClick={handleLoginClick}>Đăng nhập</Button>
+          {showLoginForm && <Password_Login />} {/* Render LoginPage when showLoginForm is true */}
         </div>
         <UserCircle className={classes.userCircle} />
       </div>
