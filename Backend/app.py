@@ -200,12 +200,12 @@ def signup():
         return jsonify({"error": "Email already exists"}), 400
 
     new_user = Users(
-        userid=str(uuid.uuid4()),  # Tạo một userid mới, ví dụ: UUID
-        username=email.split('@')[0],  # Lấy phần trước của email làm username
+        userid=str(uuid.uuid4()),  
+        username=email.split('@')[0],  
         password=password,
         email=email,
         fullname=fullname,
-        type='normal',  # Đặt loại người dùng là 'normal' hoặc bạn có thể cung cấp giá trị khác tùy thuộc vào logic ứng dụng của bạn
+        type='user',  
         created_at=datetime.now(),
         updated_at=datetime.now()
     )
