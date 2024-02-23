@@ -1,5 +1,5 @@
 import { memo, useState } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Link, Route, Routes, useNavigate } from 'react-router-dom'
 import type { FC } from 'react';
 import axios from "axios";
 import resets from '../../components/_resets.module.css';
@@ -17,7 +17,11 @@ interface Props {
 export const Password_Login: FC<Props> = memo(function Password_Login(props: Props = {}) {
 
   const { loginForm, handleChange, logmeIn } = useLoginForm();
+  const navigate = useNavigate();
 
+  const handleRegister = () => {
+    navigate("/signup");
+  };
   return (
 
     //config token
@@ -81,7 +85,7 @@ export const Password_Login: FC<Props> = memo(function Password_Login(props: Pro
             />
           </div>
           <div className={classes.next_BTN}>
-            <button className={classes.next_Icon} type='submit'>
+            <button className={classes.next_Icon}  >
               <div className={classes.next}>
                 <div className={classes.AngNhap2}>Đăng nhập</div>
                 <div className={classes.icon3}>
@@ -93,10 +97,10 @@ export const Password_Login: FC<Props> = memo(function Password_Login(props: Pro
         </form>
         <div className={classes.register}>
           <div className={classes.frame8}>
-            <a href='#' className={classes.banChuaCoTaiKhoan}>Bạn chưa có tài khoản?</a>
+            <Link to="/signup" className={classes.banChuaCoTaiKhoan}>Bạn chưa có tài khoản?</Link>
           </div>
           <div className={classes.frame9}>
-            <a href='#' className={classes.AngKi}>Đăng kí </a>
+            <Link to="/signup" className={classes.AngKi}>Đăng kí</Link>
           </div>
         </div>
       </div>
