@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
 import {useToken} from '../../components/token'
-
 export function useLoginForm() {
   const [loginForm, setLoginForm] = useState({
     email: "",
@@ -9,7 +8,6 @@ export function useLoginForm() {
   });
   const { setToken } = useToken();
   function logmeIn(event: React.FormEvent<HTMLFormElement>) {
-    // Your existing code
     axios.post("http://127.0.0.1:5000/token", {
       email: loginForm.email,
       password: loginForm.password
@@ -17,6 +15,7 @@ export function useLoginForm() {
     .then((response) => {
       setToken(response.data.access_token);
       setLoginForm({ email: "", password: "" });
+      window.location.href = "/";
     })
     .catch((error) => {
       console.error('Error:', error);

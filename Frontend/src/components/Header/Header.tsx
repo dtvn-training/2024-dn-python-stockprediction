@@ -1,19 +1,25 @@
-// Header.tsx
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import { UserCircle } from "../Stock_page_for_users/UserCircle/UserCircle";
-import {Password_Login} from '../../pages/Password_Login/Password_Login'; // Import the LoginPage component
-import classes from "./Header.module.css";
 import { Navigate, useNavigate } from 'react-router';
+import classes from "./Header.module.css";
 
 const Header: React.FC = () => {
-  const [showLoginForm, setShowLoginForm] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
-    setShowLoginForm(true);
     navigate("/login");
   };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    // Perform logout logic here if needed
+  };
+
+  if (isLoggedIn) {
+    return null; // Return null to hide the header when user is logged in
+  }
 
   return (
     <div className={classes.header}>
@@ -21,12 +27,9 @@ const Header: React.FC = () => {
         <div className={classes.logo}></div>
       </div>
       <div className={classes.rightheader}>
-        {/* <div className={classes.darkmode}></div> */}
         <div className={classes.search}>
           <Button variant="outlined" onClick={handleLoginClick}>Đăng nhập</Button>
-          {showLoginForm && <Password_Login />} {/* Render LoginPage when showLoginForm is true */}
         </div>
-        <UserCircle className={classes.userCircle} />
       </div>
     </div>
   );

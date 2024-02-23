@@ -7,8 +7,8 @@ import TableDetail from "./TableDetail/TableDetail";
 import Predict from "./Predict/Predict";
 import Discuss from "./Discuss/Discuss";
 import CommentBox from "./CommentBox/CommentBox";
-import Header from "../Header/Header";
-
+import Header from "./Header/Header";
+import Candlestick from "./Candlestick/Candlestick";
 interface Props {
   className?: string;
 }
@@ -19,18 +19,14 @@ export const Stock_page_for_users: FC<Props> = memo(
       <div className={` ${classes.root}`}>
         <Header />
         <div className={classes.companyinfo}>
-          <CompanyInfo
-            companyname="Ngân hàng Thương Mại Cổ Phần Á Châu"
-            symbol="ACB"
-            follow={false}
-          />
+          <CompanyInfo symbol="BID" follow={false} />
         </div>
 
         <div className={classes.container}>
           <Line />
           <div className={classes.detail}>
             <div className={classes.image13}>
-              <img src="../assets/image13.jpg" alt="" />
+              <Candlestick />
             </div>
             <div className={classes.tabledetail}>
               <TableDetail
@@ -48,7 +44,7 @@ export const Stock_page_for_users: FC<Props> = memo(
             <div className={classes.labelpredict}>
               <span>Dự đoán</span>
             </div>
-            <Predict content="Xu hướng là hướng đi chung của thị trường hoặc giá của tài sản. Trong phân tích kĩ thuật, xu hướng được xác định bởi đường xu hướng hoặc hành động giá nổi bật khi giá đang tạo ra mức dao động tăng cao hơn, thể hiện xu hướng tăng, hoặc các mức dao động giảm thấp hơn, thể hiện xu hướng giảm." />
+            <Predict />
           </div>
           <div className={classes.discusscomment}>
             <Line />

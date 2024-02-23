@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, session
 from flask_sqlalchemy import SQLAlchemy
-from models import db, StockList,StockHistory,StockPrediction
+from models import db, StockList,StockHistory,StockPrediction,Users
 from sqlalchemy import desc
 from flask_cors import CORS
 import matplotlib
@@ -27,6 +27,7 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 
 CORS(app)
 db.init_app(app)
+jwt = JWTManager(app)
 
 @app.after_request
 def refresh_expiring_jwts(response):
@@ -172,6 +173,7 @@ def get_stock_list(stockCode):
     )
 @app.route('/admin/predictions/<stockCode>', methods=['POST'])
 def predictions(stockCode):
+    print(stockCode)
     stock = StockList.query.filter_by(symboy=stockCode).first()
     if not stock:
         return jsonify({'error': 'Stock not found'}), 404
@@ -207,10 +209,11 @@ def get_predictions(stockCode):
 def create_token():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
-    # print(email!="test@gmail.com",'mail')
-    # print(password!="test",'pass')
-    # print(email != "test@gmail.com" or password != "test",'check')
-    if email != "test@gmail.com" or password != "test":
+
+    user = Users.query.filter_by(email=email).first()
+    if user is None:
+        return jsonify({"error": "Unauthorized Access"}), 401
+    if email != user.email or password != user.password:
         return {"msg": "Wrong email or password"}, 401
     access_token = create_access_token(identity=email)
     response = {"access_token":access_token}

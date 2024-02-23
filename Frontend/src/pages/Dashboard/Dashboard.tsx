@@ -9,6 +9,7 @@ import { ListboxComponent_Property1Defa } from './ListboxComponent_Property1Defa
 import axios from 'axios';
 import Header from '../../components/Header/Header';
 import { getAllStocks } from '../../services/api/stock.api';
+import { Link } from 'react-router-dom';
 interface Props {
   className?: string;
 }
@@ -154,8 +155,8 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       width: 250,
       renderCell: (params) => ( 
       <Select value="" displayEmpty IconComponent={() => null}>
-        <MenuItem value="" disabled>
-          ...
+        <MenuItem value="" >
+          <Link to={`/stock/${params.row.symboy}`}>...</Link>
         </MenuItem>
       </Select>
       ),

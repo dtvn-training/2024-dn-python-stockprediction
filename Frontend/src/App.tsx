@@ -25,7 +25,7 @@ export const App: FC<Props> = memo(function App(props = {}) {
             element={<Dashboard />}
           />
           <Route
-            path="/about"
+            path="/stock/:stocks"
             element={<Stock_page_for_users />}
           />
           <Route
