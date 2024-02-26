@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, render_template,request
 from flask_sqlalchemy import SQLAlchemy
-from models import db, StockList,StockHistory,StockPrediction
+from models import db, StockList,StockHistory,StockPrediction, Users
 from sqlalchemy import desc
 from flask_cors import CORS
 import matplotlib
@@ -12,10 +12,11 @@ import json
 import pandas as pd
 from datetime import datetime
 import numpy as np
+import uuid
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "mysql://root:Ncgncg1102@localhost:3306/stock_prediction"
+    "mysql://root:123456@localhost:3306/stock_prediction"
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -180,5 +181,38 @@ def get_predictions(stockCode):
     if not stock_prediction:
         return jsonify({'error': 'Prediction not found for this stock'}), 404
     return jsonify({'textPrediction': stock_prediction.text_prediction}), 200
+
+@app.route("/signup", methods=["POST"])
+def signup():
+    fullname = request.json.get("fullname", None)
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    
+    if fullname == "":
+        return jsonify({"error": "Fullname is required"}), 400
+    if email == "":
+        return jsonify({"error": "Email is required"}), 400
+    if password == "":
+        return jsonify({"error": "Password is required"}), 400
+    
+    user_exists = Users.query.filter_by(email=email).first()
+
+    if user_exists:
+        return jsonify({"error": "Email already exists"}), 400
+
+    new_user = Users(
+        userid=str(uuid.uuid4()),  
+        username=email.split('@')[0],  
+        password=password,
+        email=email,
+        fullname=fullname,
+        type='user',  
+        created_at=datetime.now(),
+        updated_at=datetime.now()
+    )
+    db.session.add(new_user)
+    db.session.commit()
+    return jsonify({"success": "User registered successfully"}), 201
+
 if __name__ == '__main__':
     app.run()
