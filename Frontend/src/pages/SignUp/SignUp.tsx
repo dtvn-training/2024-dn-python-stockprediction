@@ -98,8 +98,8 @@ export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
         <div className={classes.loginGroup}>
           <div className={classes.line2}></div>
           <div className={classes.loginAction}>
-            <a href='#' className={classes.banACoTaiKhoan}>Bạn đã có tài khoản?</a>
-            <a href='#' className={classes.AngNhap}>Đăng nhập </a>
+            <Link to="/login" className={classes.banACoTaiKhoan} >Bạn đã có tài khoản?</Link>
+            <Link to="/login" className={classes.AngNhap}>Đăng nhập </Link>
           </div>
         </div>
       </div>

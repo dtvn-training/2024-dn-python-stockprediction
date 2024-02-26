@@ -1,6 +1,5 @@
 import classes from "./TableDetail.module.css";
-import React,{  useState,useEffect  } from "react";
-import {getStockdata} from "./TableDetailReq"
+import React from "react";
 interface DetailProps {
   open: string;
   high: string;
@@ -17,34 +16,19 @@ const TableDetail: React.FC<DetailProps> = ({
   volume,
   avgvol10day,
 }) => {
-  const [stockdata, SetStockData] = useState<any | null>(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getStockdata("BID");
-        SetStockData(data);
-      } catch (error) {
-        console.error("Error fetching company data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
   return (
     <div className={classes.tabledetail}>
       <div className={classes.open}>
         <span>open</span>
-        {stockdata ? stockdata.open : "Loading..."}
+        {open}
       </div>
       <div className={classes.high}>
         <span>high</span>
-        {stockdata ? stockdata.high : "Loading..."}
+        {high}
       </div>
       <div className={classes.low}>
         <span>low</span>
-        {stockdata ? stockdata.low : "Loading..."}
+        {low}
       </div>
       <div className={classes.close}>
         <span>close</span>

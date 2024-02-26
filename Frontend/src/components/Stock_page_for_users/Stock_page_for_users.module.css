@@ -13,6 +13,7 @@
   height: 100%;
 }
 
+
 .root {
   width: 100%;
   min-height: 900vh;
@@ -21,6 +22,7 @@
   flex-direction: column;
   gap: 10px
 }
+
 
 .icon4 {
   width: 100%;
@@ -44,6 +46,7 @@
   font-weight: bold;
   font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
     'Liberation Sans', sans-serif;
+
   left: 50px;
   top: 129px;
   width: min-content;
@@ -52,9 +55,12 @@
   flex-direction: column;
 }
 
+
+
 .container {
   display: flex;
   flex-direction: column;
+
   margin: 0px 120px;
   padding: 0px;
   height: fit-content;
@@ -70,13 +76,16 @@
   margin: 0px;
   margin-top: 200px;
   margin-bottom: 50px;
+
+
 }
 
 .image13 {
-  width: 100%;
+  width: 60%;
   height: auto;
 
 }
+
 
 .predictcontent {
   display: flex;
