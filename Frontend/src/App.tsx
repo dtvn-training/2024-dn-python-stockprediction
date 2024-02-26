@@ -14,11 +14,7 @@ interface Props {
 export const App: FC<Props> = memo(function App(props = {}) {
   return (
     <div className={`${resets.storybrainResets} ${classes.root}`}>
-<<<<<<< HEAD
       <Password_Login/>
-=======
-      <Stock_page_for_users />
->>>>>>> developer
     </div>
   );
 });
