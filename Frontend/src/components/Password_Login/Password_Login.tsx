@@ -40,7 +40,7 @@ export const Password_Login: FC<Props> = memo(function Password_Login(props = {}
           <label className={classes.labelLogin}>Mật khẩu</label>
           <div className={`${classes.rectangle} ${classes.rectanglePassword}`}>
             <InterfaceEssentialLock_StyleFi className={classes.interfaceEssentialLock} />
-            <input className={`${classes.input} ${classes.inputPassword}`} placeholder='Mật khẩu'/>
+            <input className={`${classes.input} ${classes.inputPassword}`} placeholder='Mật khẩu' type="password"/>
           </div>
           <div className={classes.next_BTN}>
             <a className={classes.next_Icon} href='#'>
@@ -53,14 +53,13 @@ export const Password_Login: FC<Props> = memo(function Password_Login(props = {}
             </a>
           </div>
         </div>
-        <div className={classes.register}>
-          <div className={classes.frame8}>
+        <div className={classes.registerGroup}>
+          <div className={classes.line2}></div>
+          <div className={classes.registerAction}>
             <a href='#' className={classes.banChuaCoTaiKhoan}>Bạn chưa có tài khoản?</a>
-          </div>
-          <div className={classes.frame9}>
             <a href='#' className={classes.AngKi}>Đăng kí </a>
-          </div>
-        </div>  
+          </div>  
+        </div>
       </div>
     </div>
   );

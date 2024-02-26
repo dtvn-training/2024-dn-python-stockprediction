@@ -29,7 +29,7 @@
     width: 100%;
     height: 100%;
     align-items: flex-start;
-    background-color: #0f1729;
+    background-color: #fff;
     overflow: hidden;
 }
 
@@ -75,7 +75,7 @@
 }
 
 .AngKi {
-    color: #fff;
+    color: #000;
     font-size: 28px;
     font-weight: bold;
     font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
@@ -244,6 +244,17 @@ height: 64px; */
   height: min-content; */
     align-items: center;
     background-color: #007dfa;
+}
+
+.AngKi2 {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 600;
+    font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
+    width: min-content;
+    height: min-content;
+    white-space: nowrap;
+    flex-direction: column;
 }
 
 .signIn {

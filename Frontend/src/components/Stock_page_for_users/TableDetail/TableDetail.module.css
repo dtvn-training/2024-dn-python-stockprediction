@@ -3,18 +3,26 @@
     flex-direction: column;
     color: #fff;
     width: 269px;
-    background: rgba(186, 189, 240, 0.2);
-
+    border-radius: 20px;
+    background: rgba(160, 160, 160, 0.2);
 }
 
 .tabledetail div {
     display: flex;
     justify-content: space-between;
     padding: 10px 5px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .tabledetail div span {
-    color: rgb(161, 107, 46);
+    color: #000;
+}
+
+.open,
+.high,
+.low,
+.close,
+.volume,
+.avg10day {
+    color: #000;
 }

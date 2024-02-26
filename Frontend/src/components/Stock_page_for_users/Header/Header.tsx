@@ -10,7 +10,7 @@ const Header = () => {
         <div className={classes.homepage}>Trang chủ</div>
       </div>
       <div className={classes.rightheader}>
-        <div className={classes.darkmode}></div>
+        {/* <div className={classes.darkmode}></div> */}
         <div className={classes.search}>
           <SearchBox />
         </div>

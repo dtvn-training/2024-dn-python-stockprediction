@@ -86,7 +86,7 @@ export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
           <div className={classes.next_BTN}>
             <button className={classes.next_Icon} type='submit'>
               <div className={classes.next}>
-                <div className={classes.AngNhap2}>Đăng kí</div>
+                <div className={classes.AngKi2}>Đăng kí</div>
                 <div className={classes.icon3}>
                   <ChevronRight />
                 </div>

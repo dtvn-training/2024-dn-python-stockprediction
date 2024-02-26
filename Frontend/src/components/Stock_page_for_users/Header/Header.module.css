@@ -5,8 +5,6 @@
     margin-top: 20px;
     align-items: center;
     justify-content: space-between;
-
-
 }
 
 .leftheader {
@@ -25,15 +23,15 @@
     top: calc(50% - 709px);
 }
 
-.darkmode {
+
+/* .darkmode {
     width: 66.2857px;
     height: 48px;
     background-image:
         url('/assets/image2.jpg');
-}
+} */
 
 .search {
-
     width: 236.4444px;
     height: 38px;
     color: #fff;
@@ -48,25 +46,20 @@
 .logo {
     width: 188.1081px;
     height: 48px;
-    background-image:
-        url('../../../../public/assets/logo.jpg');
+    background-image: url('../../../../public/assets/logo.jpg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-
 }
 
 .btnsearch svg {
     width: 10px;
     height: 10px;
-
 }
 
 .homepage {
     color: #fff;
     font-size: 20px;
     line-height: 27.5px;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
-
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
 }
