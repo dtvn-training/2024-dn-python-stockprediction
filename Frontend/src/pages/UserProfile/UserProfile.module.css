@@ -39,6 +39,10 @@
     margin: 30px auto;
 }
 
+.outlined {
+    white-space: nowrap;
+}
+
 .line20 {
     position: absolute;
     left: 33px;

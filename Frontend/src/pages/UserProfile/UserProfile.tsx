@@ -2,7 +2,8 @@ import React from 'react';
 import { memo } from 'react';
 import type { FC } from 'react';
 import classes from './UserProfile.module.css';
-import { Avatar, Button, Container, Typography } from '@mui/material';
+import { Avatar, Container, Typography } from '@mui/material';
+import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import resets from '../../components/_resets.module.css';
 import { IconlyBoldProfileIcon } from './IconlyBoldProfileIcon.js';
@@ -38,6 +39,7 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
                   <IconlyBoldProfileIcon className={`${classes.icon4} ${classes.iconName}`} />
                 </div>
                 <input className={`${classes.input} ${classes.inputEmail}`} placeholder='Nguyễn Đức Gia Thành' readOnly/>
+                <Button className={classes.outlined} variant="outlined">Update</Button>
               </div>
               <label className={classes.labelRegister}>Email</label>
               <div className={`${classes.rectangle} ${classes.rectangleEmail}`}>
@@ -53,6 +55,7 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
               <div className={`${classes.rectangle} ${classes.rectanglePassword}`}>
                 <InterfaceEssentialLock_StyleFi className={classes.interfaceEssentialLock} />
                 <input className={`${classes.input} ${classes.inputPassword}`} placeholder='Mật khẩu' value='123456' type='password' readOnly/>
+                <Button className={classes.outlined} variant="outlined">Update</Button>
               </div>
             </div>
           </div>
