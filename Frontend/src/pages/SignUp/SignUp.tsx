@@ -2,7 +2,7 @@ import { memo } from 'react';
 import type { FC } from 'react';
 import React, { useState } from "react";
 import axios from 'axios';
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate, Link} from "react-router-dom";
 import resets from '../../components/_resets.module.css';
 import { ChevronRight } from '../../components/ChevronRight/ChevronRight';
 import { EnvelopeLightSolid } from '../../components/EnvelopeLightSolid/EnvelopeLightSolid';
@@ -18,13 +18,10 @@ interface Props {
   className?: string;
 }
 /* @figmaId 2333:220 */
-export const SignUp: FC<Props> = memo(function SignUp(props = {}) {
-
-  const navigate = useNavigate();
-
-  const handleSignIn = () => {
-    navigate("/login");
-  };
+export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
+  const { signUpForm, handleChange, signUp } = useSignUpForm();
+  // const [email,setEmail] = useState('');
+  // const [password,setPassword] = useState('');
 
   return (
     <div className={`${resets.storybrainResets} ${classes.root}`}>
@@ -43,7 +40,14 @@ export const SignUp: FC<Props> = memo(function SignUp(props = {}) {
             <div className={classes.iconlyBoldProfile}>
               <IconlyBoldProfileIcon className={`${classes.icon4} ${classes.iconName}`} />
             </div>
-            <input className={`${classes.input} ${classes.inputEmail}`} placeholder='Họ và tên'/>
+            <input
+              className={`${classes.input} ${classes.inputFullname}`}
+              onChange={handleChange}
+              placeholder='Họ và tên'
+              name='fullname'
+              value={signUpForm.fullname}
+              // text={signUpForm.fullname}
+            />
           </div>
 
           <label className={classes.labelRegister}>Email</label>
@@ -54,16 +58,33 @@ export const SignUp: FC<Props> = memo(function SignUp(props = {}) {
                 shape: <ShapeIcon className={classes.icon} />,
               }}
             />
-            <input className={`${classes.input} ${classes.inputEmail}`} placeholder='Email' type='email'/>
+            <input
+              className={`${classes.input} ${classes.inputEmail}`}
+              onChange={handleChange}
+              placeholder='Email'
+              name='email'
+              value={signUpForm.email}
+              // text={signUpForm.email}
+              type='email'
+            />
           </div>
 
           <label className={classes.labelRegister}>Mật khẩu</label>
           <div className={`${classes.rectangle} ${classes.rectanglePassword}`}>
             <InterfaceEssentialLock_StyleFi className={classes.interfaceEssentialLock} />
-            <input className={`${classes.input} ${classes.inputPassword}`} placeholder='Mật khẩu' type='password'/>
+            <input
+              onChange={handleChange}
+              type="password"
+              // text={signUpForm.password}
+              name="password"
+              value={signUpForm.password}
+              className={`${classes.input} ${classes.inputPassword}`}
+              placeholder='Mật khẩu'
+            />
           </div>
-          <button className={classes.next_BTN} type='submit'>
-            <div className={classes.next_Icon}>
+
+          <div className={classes.next_BTN}>
+            <button className={classes.next_Icon} type='submit'>
               <div className={classes.next}>
                 <div className={classes.AngNhap2}>Đăng kí</div>
                 <div className={classes.icon3}>
