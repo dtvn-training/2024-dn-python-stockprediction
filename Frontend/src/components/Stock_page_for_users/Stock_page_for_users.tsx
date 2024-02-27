@@ -9,34 +9,33 @@ import Discuss from "./Discuss/Discuss";
 import CommentBox from "./CommentBox/CommentBox";
 import Header from "./Header/Header";
 import Candlestick from "./Candlestick/Candlestick";
+import { useParams } from 'react-router-dom';
+
+import React, { useEffect, } from "react";
 interface Props {
   className?: string;
+  
 }
 
 export const Stock_page_for_users: FC<Props> = memo(
   function Stock_page_for_users(props = {}) {
+    const { stocks } = useParams();
     return (
       <div className={` ${classes.root}`}>
         <Header />
         <div className={classes.companyinfo}>
-          <CompanyInfo symbol="BID" follow={false} />
+        {stocks && <CompanyInfo symbol={stocks} follow={false} />}
         </div>
 
         <div className={classes.container}>
           <Line />
           <div className={classes.detail}>
             <div className={classes.image13}>
-              <Candlestick />
+            {stocks && <Candlestick symbol={stocks}  />}
+
             </div>
             <div className={classes.tabledetail}>
-              <TableDetail
-                open="27500"
-                high="28000"
-                low="26000"
-                close="27000"
-                volume="78500"
-                avgvol10day="96500"
-              />
+              {stocks && <TableDetail symbol={stocks}  />}
             </div>
           </div>
           <Line />
@@ -44,7 +43,7 @@ export const Stock_page_for_users: FC<Props> = memo(
             <div className={classes.labelpredict}>
               <span>Dự đoán</span>
             </div>
-            <Predict />
+            {stocks && <Predict symbol={stocks}  />}
           </div>
           <div className={classes.discusscomment}>
             <Line />
