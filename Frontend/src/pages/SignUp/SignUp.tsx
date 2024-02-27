@@ -2,7 +2,7 @@ import { memo } from 'react';
 import type { FC } from 'react';
 import React, { useState } from "react";
 import axios from 'axios';
-import {useNavigate} from "react-router-dom";
+import {useNavigate, Link} from "react-router-dom";
 import resets from '../../components/_resets.module.css';
 import { ChevronRight } from '../../components/ChevronRight/ChevronRight';
 import { EnvelopeLightSolid } from '../../components/EnvelopeLightSolid/EnvelopeLightSolid';
@@ -12,7 +12,7 @@ import { InterfaceEssentialLock_StyleFi } from '../Password_Login/InterfaceEssen
 import { ShapeIcon2 } from './ShapeIcon2.js';
 import { ShapeIcon } from './ShapeIcon.js';
 import classes from './SignUp.module.css';
-import {useSignUpForm} from '../../components/services/api/authencication.api'
+import {useSignUpForm} from '../../services/api/authencication.api'
 
 interface Props {
   className?: string;
@@ -98,8 +98,8 @@ export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
         <div className={classes.loginGroup}>
           <div className={classes.line2}></div>
           <div className={classes.loginAction}>
-            <a href='#' className={classes.banACoTaiKhoan}>Bạn đã có tài khoản?</a>
-            <a href='#' className={classes.AngNhap}>Đăng nhập </a>
+            <Link to="/login" className={classes.banACoTaiKhoan} >Bạn đã có tài khoản?</Link>
+            <Link to="/login" className={classes.AngNhap}>Đăng nhập </Link>
           </div>
         </div>
       </div>

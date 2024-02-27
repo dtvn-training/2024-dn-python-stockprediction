@@ -14,7 +14,7 @@ const Predict = () => {
 
   const handleSaveClick = async () => {
     const stockCode = "BID";
-    const userId = "123";
+    const userId = "111";
 
     await PostPredictText(userId, stockCode, editedContent);
     setIsEditing(false);

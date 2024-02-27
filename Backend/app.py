@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template,request
+from flask import Flask, request, jsonify, session
 from flask_sqlalchemy import SQLAlchemy
 from models import db, StockList,StockHistory,StockPrediction, Users
 from sqlalchemy import desc
@@ -10,19 +10,42 @@ from io import BytesIO
 import base64
 import json
 import pandas as pd
-from datetime import datetime
 import numpy as np
 import uuid
+from datetime import datetime, timedelta, timezone
+from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
+
 
 app = Flask(__name__)
+app.config['JWT_SECRET_KEY'] = 'python'
+
 app.config["SQLALCHEMY_DATABASE_URI"] = (
     "mysql://root:123456@localhost:3306/stock_prediction"
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+
 CORS(app)
 db.init_app(app)
+jwt = JWTManager(app)
 
+@app.after_request
+def refresh_expiring_jwts(response):
+    try:
+        exp_timestamp = get_jwt()["exp"]
+        now = datetime.now(timezone.utc)
+        target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
+        if target_timestamp > exp_timestamp:
+            access_token = create_access_token(identity=get_jwt_identity())
+            data = response.get_json()
+            if type(data) is dict:
+                data["access_token"] = access_token 
+                response.data = json.dumps(data)
+        return response
+    except (RuntimeError, KeyError):
+        return response
+    
 @app.route('/stock-chart/<stockCode>')
 def stockchart(stockCode):
     stock = StockList.query.filter_by(symboy=stockCode).first()
@@ -151,6 +174,7 @@ def get_stock_list(stockCode):
     )
 @app.route('/admin/predictions/<stockCode>', methods=['POST'])
 def predictions(stockCode):
+    print(stockCode)
     stock = StockList.query.filter_by(symboy=stockCode).first()
     if not stock:
         return jsonify({'error': 'Stock not found'}), 404
@@ -181,6 +205,53 @@ def get_predictions(stockCode):
     if not stock_prediction:
         return jsonify({'error': 'Prediction not found for this stock'}), 404
     return jsonify({'textPrediction': stock_prediction.text_prediction}), 200
+
+@app.route('/token', methods=["POST"])
+def create_token():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+
+    user = Users.query.filter_by(email=email).first()
+    if user is None:
+        return jsonify({"error": "Unauthorized Access"}), 401
+    if email != user.email or password != user.password:
+        return {"msg": "Wrong email or password"}, 401
+    access_token = create_access_token(identity=email)
+    response = {"access_token":access_token}
+    print(access_token,'access_token')
+    return response
+
+@app.route("/logout", methods=["POST"])
+def logout():
+    response = jsonify({"msg": "logout successful"})
+    unset_jwt_cookies(response)
+    return response
+
+ 
+@app.route("/")
+def hello_world():
+    return "Hello, World!"
+
+ 
+@app.route("/login", methods=["POST"])
+def login_user():
+    email = request.json["email"]
+    password = request.json["password"]
+  
+    user = User.query.filter_by(email=email).first()
+  
+    if user is None:
+        return jsonify({"error": "Unauthorized Access"}), 401
+  
+    if not bcrypt.check_password_hash(user.password, password):
+        return jsonify({"error": "Unauthorized"}), 401
+      
+    session["user_id"] = user.id
+  
+    return jsonify({
+        "id": user.id,
+        "email": user.email
+    })
 
 @app.route("/signup", methods=["POST"])
 def signup():

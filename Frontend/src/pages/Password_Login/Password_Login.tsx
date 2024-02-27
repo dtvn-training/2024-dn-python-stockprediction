@@ -1,18 +1,19 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
+import { BrowserRouter, Link, Route, Routes, useNavigate } from 'react-router-dom'
 import type { FC } from 'react';
-
-import resets from '../_resets.module.css';
-import { ChevronRight } from '../ChevronRight/ChevronRight';
-import { EnvelopeLightSolid } from '../EnvelopeLightSolid/EnvelopeLightSolid';
+import axios from "axios";
+import resets from '../../components/_resets.module.css';
+import { ChevronRight } from '../../components/ChevronRight/ChevronRight';
+import { EnvelopeLightSolid } from '../../components/EnvelopeLightSolid/EnvelopeLightSolid';
 import { InterfaceEssentialLock_StyleFi } from './InterfaceEssentialLock_StyleFi/InterfaceEssentialLock_StyleFi';
-import { Line20Icon } from './Line20Icon.js';
+import { Line20Icon } from './Line20Icon';
 import classes from './Password_Login.module.css';
-import { ShapeIcon } from './ShapeIcon.js';
-
+import { ShapeIcon } from './ShapeIcon';
+import {useLoginForm} from '../../services/api/authencication.api'
 interface Props {
   className?: string;
 }
-/* @figmaId 2388:53 */
+
 export const Password_Login: FC<Props> = memo(function Password_Login(props = {}) {
   return (
     <div className={`${resets.storybrainResets} ${classes.root}`}>
@@ -56,8 +57,8 @@ export const Password_Login: FC<Props> = memo(function Password_Login(props = {}
         <div className={classes.registerGroup}>
           <div className={classes.line2}></div>
           <div className={classes.registerAction}>
-            <a href='#' className={classes.banChuaCoTaiKhoan}>Bạn chưa có tài khoản?</a>
-            <a href='#' className={classes.AngKi}>Đăng kí </a>
+            <Link to="/signup" className={classes.banChuaCoTaiKhoan}>Bạn chưa có tài khoản?</Link>
+            <Link to="/signup" className={classes.AngKi}>Đăng kí</Link>
           </div>  
         </div>
       </div>
