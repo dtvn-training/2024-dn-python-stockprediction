@@ -18,9 +18,6 @@ interface Props {
 export const App: FC<Props> = memo(function App(props = {}) {
   return (
     <div className={`${resets.storybrainResets} ${classes.root}`}>
-<<<<<<< HEAD
-      <SignUp/>
-=======
       <BrowserRouter>
         <Routes>
           <Route
@@ -42,7 +39,6 @@ export const App: FC<Props> = memo(function App(props = {}) {
         </Routes>
       </BrowserRouter>
       
->>>>>>> developer
     </div>
   );
 });

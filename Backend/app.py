@@ -1,10 +1,6 @@
 from flask import Flask, request, jsonify, session
 from flask_sqlalchemy import SQLAlchemy
-<<<<<<< HEAD
 from models import db, StockList,StockHistory,StockPrediction, Users
-=======
-from models import db, StockList,StockHistory,StockPrediction,Users
->>>>>>> developer
 from sqlalchemy import desc
 from flask_cors import CORS
 import matplotlib
@@ -15,23 +11,16 @@ import base64
 import json
 import pandas as pd
 import numpy as np
-<<<<<<< HEAD
 import uuid
-=======
 from datetime import datetime, timedelta, timezone
 from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
 
->>>>>>> developer
 
 app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = 'python'
 
 app.config["SQLALCHEMY_DATABASE_URI"] = (
-<<<<<<< HEAD
     "mysql://root:123456@localhost:3306/stock_prediction"
-=======
-    "mysql://root:1234@127.0.0.1:3306/stock_prediction"
->>>>>>> developer
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -217,8 +206,6 @@ def get_predictions(stockCode):
         return jsonify({'error': 'Prediction not found for this stock'}), 404
     return jsonify({'textPrediction': stock_prediction.text_prediction}), 200
 
-<<<<<<< HEAD
-=======
 @app.route('/token', methods=["POST"])
 def create_token():
     email = request.json.get("email", None)
@@ -266,23 +253,18 @@ def login_user():
         "email": user.email
     })
 
->>>>>>> developer
 @app.route("/signup", methods=["POST"])
 def signup():
     fullname = request.json.get("fullname", None)
     email = request.json.get("email", None)
     password = request.json.get("password", None)
-<<<<<<< HEAD
     
-=======
->>>>>>> developer
     if fullname == "":
         return jsonify({"error": "Fullname is required"}), 400
     if email == "":
         return jsonify({"error": "Email is required"}), 400
     if password == "":
         return jsonify({"error": "Password is required"}), 400
-<<<<<<< HEAD
     
     user_exists = Users.query.filter_by(email=email).first()
 
@@ -296,69 +278,12 @@ def signup():
         email=email,
         fullname=fullname,
         type='user',  
-=======
-    user_exists = Users.query.filter_by(email=email).first()
-    if user_exists:
-        return jsonify({"error": "Email already exists"}), 400
-    new_user = Users(
-        userid=str(uuid.uuid4()),
-        username=email.split('@')[0],
-        password=password,
-        email=email,
-        fullname=fullname,
-        type='user',
->>>>>>> developer
         created_at=datetime.now(),
         updated_at=datetime.now()
     )
     db.session.add(new_user)
     db.session.commit()
-<<<<<<< HEAD
     return jsonify({"success": "User registered successfully"}), 201
-=======
-    return jsonify({"success": "User registered successfully"})
-
-@app.route('/getAllStocks', methods=['GET'])
-def get_stock_lists():
-
-    stockArr = StockList.query.all()
-    history = StockHistory.query.all()
-    stocks=[]
-    # print(stock)
-    # print('....')
-    # print(history[6])
-    # print(',,,')
-    for stock in stockArr:
-        print(stock,'..')
-        stock_info = (
-            StockHistory.query.filter_by(stockid=stock.stockid)
-            .order_by(StockHistory.date.desc())
-            .limit(2)
-        )
-        print(stock_info[0].open - stock_info[1].close)
-         
-        stock = {
-            "id":stock.stockid,
-            "stockid": stock.stockid,
-            "symboy": stock.symboy,
-            "company_name": stock.company_name,
-            "company_detail": stock.company_detail,
-            "previous_close_price": stock.previous_close_price,
-            "date": str(stock_info[0].date),
-            "open": stock_info[0].open,
-            "high": stock_info[0].high,
-            "low": stock_info[0].low,
-            "percent": (stock_info[0].open - stock.previous_close_price)*100/stock.previous_close_price,
-            "diffirence": stock_info[0].open - stock.previous_close_price, 
-            "volume": stock_info[0].volume,
-        }
-        stocks.append(stock)
-
-    return (
-        jsonify(stocks)
-    )
-
->>>>>>> developer
 
 if __name__ == '__main__':
     app.run()
