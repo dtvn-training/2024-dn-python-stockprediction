@@ -20,7 +20,7 @@ app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = 'python'
 
 app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "mysql://root:123456@localhost:3306/stock_prediction"
+    "mysql://root:1234@127.0.0.1:3306/stock_prediction"
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -258,32 +258,69 @@ def signup():
     fullname = request.json.get("fullname", None)
     email = request.json.get("email", None)
     password = request.json.get("password", None)
-    
     if fullname == "":
         return jsonify({"error": "Fullname is required"}), 400
     if email == "":
         return jsonify({"error": "Email is required"}), 400
     if password == "":
         return jsonify({"error": "Password is required"}), 400
-    
     user_exists = Users.query.filter_by(email=email).first()
-
     if user_exists:
         return jsonify({"error": "Email already exists"}), 400
-
     new_user = Users(
-        userid=str(uuid.uuid4()),  
-        username=email.split('@')[0],  
+        userid=str(uuid.uuid4()),
+        username=email.split('@')[0],
         password=password,
         email=email,
         fullname=fullname,
-        type='user',  
+        type='user',
         created_at=datetime.now(),
         updated_at=datetime.now()
     )
     db.session.add(new_user)
     db.session.commit()
-    return jsonify({"success": "User registered successfully"}), 201
+    return jsonify({"success": "User registered successfully"})
+
+@app.route('/getAllStocks', methods=['GET'])
+def get_stock_lists():
+
+    stockArr = StockList.query.all()
+    history = StockHistory.query.all()
+    stocks=[]
+    # print(stock)
+    # print('....')
+    # print(history[6])
+    # print(',,,')
+    for stock in stockArr:
+        print(stock,'..')
+        stock_info = (
+            StockHistory.query.filter_by(stockid=stock.stockid)
+            .order_by(StockHistory.date.desc())
+            .limit(2)
+        )
+        print(stock_info[0].open - stock_info[1].close)
+         
+        stock = {
+            "id":stock.stockid,
+            "stockid": stock.stockid,
+            "symboy": stock.symboy,
+            "company_name": stock.company_name,
+            "company_detail": stock.company_detail,
+            "previous_close_price": stock.previous_close_price,
+            "date": str(stock_info[0].date),
+            "open": stock_info[0].open,
+            "high": stock_info[0].high,
+            "low": stock_info[0].low,
+            "percent": (stock_info[0].open - stock.previous_close_price)*100/stock.previous_close_price,
+            "diffirence": stock_info[0].open - stock.previous_close_price, 
+            "volume": stock_info[0].volume,
+        }
+        stocks.append(stock)
+
+    return (
+        jsonify(stocks)
+    )
+
 
 if __name__ == '__main__':
     app.run()
