@@ -19,7 +19,7 @@ app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = 'python'
 
 app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "mysql://root:1234@127.0.0.1:3306/stock_prediction"
+    "mysql://root:Ncgncg1102@127.0.0.1:3306/stock_prediction"
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -159,7 +159,7 @@ def get_stock_list(stockCode):
             "company_name": stock.company_name,
             "company_detail": stock.company_detail,
             "previous_close_price": stock.previous_close_price,
-            "date": str(stock_info.date),
+            "date": stock_info.date.strftime("%Y-%m-%d"),
             "open": stock_info.open,
             "high": stock_info.high,
             "low": stock_info.low,
@@ -209,7 +209,7 @@ def get_predictions(stockCode):
 def create_token():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
-
+    
     user = Users.query.filter_by(email=email).first()
     if user is None:
         return jsonify({"error": "Unauthorized Access"}), 401
