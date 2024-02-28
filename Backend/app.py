@@ -1,3 +1,4 @@
+import uuid
 from flask import Flask, request, jsonify, session
 from flask_sqlalchemy import SQLAlchemy
 from models import db, StockList,StockHistory,StockPrediction,Users
@@ -19,7 +20,7 @@ app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = 'python'
 
 app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "mysql://root:1234@127.0.0.1:3306/stock_prediction"
+    "mysql://root:123456@127.0.0.1:3306/stock_prediction"
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -237,12 +238,12 @@ def login_user():
     email = request.json["email"]
     password = request.json["password"]
   
-    user = User.query.filter_by(email=email).first()
+    user = Users.query.filter_by(email=email).first()
   
     if user is None:
         return jsonify({"error": "Unauthorized Access"}), 401
   
-    if not bcrypt.check_password_hash(user.password, password):
+    if not crypt.check_password_hash(user.password, password):
         return jsonify({"error": "Unauthorized"}), 401
       
     session["user_id"] = user.id
@@ -286,10 +287,6 @@ def get_stock_lists():
     stockArr = StockList.query.all()
     history = StockHistory.query.all()
     stocks=[]
-    # print(stock)
-    # print('....')
-    # print(history[6])
-    # print(',,,')
     for stock in stockArr:
         print(stock,'..')
         stock_info = (
@@ -320,6 +317,18 @@ def get_stock_lists():
         jsonify(stocks)
     )
 
+@app.route('/getUserByEmail', methods=['GET'])
+def get_user_by_email():
+    user = Users.query.first()
+    user_get_by_email ={
+        "fullname": user.fullname,
+        "email": user.email,
+        "password": user.password
+    }
+    print(user_get_by_email)
+    return (
+        jsonify(user_get_by_email)
+    )
 
 if __name__ == '__main__':
     app.run()

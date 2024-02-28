@@ -1,5 +1,5 @@
 import SearchBox from "../SearchBox/SearchBox";
-import { UserCircle } from "../UserCircle/UserCircle";
+import { UserCircle } from "../../Header/UserCircle/UserCircle";
 import classes from "./Header.module.css";
 
 const Header = () => {
