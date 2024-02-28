@@ -33,7 +33,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       headerName: 'Mã CK', 
       width: 200,
       valueGetter: (params: GridValueGetterParams) =>
-        `${params.row.symboy || ''}`,
+        `${params.row.symbol || ''}`,
     },
     { 
       field: 'Giá trần', 
@@ -156,7 +156,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       renderCell: (params) => ( 
       <Select value="" displayEmpty IconComponent={() => null}>
         <MenuItem value="" >
-          <Link to={`/stock/${params.row.symboy}`}>...</Link>
+          <Link to={`/stock/${params.row.symbol}`}>...</Link>
         </MenuItem>
       </Select>
       ),

@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, session
 from flask_sqlalchemy import SQLAlchemy
-from models import db, StockList,StockHistory,StockPrediction, Users
+from models import db, StockList,StockHistory,StockPrediction, Users, Comments
 from sqlalchemy import desc
 from flask_cors import CORS
 import matplotlib
@@ -20,7 +20,7 @@ app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = 'python'
 
 app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "mysql://root:Ncgncg1102@127.0.0.1:3306/stock_prediction"
+    "mysql://root:1234@127.0.0.1:3306/stock_prediction"
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -48,7 +48,7 @@ def refresh_expiring_jwts(response):
     
 @app.route('/stock-chart/<stockCode>')
 def stockchart(stockCode):
-    stock = StockList.query.filter_by(symboy=stockCode).first()
+    stock = StockList.query.filter_by(symbol=stockCode).first()
 
     if not stock:
         return jsonify({'error': 'Stock not found'}), 404
@@ -126,7 +126,7 @@ def stockchart(stockCode):
 
 @app.route('/stock/<stockCode>', methods=['GET','POST','UPDATE'],)
 def get_stock_list(stockCode):
-    stock = StockList.query.filter_by(symboy=stockCode).first()
+    stock = StockList.query.filter_by(symbol=stockCode).first()
     if request.method == 'POST':
         data = request.get_json()
         new_text_prediction = data.get('text_prediction')
@@ -156,7 +156,7 @@ def get_stock_list(stockCode):
             return jsonify({'error': 'Stock not found'}), 404
         stock_dict = {
             "stockid": stock.stockid,
-            "symboy": stock.symboy,
+            "symbol": stock.symbol,
             "company_name": stock.company_name,
             "company_detail": stock.company_detail,
             "previous_close_price": stock.previous_close_price,
@@ -174,8 +174,8 @@ def get_stock_list(stockCode):
     )
 @app.route('/admin/predictions/<stockCode>', methods=['POST'])
 def predictions(stockCode):
-    print(stockCode)
-    stock = StockList.query.filter_by(symboy=stockCode).first()
+    # print(stockCode)
+    stock = StockList.query.filter_by(symbol=stockCode).first()
     if not stock:
         return jsonify({'error': 'Stock not found'}), 404
     if request.method == 'POST':
@@ -198,7 +198,7 @@ def predictions(stockCode):
 
 @app.route('/user/predictions/<stockCode>')
 def get_predictions(stockCode):
-    stock = StockList.query.filter_by(symboy=stockCode).first()
+    stock = StockList.query.filter_by(symbol=stockCode).first()
     if not stock:
         return jsonify({'error': 'Stock not found'}), 404
     stock_prediction = StockPrediction.query.filter_by(stockid=stock.stockid).first()
@@ -231,27 +231,6 @@ def logout():
 @app.route("/")
 def hello_world():
     return "Hello, World!"
-
- 
-@app.route("/login", methods=["POST"])
-def login_user():
-    email = request.json["email"]
-    password = request.json["password"]
-  
-    user = User.query.filter_by(email=email).first()
-  
-    if user is None:
-        return jsonify({"error": "Unauthorized Access"}), 401
-  
-    if not bcrypt.check_password_hash(user.password, password):
-        return jsonify({"error": "Unauthorized"}), 401
-      
-    session["user_id"] = user.id
-  
-    return jsonify({
-        "id": user.id,
-        "email": user.email
-    })
 
 @app.route("/signup", methods=["POST"])
 def signup():
@@ -292,18 +271,18 @@ def get_stock_lists():
     # print(history[6])
     # print(',,,')
     for stock in stockArr:
-        print(stock,'..')
+        # print(stock,'..')
         stock_info = (
             StockHistory.query.filter_by(stockid=stock.stockid)
             .order_by(StockHistory.date.desc())
             .limit(2)
         )
-        print(stock_info[0].open - stock_info[1].close)
+        # print(stock_info[0].open - stock_info[1].close)
          
         stock = {
             "id":stock.stockid,
             "stockid": stock.stockid,
-            "symboy": stock.symboy,
+            "symbol": stock.symbol,
             "company_name": stock.company_name,
             "company_detail": stock.company_detail,
             "previous_close_price": stock.previous_close_price,
@@ -321,6 +300,86 @@ def get_stock_lists():
         jsonify(stocks)
     )
 
+@app.route('/comment/showAll/<symbol>', methods=['GET'])
+def get_comment_lists(symbol):
+    stock = StockList.query.filter_by(symbol=symbol).first()
+    print(stock,'stock cmmttt',symbol)
+    commentArr = Comments.query.filter_by(stockid=stock.stockid).all()
+    current_time = datetime.now()
+    commentStock=[]
+    # print(commentArr,'cmt arr')
+    for commentObject in commentArr:
+        user = Users.query.filter_by(userid=commentObject.userid).first()
+        
+
+        # Calculate the time difference
+        time_difference = current_time - commentObject.updated_at
+        total_seconds = time_difference.total_seconds()
+
+        # Calculate hours, minutes, and seconds
+        hours = int(total_seconds // 3600)
+        minutes = int((total_seconds % 3600) // 60)
+        time = f"{hours} giờ, {minutes} phút"
+        print(user.fullname,'name')
+        comment = {
+            "commentid": commentObject.commentid,
+            "name": str(user.fullname),
+            "stockid": commentObject.stockid,
+            "comment_text":commentObject.comment_text,
+            "updated_at":time,
+        }
+        commentStock.append(comment)
+         
+    print(commentStock,'cmt stock')
+    return (
+       jsonify(commentStock)
+    )
+
+
+@app.route('/comment/create', methods=["POST"])
+@jwt_required()  
+def comment():
+    comment = request.json.get("comment", None)
+    symbol = request.json.get("symbol", None)
+    emailUser = get_jwt_identity()
+    user = Users.query.filter_by(email=emailUser).first()
+    stock = StockList.query.filter_by(symbol=symbol['stocks']).first()
+    print(symbol,'a',stock,'lkjhgg')
+ 
+    new_cmt = Comments(
+        commentid=str(uuid.uuid4()),
+        userid=user.userid,
+        stockid=stock.stockid,
+        comment_text=comment,
+        created_at=datetime.now(),
+        updated_at=datetime.now()
+    )
+    db.session.add(new_cmt)
+    db.session.commit()
+    return jsonify({'a':'b'})
+
+@app.route('/comment/update', methods=["UPDATE"])
+@jwt_required()  
+def updateComment():
+    comment = request.json.get("commenttext", None)
+    print(comment)
+    # symbol = request.json.get("symbol", None)
+    # emailUser = get_jwt_identity()
+    # user = Users.query.filter_by(email=emailUser).first()
+    # stock = StockList.query.filter_by(symbol=symbol['stocks']).first()
+    # print(symbol,'a',stock,'lkjhgg')
+ 
+    # new_cmt = Comments(
+    #     commentid=str(uuid.uuid4()),
+    #     userid=user.userid,
+    #     stockid=stock.stockid,
+    #     comment_text=comment,
+    #     created_at=datetime.now(),
+    #     updated_at=datetime.now()
+    # )
+    # db.session.add(new_cmt)
+    # db.session.commit()
+    return jsonify({'a':'b'})
 
 if __name__ == '__main__':
     app.run()
