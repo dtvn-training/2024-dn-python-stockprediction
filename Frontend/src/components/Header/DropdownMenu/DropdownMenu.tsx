@@ -61,7 +61,7 @@ export default function DropdownMenu() {
               aria-labelledby="composition-button"
               onKeyDown={handleListKeyDown}
             >
-              <MenuItem >Profile</MenuItem>
+              <MenuItem>Profile</MenuItem>
               <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
             </MenuList>
           </ClickAwayListener>
