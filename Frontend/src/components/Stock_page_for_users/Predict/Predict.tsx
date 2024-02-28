@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import classes from "./Predict.module.css";
 import { PostPredictText, getPredictText } from "./PredictReq";
 
-const Predict = () => {
+
+interface PredictInfoProps {
+  symbol: string;
+}
+const Predict : React.FC<PredictInfoProps> = ({
+  symbol,
+}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState<string>("");
   const [PredictText, setPredictText] = useState<any | null>(null);
@@ -13,9 +19,8 @@ const Predict = () => {
   };
 
   const handleSaveClick = async () => {
-    const stockCode = "BID";
-    const userId = "123";
-
+    const stockCode =symbol;
+    const userId = "111";
     await PostPredictText(userId, stockCode, editedContent);
     setIsEditing(false);
     

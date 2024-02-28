@@ -2,8 +2,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-class User(db.Model):
-    __tablename__ = 'user'
+class Users(db.Model):
+    __tablename__ = 'users'
 
     userid = db.Column(db.String(50), primary_key=True, nullable=False)
     username = db.Column(db.String(20), nullable=False)
@@ -35,7 +35,7 @@ class StockList(db.Model):
     __tablename__ = 'stocklist'
 
     stockid = db.Column(db.String(50), primary_key=True, nullable=False)
-    symboy = db.Column(db.String(10), unique=True, nullable=False)
+    symbol = db.Column(db.String(10), unique=True, nullable=False)
     company_name = db.Column(db.String(255, collation='utf8mb4_unicode_ci'))
     company_detail = db.Column(db.String(200))
     previous_close_price = db.Column(db.Float, nullable=False)
@@ -51,5 +51,20 @@ class StockPrediction(db.Model):
     date = db.Column(db.DateTime, nullable=False)
     text_prediction = db.Column(db.String(300), nullable=False)
 
-    # Modify the relationship to include back_populates
     stock = db.relationship('StockList', back_populates='predictions', lazy=True, primaryjoin="StockPrediction.stockid == StockList.stockid")
+
+class Comments(db.Model):
+    __tablename__ = 'comments'
+
+    commentid = db.Column(db.String(50), primary_key=True, nullable=False)
+    userid = db.Column(db.String(50), db.ForeignKey('users.userid'), nullable=False)
+    stockid = db.Column(db.String(50), db.ForeignKey('stocklist.stockid'), nullable=False)
+    comment_text = db.Column(db.String(200))
+    created_at = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+
+    user = db.relationship("Users")
+    stock = db.relationship("StockList")
+
+    def __repr__(self):
+        return f"<Comment(commentid='{self.commentid}', userid='{self.userid}', stockid='{self.stockid}', comment_text='{self.comment_text}', created_at='{self.created_at}', updated_at='{self.updated_at}')>"
