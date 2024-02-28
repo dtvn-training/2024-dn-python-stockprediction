@@ -26,9 +26,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 
-CORS(app)
 db.init_app(app)
 jwt = JWTManager(app)
+CORS(app)
 
 @app.after_request
 def refresh_expiring_jwts(response):
@@ -310,12 +310,10 @@ def get_comment_lists(symbol):
     # print(commentArr,'cmt arr')
     for commentObject in commentArr:
         user = Users.query.filter_by(userid=commentObject.userid).first()
-        
-
+        tokenUser = create_access_token(identity=user.email)
         # Calculate the time difference
         time_difference = current_time - commentObject.updated_at
         total_seconds = time_difference.total_seconds()
-
         # Calculate hours, minutes, and seconds
         hours = int(total_seconds // 3600)
         minutes = int((total_seconds % 3600) // 60)
@@ -324,13 +322,14 @@ def get_comment_lists(symbol):
         comment = {
             "commentid": commentObject.commentid,
             "name": str(user.fullname),
+            "userToken": str(tokenUser),
             "stockid": commentObject.stockid,
             "comment_text":commentObject.comment_text,
             "updated_at":time,
         }
         commentStock.append(comment)
          
-    print(commentStock,'cmt stock')
+    # print(commentStock,'cmt stock')
     return (
        jsonify(commentStock)
     )
@@ -358,28 +357,21 @@ def comment():
     db.session.commit()
     return jsonify({'a':'b'})
 
-@app.route('/comment/update', methods=["UPDATE"])
+@app.route('/comment/update/<commentid>', methods=["PUT"])
 @jwt_required()  
-def updateComment():
-    comment = request.json.get("commenttext", None)
-    print(comment)
-    # symbol = request.json.get("symbol", None)
-    # emailUser = get_jwt_identity()
-    # user = Users.query.filter_by(email=emailUser).first()
-    # stock = StockList.query.filter_by(symbol=symbol['stocks']).first()
-    # print(symbol,'a',stock,'lkjhgg')
- 
-    # new_cmt = Comments(
-    #     commentid=str(uuid.uuid4()),
-    #     userid=user.userid,
-    #     stockid=stock.stockid,
-    #     comment_text=comment,
-    #     created_at=datetime.now(),
-    #     updated_at=datetime.now()
-    # )
-    # db.session.add(new_cmt)
-    # db.session.commit()
-    return jsonify({'a':'b'})
+def updateComment(commentid):
+    emailUser = get_jwt_identity()
+    user = Users.query.filter_by(email=emailUser).first()
+    comment = Comments.query.filter_by(commentid=commentid).first()
+    if user.userid == comment.userid:
+        update_comment_text = request.json.get("commenttext", None)
+        print(update_comment_text,'new cmt',comment)
+        comment.comment_text = update_comment_text
+        db.session.commit()  
+        
+        return jsonify({"message": "Comment updated successfully"}), 200
+    else:
+        return jsonify({"error": "You are not authorized to update this comment"}), 401
 
 if __name__ == '__main__':
     app.run()

@@ -85,29 +85,12 @@ export const Stock_page_for_users: FC<Props> = memo(
                     username={commentItem.name} // Access properties from commentItem
                     time={commentItem.updated_at}
                     commenttext={commentItem.comment_text}
+                    tokenUser={commentItem.userToken}
                   />
                   <Line />
                 </React.Fragment>
               ))}
 
-              <Discuss
-                username="Michael Busch"
-                time="1 hour ago"
-                commenttext="mình dự đoán mã cổ phiếu sẽ tăng Xu hướng là hướng đi chung của thị trường hoặc giá của tài sản. Trong phân tích kĩ thuật, xu hướng được xác định bởi đường xu hướng hoặc hành động giá nổi bật khi giá đang tạo ra mức dao động tăng cao hơn, thể hiện xu hướng tăng, hoặc các mức dao động giảm thấp hơn, thể hiện xu hướng giảm."
-              />
-              <Line />
-              <Discuss
-                username="Michael Busch"
-                time="1 hour ago"
-                commenttext="mình dự đoán mã cổ phiếu sẽ tăng"
-              />
-              <Line />
-              <Discuss
-                username="Michael Busch"
-                time="1 hour ago"
-                commenttext="mình dự đoán mã cổ phiếu sẽ tăng"
-              />
-              <Line />
             </div>
           </div>
         </div>
