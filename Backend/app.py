@@ -317,18 +317,26 @@ def get_stock_lists():
         jsonify(stocks)
     )
 
-@app.route('/getUserByEmail', methods=['GET'])
-def get_user_by_email():
-    user = Users.query.first()
-    user_get_by_email ={
-        "fullname": user.fullname,
-        "email": user.email,
-        "password": user.password
-    }
-    print(user_get_by_email)
-    return (
-        jsonify(user_get_by_email)
-    )
-
+@app.route('/userprofile', methods=['GET', 'POST'])
+@jwt_required()
+def user_profile():
+    if request.method == 'GET':
+        email_user = get_jwt_identity()
+        user = Users.query.filter_by(email=email_user).first()
+        user_get_by_email = {
+            "fullname": user.fullname,
+            "email": user.email,
+            "password": user.password
+        }
+        return jsonify(user_get_by_email)
+    # if request.method == 'POST':
+    #     fullname = request.json.get('fullname')  # Lấy fullname từ dữ liệu JSON gửi lên
+    #     password = request.json.get('password')
+    #     email = request.json.get('email')
+    #     user = Users.query.filter_by(email=email).first()
+    #     user.fullname = fullname
+    #     user.password = password
+    #     db.session.commit()  
+    #     return jsonify({"message": "Updated profile successfully."}), 200
 if __name__ == '__main__':
     app.run()

@@ -27,16 +27,58 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
     email: '',
     password: ''
   });
-  useEffect(() => {
-    getUserByEmail()
-        .then(data => {
-            setUser(data);
-        })
-        .catch(error => {
-            console.log('Error fetching user:', error);
-        });
-  }, []);
-  
+  const [isEditing, setIsEditing] = useState(false);
+  const handleUpdate = () => {
+    setIsEditing(false); 
+    fetch('http://localhost:5000/userprofile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({
+        fullname: user.fullname,
+        password: user.password
+      }),
+    })
+    .then(response => {
+      if (response.ok) {
+        alert('Cập nhật thông tin thành công!');
+      } else {
+        alert('Cập nhật thông tin thất bại. Vui lòng thử lại.');
+      }
+    })
+    .catch(error => {
+      console.error('Lỗi khi cập nhật thông tin:', error);
+      alert('Đã xảy ra lỗi khi cập nhật thông tin. Vui lòng thử lại.');
+    });
+
+  };
+  const userToken = localStorage.getItem('token');
+  console.log(userToken,'token');
+  if (userToken) {
+    fetch('http://localhost:5000/userprofile', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userToken}`,
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json(); 
+      } else {
+        throw new Error('Failed to fetch user profile.');
+      }
+    })
+    .then(data => {
+      setUser(data);
+    })
+    .catch(error => {
+      console.error('Error fetching user:', error);
+      alert('Failed to fetch user profile. Please try again.');
+    });
+  }
   return (
     <div className={`${resets.storybrainResets} ${classes.root}`}>
       <div className={classes.userprofile}>
@@ -55,8 +97,12 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
                 <div className={classes.iconlyBoldProfile}>
                   <IconlyBoldProfileIcon className={`${classes.icon4} ${classes.iconName}`} />
                 </div>
-                <input className={`${classes.input} ${classes.inputEmail}`}placeholder={user.fullname} readOnly/>
-                <Button className={classes.outlined} variant="outlined">Update</Button>
+                <input 
+                  id="fullname" 
+                  className={`${classes.input} ${classes.inputEmail}`}
+                  placeholder={user.fullname}
+                  readOnly={!isEditing}
+                />
               </div>
               <label className={classes.labelRegister}>Email</label>
               <div className={`${classes.rectangle} ${classes.rectangleEmail}`}>
@@ -66,14 +112,30 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
                     shape: <ShapeIcon className={classes.icon} />,
                   }}
                 />
-                <input className={`${classes.input} ${classes.inputEmail}`} placeholder={user.email} readOnly/>
+                <input 
+                  className={`${classes.input} ${classes.inputEmail}`} 
+                  placeholder={user.email} 
+                  readOnly
+                />
               </div>
               <label className={classes.labelRegister}>Mật khẩu</label>
               <div className={`${classes.rectangle} ${classes.rectanglePassword}`}>
                 <InterfaceEssentialLock_StyleFi className={classes.interfaceEssentialLock} />
-                <input className={`${classes.input} ${classes.inputPassword}`} placeholder='Mật khẩu' value={user.password} type='password' readOnly/>
-                <Button className={classes.outlined} variant="outlined">Update</Button>
+                <input 
+                  id="passwordInput" 
+                  className={`${classes.input} ${classes.inputPassword}`} 
+                  placeholder=""
+                  type='password' 
+                  readOnly={!isEditing}
+                  onChange={(e) => setUser(prevUser => ({...prevUser, password: e.target.value}))}
+                />
               </div>
+              {isEditing ? (
+                <Button className={classes.outlined} variant="outlined" onClick={handleUpdate}>Update</Button>
+              ) : (
+                <Button className={classes.outlined} variant="outlined" onClick={() => setIsEditing(true)}>Edit</Button>
+              )}
+              {/* <Button className={classes.outlined} variant="outlined">Update</Button> */}
             </div>
           </div>
         </div>
@@ -81,3 +143,5 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
     </div>   
   );
 });
+
+
