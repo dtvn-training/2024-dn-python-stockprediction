@@ -68,6 +68,10 @@
 
 }
 
+.discussGroup {
+  display: block;
+}
+
 .detail {
   justify-content: flex-start;
   display: flex;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./Discuss.module.css";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
@@ -8,28 +8,36 @@ interface CommentProps {
   username: string;
   time: string;
   commenttext: string;
+  tokenUser:string;
 }
 
-const Discuss: React.FC<CommentProps> = ({ id, username, time, commenttext }) => {
+const Discuss: React.FC<CommentProps> = ({ id, username, time, commenttext, tokenUser }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedComment, setEditedComment] = useState(commenttext);
   const API_BASE_URL = "http://127.0.0.1:5000";
-
+  const [isComment, setIsComment] = useState(false);
+  const userToken = localStorage.getItem('token');
+  useEffect(() => {
+    if (userToken === tokenUser) {
+      setIsComment(true);
+    } else {
+      setIsComment(false);
+    }
+  }, []);
   const handleEditClick = () => {
     console.log(id,'id cmt',username);
     setIsEditing(true);
   };
 
   const handleSaveCommentEdit = () => {
-    const userToken = localStorage.getItem('token');
     if (userToken) {
       fetch(`${API_BASE_URL}/comment/update/${id}`, {
-          method: 'UPDATE',
+          method: 'PUT',
           headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${userToken}`, 
           },
-          body: JSON.stringify({ commentid: id, commenttext: commenttext, token: userToken }),
+          body: JSON.stringify({ commentid: id, commenttext: editedComment, token: userToken }),
       })
       .then(response => {
           if (response.ok) {
