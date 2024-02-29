@@ -12,15 +12,13 @@ const Predict: React.FC<PredictInfoProps> = ({ symbol }) => {
   const [PredictImage, setPredictImage] = useState<string | null>(null);
   const handleEditClick = () => {
     setIsEditing(true);
-    setEditedContent(PredictText?.textPrediction || ""); // Gán giá trị từ textPrediction khi bấm chỉnh sửa
+    setEditedContent(PredictText?.textPrediction || "");
   };
 
   const handleSaveClick = async () => {
     const stockCode = symbol;
-    const userId = "111";
-    await PostPredictText(userId, stockCode, editedContent);
+    await PostPredictText (stockCode, editedContent);
     setIsEditing(false);
-
     alert("Nhận định về cổ phiếu đã được cập nhật");
     fetchData();
   };
@@ -43,8 +41,9 @@ const Predict: React.FC<PredictInfoProps> = ({ symbol }) => {
 
       const imagepredict = await getimagePredict(symbol);
       const image = JSON.parse(imagepredict);
-      console.log(image);
       setPredictImage(image.img_predict);
+      const predictext=await getPredictText(symbol)
+      setPredictText(predictext)
     } catch (error) {
       console.error("Error fetching company data:", error);
     }
@@ -64,13 +63,6 @@ const Predict: React.FC<PredictInfoProps> = ({ symbol }) => {
             style={{ width: "600px", height: "auto" }}
           />
         )}
-        <div>
-          <ul>
-            <li>Đường line cong lên: xu hướng tăng</li>
-            <li>Đường line cong xuống: xu hướng giảm</li>
-            <li>Đường line nằm ngang: không có dự báo về xu hướng</li>
-          </ul>
-        </div>
       </div>
       <div className={classes.contentpredict}>
         {isEditing ? (

@@ -101,7 +101,11 @@ def get_stock_list(stockCode):
 
 @app.route('/admin/predictions/<stockCode>', methods=['POST'])
 def predictions(stockCode):
+    print(stockCode)
     stock = StockList.query.filter_by(symbol=stockCode).first()
+    emailUser = get_jwt_identity()
+    user = Users.query.filter_by(email=emailUser).first()
+
     if not stock:
         return jsonify({'error': 'Stock not found'}), 404
     if request.method == 'POST':
@@ -111,7 +115,7 @@ def predictions(stockCode):
         if not stock_prediction:
             stock_prediction = StockPrediction(
                 stockid=stock.stockid,
-                userid=data.get('userid'),  
+                userid=user.userid,  
                 date=datetime.now(),
                 text_prediction=new_text_prediction
             )
