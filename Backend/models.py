@@ -14,8 +14,6 @@ class Users(db.Model):
     created_at = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp())
     updated_at = db.Column(db.DATETIME, server_default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 
-
-
 class StockHistory(db.Model):
     __tablename__ = 'stockhistory'
 
@@ -27,7 +25,6 @@ class StockHistory(db.Model):
     low = db.Column(db.Float, nullable=False)
     close = db.Column(db.Float, nullable=False)
     volume = db.Column(db.Float, nullable=False)
-
     stocklist = db.relationship('StockList', backref='stockhistory', lazy=True)
     stockid = db.Column(db.String(50), db.ForeignKey('stocklist.stockid'))
     
@@ -39,8 +36,6 @@ class StockList(db.Model):
     company_name = db.Column(db.String(255, collation='utf8mb4_unicode_ci'))
     company_detail = db.Column(db.String(200))
     previous_close_price = db.Column(db.Float, nullable=False)
-
-    # Modify the relationship to include back_populates
     predictions = db.relationship('StockPrediction', back_populates='stock', lazy=True)
 
 class StockPrediction(db.Model):
@@ -50,7 +45,6 @@ class StockPrediction(db.Model):
     userid = db.Column(db.String(50), db.ForeignKey('user.userid'), nullable=False)
     date = db.Column(db.DateTime, nullable=False)
     text_prediction = db.Column(db.String(300), nullable=False)
-
     stock = db.relationship('StockList', back_populates='predictions', lazy=True, primaryjoin="StockPrediction.stockid == StockList.stockid")
 
 class Comments(db.Model):
@@ -62,9 +56,7 @@ class Comments(db.Model):
     comment_text = db.Column(db.String(200))
     created_at = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
-
     user = db.relationship("Users")
     stock = db.relationship("StockList")
-
     def __repr__(self):
         return f"<Comment(commentid='{self.commentid}', userid='{self.userid}', stockid='{self.stockid}', comment_text='{self.comment_text}', created_at='{self.created_at}', updated_at='{self.updated_at}')>"
