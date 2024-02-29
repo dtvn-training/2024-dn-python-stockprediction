@@ -1,5 +1,5 @@
 import SearchBox from "../SearchBox/SearchBox";
-import { UserCircle } from "../UserCircle/UserCircle";
+import { UserCircle } from "../../Header/UserCircle/UserCircle";
 import classes from "./Header.module.css";
 
 const Header = () => {
@@ -10,7 +10,7 @@ const Header = () => {
         <div className={classes.homepage}>Trang chủ</div>
       </div>
       <div className={classes.rightheader}>
-        {/* <div className={classes.darkmode}></div> */}
+        <div className={classes.darkmode}></div>
         <div className={classes.search}>
           <SearchBox />
         </div>

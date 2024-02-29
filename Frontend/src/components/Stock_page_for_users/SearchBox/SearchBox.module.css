@@ -1,25 +1,24 @@
 .searchContainer {
-  border: 1px solid #fff;
-  border-radius: 10px;
-  padding: 5px;
-
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding: 5px;
 }
 
 .searchContainer input::placeholder {
-  color: #fff;
-  border: none;
+    color: #000;
+    border: none;
 }
 
 .searchContainer input {
-  color: #fff;
-  outline: none;
+    color: #000;
+    outline: none;
 }
 
 .btnsearch {
-  color: #fff;
+    color: #000;
 }
 
 .icon {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import {useToken} from '../../components/token'
+import { useNavigate } from 'react-router-dom';
 export function useLoginForm() {
   const [loginForm, setLoginForm] = useState({
     email: "",
@@ -46,13 +47,15 @@ export function useLoginForm() {
 }
 export function useSignUpForm() {
   const [signUpForm, setSignUpForm] = useState({
-    fullname:"",
+    fullname: "",
     email: "",
     password: ""
   });
   const { setToken } = useToken();
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   function signUp(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault(); // Prevent default form submission
     
     axios.post("http://127.0.0.1:5000/signup", {
       fullname: signUpForm.fullname,
@@ -62,6 +65,7 @@ export function useSignUpForm() {
     .then((response) => {
       setToken(response.data.access_token);
       clearSignUpForm();
+      navigate('/login'); // Navigate to the login page after successful registration
     })
     .catch((error) => {
       console.error('Error:', error);

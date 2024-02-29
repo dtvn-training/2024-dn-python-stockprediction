@@ -1,33 +1,77 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./Discuss.module.css";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { Button } from "@mui/material";
 
 interface CommentProps {
+  id:string,
   username: string;
   time: string;
   commenttext: string;
+  tokenUser:string;
 }
 
-const Discuss: React.FC<CommentProps> = ({ username, time, commenttext }) => {
+const Discuss: React.FC<CommentProps> = ({ id, username, time, commenttext, tokenUser }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedComment, setEditedComment] = useState(commenttext);
-
+  const API_BASE_URL = "http://127.0.0.1:5000";
+  const [isComment, setIsComment] = useState(false);
+  const userToken = localStorage.getItem('token');
+  useEffect(() => {
+    if (userToken === tokenUser) {
+      setIsComment(true);
+    } else {
+      setIsComment(false);
+    }
+  }, []);
   const handleEditClick = () => {
+    console.log(id,'id cmt',username);
     setIsEditing(true);
   };
 
-  const handleSaveClick = () => {
-    // Thêm logic xử lý khi lưu bình luận sau khi sửa
-    alert("Nội dung đã được cập nhật");
-    setIsEditing(false);
-  };
+  const handleSaveCommentEdit = () => {
+    if (userToken) {
+      fetch(`${API_BASE_URL}/comment/update/${id}`, {
+          method: 'PUT',
+          headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${userToken}`, 
+          },
+          body: JSON.stringify({ commentid: id, commenttext: editedComment, token: userToken }),
+      })
+      .then(response => {
+          if (response.ok) {
+          alert('Bình luận thành công!');
+          setEditedComment(""); 
+          } else {
+          alert('Lỗi bình luận.');
+          }
+      })
+      .catch(error => {
+          console.error('Error sending comment:', error);
+          alert('Lỗi.');
+      });
+      } 
+      else {
+      alert('Vui lòng đăng nhập.');
+      }
+    } 
+
+  
+  // const handleSaveClick = () => {
+  //   // Thêm logic xử lý khi lưu bình luận sau khi sửa
+  //   console.log('editedComment9',editedComment);
+  //   alert("Nội dung đã được cập nhật");
+  //   setIsEditing(false);
+  // };
 
   const handleCancelClick = () => {
-    // Hủy bỏ việc sửa và khôi phục nội dung ban đầu
     setEditedComment(commenttext);
     setIsEditing(false);
   };
 
-  const handleTextareaChange = (
+  const handleTextChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setEditedComment(event.target.value);
@@ -41,11 +85,14 @@ const Discuss: React.FC<CommentProps> = ({ username, time, commenttext }) => {
       </div>
       <div className={classes.commenttext}>
         {isEditing ? (
-          <textarea
-            value={editedComment}
-            onChange={handleTextareaChange}
-            spellCheck={false}
-          />
+          <CKEditor
+          editor={ClassicEditor}
+          data={editedComment}
+          onChange={(event, editor) => {
+            const data = editor.getData().replace(/<[^>]+>/g, '');
+            setEditedComment(data);
+          }}
+        />
         ) : (
           <div>{commenttext}</div>
         )}
@@ -53,21 +100,21 @@ const Discuss: React.FC<CommentProps> = ({ username, time, commenttext }) => {
       <div className={classes.feature}>
         {isEditing ? (
           <>
-            <div className={classes.save} onClick={handleSaveClick}>
+            <Button className={classes.save} onClick={handleSaveCommentEdit}>
               Lưu
-            </div>
-            <div className={classes.cancel} onClick={handleCancelClick}>
+            </Button>
+            <Button className={classes.cancel} onClick={handleCancelClick}>
               Hủy
-            </div>
+            </Button>
           </>
         ) : (
-          <div className={classes.edit} onClick={handleEditClick}>
+          <Button className={classes.edit} onClick={handleEditClick}>
             <span>Sửa</span>
-          </div>
+          </Button>
         )}
-        <div className={classes.delete}>
+        <Button className={classes.delete}>
           <span>Xóa</span>
-        </div>
+        </Button>
       </div>
     </div>
   );

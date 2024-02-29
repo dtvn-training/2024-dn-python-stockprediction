@@ -19,12 +19,25 @@ export const PostPredictText = async (userid:string,stockCode: string, textPredi
       throw error;
     }
   };
-  export const getPredictText = async (symbol: string): Promise<any> => {
-    try {
-      const response = await axios.get(`${API_BASE_URL}/user/predictions/${symbol}`);
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching company data:", error);
-      throw error;
-    }
-  };
+export const getPredictText = async (symbol: string): Promise<any> => {
+  try {
+    const response = await axios.get(
+      `${API_BASE_URL}/user/predictions/${symbol}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching company data:", error);
+    throw error;
+  }
+};
+export const getimagePredict = async (symbol: string): Promise<any> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/stock-chart/${symbol}`);
+    const data = await response.text();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error("Error fetching stock data:", error);
+    throw error;
+  }
+};

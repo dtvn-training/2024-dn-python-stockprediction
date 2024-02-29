@@ -66,7 +66,7 @@
     width: min-content;
     height: min-content;
     padding: 10px;
-    outline: solid 1px #000;
+    outline: solid 1px #fff;
     outline-offset: -1px;
     border-radius: 10px;
 }

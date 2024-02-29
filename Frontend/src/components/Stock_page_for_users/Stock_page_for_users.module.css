@@ -59,6 +59,10 @@
     padding-right: 50px;
 }
 
+.discussGroup {
+    display: block;
+}
+
 .detail {
     justify-content: flex-start;
     display: flex;
@@ -70,7 +74,7 @@
 }
 
 .image13 {
-    width: 100%;
+    width: 60%;
     height: auto;
 }
 
@@ -106,7 +110,7 @@
 
 .wiritecomment {
     width: fit-content;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
     font-size: 18px;
     font-weight: 700px;
     border-radius: 15px;

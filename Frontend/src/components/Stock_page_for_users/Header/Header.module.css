@@ -23,18 +23,16 @@
     top: calc(50% - 709px);
 }
 
-
-/* .darkmode {
+.darkmode {
     width: 66.2857px;
     height: 48px;
-    background-image:
-        url('/assets/image2.jpg');
-} */
+    background-image: url('/assets/image2.jpg');
+}
 
 .search {
     width: 236.4444px;
     height: 38px;
-    color: #fff;
+    color: #000;
 }
 
 .btnsearch {
@@ -58,7 +56,7 @@
 }
 
 .homepage {
-    color: #fff;
+    color: #000;
     font-size: 20px;
     line-height: 27.5px;
     font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
