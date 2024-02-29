@@ -1,7 +1,7 @@
 import { memo, useEffect, useState } from 'react';
 import type { FC } from 'react';
 import { DataGrid, GridColDef, GridValueGetterParams, GridToolbar  } from '@mui/x-data-grid';
-import { MenuItem, Select } from '@mui/material';
+import { MenuItem, Select, Button } from '@mui/material';
 import resets from '../../components/_resets.module.css';
 import classes from './Dashboard.module.css';
 import { Line20Icon } from '../../components/Line20lcon.tsx/Line20Icon.js';
@@ -33,7 +33,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       headerName: 'Mã CK', 
       width: 200,
       valueGetter: (params: GridValueGetterParams) =>
-        `${params.row.symboy || ''}`,
+        `${params.row.symbol || ''}`,
     },
     { 
       field: 'Giá trần', 
@@ -43,7 +43,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
         if (typeof params.row.high === 'number') {
           return params.row.high.toFixed(0);
         } else {
-          return '0.00';
+          return '0';
         }
       },
     },
@@ -55,7 +55,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
         if (typeof params.row.low === 'number') {
           return params.row.low.toFixed(0);
         } else {
-          return '0.00';
+          return '0';
         }
       },
     },
@@ -67,7 +67,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
         if (typeof params.row.open === 'number') {
           return params.row.open.toFixed(0);
         } else {
-          return '0.00';
+          return '0';
         }
       },
     },
@@ -142,9 +142,9 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       width: 200,
       valueGetter: (params: GridValueGetterParams) => {
         if (typeof params.row.volume === 'number') {
-          return params.row.volume.toFixed(2);
+          return params.row.volume.toFixed(0);
         } else {
-          return '0.00';
+          return '0';
         }
       },
     },
@@ -154,11 +154,13 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       sortable: false,
       width: 250,
       renderCell: (params) => ( 
-      <Select value="" displayEmpty IconComponent={() => null}>
-        <MenuItem value="" >
-          <Link to={`/stock/${params.row.symboy}`}>...</Link>
-        </MenuItem>
-      </Select>
+        <Button variant="outlined">
+          <Link to={`/stock/${params.row.symbol}`} style={{ color: 'white' }}>Chi tiết</Link>
+        </Button>
+      // <Select value="" displayEmpty IconComponent={() => null}>
+      //   <MenuItem value="" >
+      //   </MenuItem>
+      // </Select>
       ),
     },
   ];

@@ -12,7 +12,7 @@ CREATE TABLE users(
 );
 CREATE TABLE stocklist(
 	stockid varchar(50) not null primary key ,
-    symboy varchar(10) not null unique key,
+    symbol varchar(10) not null unique key,
     company_name varchar(60) not null ,
     company_detail varchar(200) ,
     previous_close_price double not null

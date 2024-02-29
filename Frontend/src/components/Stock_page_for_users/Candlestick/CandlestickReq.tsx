@@ -9,4 +9,3 @@ export const getStockImage = async (symbol: string): Promise<string> => {
     throw error;
   }
 };
-

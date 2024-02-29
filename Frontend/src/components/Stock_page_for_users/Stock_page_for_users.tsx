@@ -7,36 +7,61 @@ import TableDetail from "./TableDetail/TableDetail";
 import Predict from "./Predict/Predict";
 import Discuss from "./Discuss/Discuss";
 import CommentBox from "./CommentBox/CommentBox";
-import Header from "./Header/Header";
+import Header from "../../components/Header/Header";
 import Candlestick from "./Candlestick/Candlestick";
+import { useParams } from 'react-router-dom';
+import { getAllComments } from '../../services/api/comment.api';
+import React, { useEffect, useState} from "react";
+
+
 interface Props {
   className?: string;
+  
 }
 
 export const Stock_page_for_users: FC<Props> = memo(
   function Stock_page_for_users(props = {}) {
+    const { stocks } = useParams();    
+    const [comment, setComments] = useState([]);
+    const [updateTrigger, setUpdateTrigger] = useState(false); // State to trigger update
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const data = await getAllComments({ stocks });
+          setComments(data);
+        } catch (error) {
+          console.error('Error fetching company data:', error);
+        }
+      };
+
+      fetchData();
+    }, [updateTrigger]); // Trigger useEffect when updateTrigger state changes
+
+    const handleEditClick = (id: string) => () => {
+      // Your handleEditClick logic here
+    };
+
+    const handleCommentUpdate = () => {
+      // Trigger update by changing the state
+      setUpdateTrigger(prevState => !prevState);
+    };
+
     return (
       <div className={` ${classes.root}`}>
         <Header />
         <div className={classes.companyinfo}>
-          <CompanyInfo symbol="BID" follow={false} />
+          {stocks && <CompanyInfo symbol={stocks} follow={false} />}
         </div>
 
         <div className={classes.container}>
           <Line />
           <div className={classes.detail}>
             <div className={classes.image13}>
-              <Candlestick />
+              {stocks && <Candlestick symbol={stocks}  />}
             </div>
             <div className={classes.tabledetail}>
-              <TableDetail
-                open="27500"
-                high="28000"
-                low="26000"
-                close="27000"
-                volume="78500"
-                avgvol10day="96500"
-              />
+              {stocks && <TableDetail symbol={stocks}  />}
             </div>
           </div>
           <Line />
@@ -44,35 +69,31 @@ export const Stock_page_for_users: FC<Props> = memo(
             <div className={classes.labelpredict}>
               <span>Dự đoán</span>
             </div>
-            <Predict />
+            {stocks && <Predict symbol={stocks}  />}
           </div>
           <div className={classes.discusscomment}>
             <Line />
             <div className={classes.text}>Thảo luận</div>
             <div className={classes.wiritecomment}>
               <div className={classes.commentbox}>
-                <CommentBox />
+                <CommentBox onUpdate={handleCommentUpdate} />
               </div>
             </div>
             <Line />
-            <Discuss
-              username="Michael Busch"
-              time="1 hour ago"
-              commenttext="mình dự đoán mã cổ phiếu sẽ tăng Xu hướng là hướng đi chung của thị trường hoặc giá của tài sản. Trong phân tích kĩ thuật, xu hướng được xác định bởi đường xu hướng hoặc hành động giá nổi bật khi giá đang tạo ra mức dao động tăng cao hơn, thể hiện xu hướng tăng, hoặc các mức dao động giảm thấp hơn, thể hiện xu hướng giảm."
-            />
-            <Line />
-            <Discuss
-              username="Michael Busch"
-              time="1 hour ago"
-              commenttext="mình dự đoán mã cổ phiếu sẽ tăng"
-            />
-            <Line />
-            <Discuss
-              username="Michael Busch"
-              time="1 hour ago"
-              commenttext="mình dự đoán mã cổ phiếu sẽ tăng"
-            />
-            <Line />
+            <div className={classes.discussGroup}>
+              {comment.map((commentItem, index) => (
+                <React.Fragment key={index}>
+                  <Discuss
+                    id={commentItem.commentid}
+                    username={commentItem.name}
+                    time={commentItem.updated_at}
+                    commenttext={commentItem.comment_text}
+                    tokenUser={commentItem.userToken}
+                  />
+                  <Line />
+                </React.Fragment>
+              ))}
+            </div>
           </div>
         </div>
       </div>

@@ -17,28 +17,8 @@ interface Props {
 export const Password_Login: FC<Props> = memo(function Password_Login(props: Props = {}) {
 
   const { loginForm, handleChange, logmeIn } = useLoginForm();
-  const navigate = useNavigate();
 
-  const handleRegister = () => {
-    navigate("/signup");
-  };
   return (
-
-    //config token
-    // <BrowserRouter>
-    //   <div className="App">
-    //     <Header token={removeToken}/>
-    //     {!token && token!=="" &&token!== undefined?  
-    //     <Login setToken={setToken} />
-    //     :(
-    //       <>
-    //         <Routes>
-    //           <Route exact path="/profile" element={<Profile token={token} setToken={setToken}/>}></Route>
-    //         </Routes>
-    //       </>
-    //     )}
-    //   </div>
-    // </BrowserRouter>
 
     <div className={`${resets.storybrainResets} ${classes.root}`}>
       <div className={classes.line20}>
@@ -66,7 +46,6 @@ export const Password_Login: FC<Props> = memo(function Password_Login(props: Pro
               placeholder='Email'
               name='email'
               value={loginForm.email}
-              text={loginForm.email}
               type='email'
             />
 
@@ -77,7 +56,6 @@ export const Password_Login: FC<Props> = memo(function Password_Login(props: Pro
             <input
               onChange={handleChange}
               type="password"
-              text={loginForm.password}
               name="password"
               value={loginForm.password}
               className={`${classes.input} ${classes.inputPassword}`}
