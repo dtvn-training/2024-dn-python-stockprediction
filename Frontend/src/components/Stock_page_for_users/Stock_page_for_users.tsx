@@ -23,38 +23,42 @@ export const Stock_page_for_users: FC<Props> = memo(
   function Stock_page_for_users(props = {}) {
     const { stocks } = useParams();    
     const [comment, setComments] = useState([]);
+    const [updateTrigger, setUpdateTrigger] = useState(false); // State to trigger update
+
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const data = await getAllComments( {stocks} );
+          const data = await getAllComments({ stocks });
           setComments(data);
         } catch (error) {
           console.error('Error fetching company data:', error);
         }
       };
-  
+
       fetchData();
-    }, []);
+    }, [updateTrigger]); // Trigger useEffect when updateTrigger state changes
+
     const handleEditClick = (id: string) => () => {
-      setIsEditing(true);
-      // Invoke a function from the parent component with the comment ID
-      handleEditComment(id);
+      // Your handleEditClick logic here
     };
-    
+
+    const handleCommentUpdate = () => {
+      // Trigger update by changing the state
+      setUpdateTrigger(prevState => !prevState);
+    };
 
     return (
       <div className={` ${classes.root}`}>
         <Header />
         <div className={classes.companyinfo}>
-        {stocks && <CompanyInfo symbol={stocks} follow={false} />}
+          {stocks && <CompanyInfo symbol={stocks} follow={false} />}
         </div>
 
         <div className={classes.container}>
           <Line />
           <div className={classes.detail}>
             <div className={classes.image13}>
-            {stocks && <Candlestick symbol={stocks}  />}
-
+              {stocks && <Candlestick symbol={stocks}  />}
             </div>
             <div className={classes.tabledetail}>
               {stocks && <TableDetail symbol={stocks}  />}
@@ -72,7 +76,7 @@ export const Stock_page_for_users: FC<Props> = memo(
             <div className={classes.text}>Thảo luận</div>
             <div className={classes.wiritecomment}>
               <div className={classes.commentbox}>
-                <CommentBox />
+                <CommentBox onUpdate={handleCommentUpdate} />
               </div>
             </div>
             <Line />
@@ -80,9 +84,8 @@ export const Stock_page_for_users: FC<Props> = memo(
               {comment.map((commentItem, index) => (
                 <React.Fragment key={index}>
                   <Discuss
-                    id={commentItem.commentid} // Pass id here
-                    // onEditClick={handleEditClick(commentItem.commentid)} // Pass id to the handler
-                    username={commentItem.name} // Access properties from commentItem
+                    id={commentItem.commentid}
+                    username={commentItem.name}
                     time={commentItem.updated_at}
                     commenttext={commentItem.comment_text}
                     tokenUser={commentItem.userToken}
@@ -90,7 +93,6 @@ export const Stock_page_for_users: FC<Props> = memo(
                   <Line />
                 </React.Fragment>
               ))}
-
             </div>
           </div>
         </div>

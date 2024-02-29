@@ -21,7 +21,7 @@ app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = 'python'
 
 app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "mysql://root:Ncgncg1102@127.0.0.1:3306/stock_prediction"
+    "mysql://root:1234@127.0.0.1:3306/stock_prediction"
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -164,6 +164,7 @@ def refresh_expiring_jwts(response):
 @app.route('/stock-chart/<stockCode>')
 def stockchart(stockCode):
     stock = StockList.query.filter_by(symbol=stockCode).first()
+
     if not stock:
         return jsonify({'error': 'Stock not found'}), 404
 

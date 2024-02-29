@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import classes from "./Discuss.module.css";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { Button } from "@mui/material";
 
 interface CommentProps {
   id:string,
@@ -99,21 +100,21 @@ const Discuss: React.FC<CommentProps> = ({ id, username, time, commenttext, toke
       <div className={classes.feature}>
         {isEditing ? (
           <>
-            <div className={classes.save} onClick={handleSaveCommentEdit}>
+            <Button className={classes.save} onClick={handleSaveCommentEdit}>
               Lưu
-            </div>
-            <div className={classes.cancel} onClick={handleCancelClick}>
+            </Button>
+            <Button className={classes.cancel} onClick={handleCancelClick}>
               Hủy
-            </div>
+            </Button>
           </>
         ) : (
-          <div className={classes.edit} onClick={handleEditClick}>
+          <Button className={classes.edit} onClick={handleEditClick}>
             <span>Sửa</span>
-          </div>
+          </Button>
         )}
-        <div className={classes.delete}>
+        <Button className={classes.delete}>
           <span>Xóa</span>
-        </div>
+        </Button>
       </div>
     </div>
   );

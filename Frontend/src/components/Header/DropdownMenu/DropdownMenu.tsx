@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Stack from '@mui/material/Stack';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import classes from "./DropdownMenu.module.css";
 
 export default function DropdownMenu() {
@@ -61,7 +61,11 @@ export default function DropdownMenu() {
               aria-labelledby="composition-button"
               onKeyDown={handleListKeyDown}
             >
-              <MenuItem>Profile</MenuItem>
+              <MenuItem> 
+                <Link to="/userprofile">
+                  Thông tin cá nhân 
+                </Link>
+              </MenuItem>
               <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
             </MenuList>
           </ClickAwayListener>

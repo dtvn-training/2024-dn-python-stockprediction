@@ -8,6 +8,7 @@ import { UserCircle } from "./UserCircle/UserCircle";
 import { Navigate, useNavigate } from 'react-router';
 import classes from "./Header.module.css";
 import DropdownMenu from "./DropdownMenu/DropdownMenu"
+import { Link } from 'react-router-dom';
 
 const Header: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -46,7 +47,7 @@ const Header: React.FC = () => {
     return (
       <div className={classes.header}>
         <div className={classes.leftheader}>
-          <div className={classes.logo}></div>
+          <Link to="/" className={classes.logo} ></Link>
         </div>
         <div className={classes.rightheader}>
         <UserCircle 
