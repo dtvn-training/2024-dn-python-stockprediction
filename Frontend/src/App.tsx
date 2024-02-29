@@ -9,7 +9,7 @@ import classes from './App.module.css';
 import resets from './components/_resets.module.css';
 import { Password_Login } from './pages/Password_Login/Password_Login';
 import { SignUp } from './pages/SignUp/SignUp';
-import { Stock_page_for_users } from './components/Stock_page_for_users/Stock_page_for_users';
+import { Stock_page_for_users } from './pages/Stock_page_for_users/Stock_page_for_users';
 import { Dashboard } from './pages/Dashboard/Dashboard';
 import { UserProfile } from './pages/UserProfile/UserProfile';
 

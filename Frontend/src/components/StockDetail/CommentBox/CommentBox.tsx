@@ -10,6 +10,7 @@ const CommentBox = () => {
   const [comment, setComment] = useState("");
   const [isCommenting, setIsCommenting] = useState(false);
   const symbol = useParams();
+  const API_BASE_URL = "http://127.0.0.1:5000";
 
   const slideInAnimation = useSpring({
     opacity: isCommenting ? 1 : 0,
@@ -24,7 +25,7 @@ const CommentBox = () => {
     if (comment.trim() !== "") {
       const userToken = localStorage.getItem('token');
       if (userToken) {
-        fetch('http://127.0.0.1:5000/comment/create', {
+        fetch(`${API_BASE_URL}/comment/create`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

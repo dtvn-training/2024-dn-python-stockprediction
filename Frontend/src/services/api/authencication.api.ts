@@ -7,9 +7,10 @@ export function useLoginForm() {
     email: "",
     password: ""
   });
+  const API_BASE_URL = "http://127.0.0.1:5000";
   const { setToken } = useToken();
   function logmeIn(event: React.FormEvent<HTMLFormElement>) {
-    axios.post("http://127.0.0.1:5000/token", {
+    axios.post(`${API_BASE_URL}/token`, {
       email: loginForm.email,
       password: loginForm.password
     })
@@ -31,7 +32,7 @@ export function useLoginForm() {
   function logMeOut() {
     axios({
       method: "POST",
-      url:"http://127.0.0.1:5000/logout",
+      url: `${API_BASE_URL}/logout`,
     })
     .then((response) => {
        props.token()
@@ -57,7 +58,7 @@ export function useSignUpForm() {
   function signUp(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault(); // Prevent default form submission
     
-    axios.post("http://127.0.0.1:5000/signup", {
+    axios.post(`${API_BASE_URL}/signup`, {
       fullname: signUpForm.fullname,
       email: signUpForm.email,
       password: signUpForm.password
