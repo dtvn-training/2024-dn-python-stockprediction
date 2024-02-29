@@ -21,7 +21,7 @@ app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = 'python'
 
 app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "mysql://root:1234@127.0.0.1:3306/stock_prediction"
+    "mysql://root:Ncgncg1102@127.0.0.1:3306/stock_prediction"
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -30,7 +30,121 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 db.init_app(app)
 jwt = JWTManager(app)
 CORS(app)
+def cusum_filter(dataset, threshold):
+    pos_dates, neg_dates = [], []
+    pos_sum, neg_sum = 0, 0
+    dataset["differences"] = dataset["close"].diff()
+    for i, r in dataset.iloc[1:].iterrows():
+        pos_sum = max(0, pos_sum + r["differences"])
+        neg_sum = min(0, neg_sum + r["differences"])
+        if pos_sum > threshold:
+            pos_sum = 0  # Reset
+            pos_dates.append(i)
+        elif neg_sum < -threshold:
+            neg_sum = 0  # Reset
+            neg_dates.append(i)
+    return pos_dates, neg_dates
 
+
+def detect_peaks(y, lag, threshold, influence):
+    signals = np.zeros(len(y))
+    filtered_y = np.copy(y)
+    avg_filter = np.mean(y[:lag])
+    std_filter = np.std(y[:lag])
+
+    for i in range(lag, len(y)):
+        if np.abs(y[i] - avg_filter) > threshold * std_filter:
+            if y[i] > avg_filter:
+                signals[i] = 1  # Positive signal
+            else:
+                signals[i] = -1  # Negative signal
+            if i < len(y) - 1:
+                filtered_y[i + 1] = (
+                    influence * y[i + 1] + (1 - influence) * filtered_y[i]
+                )
+        else:
+            signals[i] = 0  # No signal
+            if i < len(y) - 1:
+                filtered_y[i + 1] = y[i + 1]
+
+        avg_filter = np.mean(filtered_y[max(i - lag + 1, 0) : i + 1])
+        std_filter = np.std(filtered_y[max(i - lag + 1, 0) : i + 1])
+
+    return signals
+
+
+def label_tripple_barrier_method(data, length):
+    data["tri_barr_point"] = 0
+    for i in range(length, len(data) - 1):
+        volatility = data["close"].iloc[i - length : i].std()
+
+        upper_barrier = data["close"].iloc[i] + volatility
+        lower_barrier = data["close"].iloc[i] - volatility
+
+        if data.iloc[i + 1, 4] > upper_barrier:
+            data.loc[i, "tri_barr_point"] = 1
+        elif data.iloc[i + 1, 4] < lower_barrier:
+            data.loc[i, "tri_barr_point"] = -1
+    return data
+
+
+def predict(df):
+    dataema = df.tail(200)
+    dataema["ema_point"] = 0
+    dataema["EMA5"] = dataema.close.ewm(span=5, adjust=False).mean()
+    dataema["EMA20"] = dataema.close.ewm(span=20, adjust=False).mean()
+    dataema["EMA50"] = dataema.close.ewm(span=50, adjust=False).mean()
+    dataema.loc[
+        (dataema["EMA5"] < dataema["EMA20"])
+        & (dataema["EMA5"].shift(1) >= dataema["EMA20"].shift(1)),
+        "ema_point",
+    ] = 1
+    dataema.loc[
+        (dataema["EMA5"] > dataema["EMA20"])
+        & (dataema["EMA5"].shift(1) <= dataema["EMA20"].shift(1)),
+        "ema_point",
+    ] = -1
+
+    dataema.loc[
+        (dataema["EMA20"] < dataema["EMA50"])
+        & (dataema["EMA20"].shift(1) >= dataema["EMA50"].shift(1)),
+        "ema_point",
+    ] = 1
+    dataema.loc[
+        (dataema["EMA20"] > dataema["EMA50"])
+        & (dataema["EMA20"].shift(1) <= dataema["EMA50"].shift(1)),
+        "ema_point",
+    ] = -1
+
+    threshold_value = 1000
+    dataframe = df
+    positive_dates, negative_dates = cusum_filter(dataframe, threshold_value)
+    df["cusum_point"] = 0
+    df.loc[df.index.isin(positive_dates), "cusum_point"] = 1
+    df.loc[df.index.isin(negative_dates), "cusum_point"] = -1
+    df["ema_point"] = dataema["ema_point"]
+
+    lag = 10
+    threshold = 2.5
+    influence = 0.3
+    df["peak_point"] = detect_peaks(df["close"], lag, threshold, influence)
+
+    df.reset_index(inplace=True)
+    df.rename(columns={"index": "date"}, inplace=True)
+
+    data_copy = df.copy()
+    data_label = label_tripple_barrier_method(data_copy, 20)
+    return data_label
+
+
+def combine_labels(row):
+    if row.sum() >= 1:
+        return 1
+    elif row.sum() <= -1:
+        return -1
+    else:
+        return 0
+    
 @app.after_request
 def refresh_expiring_jwts(response):
     try:
@@ -50,7 +164,6 @@ def refresh_expiring_jwts(response):
 @app.route('/stock-chart/<stockCode>')
 def stockchart(stockCode):
     stock = StockList.query.filter_by(symbol=stockCode).first()
-
     if not stock:
         return jsonify({'error': 'Stock not found'}), 404
 
@@ -73,30 +186,26 @@ def stockchart(stockCode):
         closes.append(stock_info.close)
         volumes.append(stock_info.volume)
     data = {
-        'Date': dates,
-        'Open': opens,
-        'High': highs,
-        'Low': lows,
-        'Close': closes,
-        'Volume': volumes
+        "dates": dates,
+        "open": opens,
+        "high": highs,
+        "low": lows,
+        "close": closes,
+        "volume": volumes,
     }
     df = pd.DataFrame(data)
-    df['SMA5'] = df['Close'].rolling(5).mean()
-    df['SMA20'] = df['Close'].rolling(20).mean()
-    df['SMA50'] = df['Close'].rolling(50).mean()
-    df['SMA75'] = df['Close'].rolling(75).mean()
-    df.replace({np.nan: None}, inplace=True)
+    data_label = predict(df)
+    label_combine_feature = ["ema_point", "cusum_point", "peak_point", "tri_barr_point"]
+    data_label["combined_label"] = data_label[label_combine_feature].apply(
+        combine_labels, axis=1
+    )
     chart_data = {
-        "dates": df["Date"].tolist(),
-        "open": df["Open"].tolist(),
-        "high": df["High"].tolist(),
-        "low": df["Low"].tolist(),
-        "close": df["Close"].tolist(),
-        "volume": df["Volume"].tolist(),
-        "sma5": df["SMA5"].tolist(),
-        "sma20": df["SMA20"].tolist(),
-        "sma50": df["SMA50"].tolist(),
-        "sma75": df["SMA75"].tolist(),
+        "dates": df["dates"].tolist(),
+        "open": df["open"].tolist(),
+        "high": df["high"].tolist(),
+        "low": df["low"].tolist(),
+        "close": df["close"].tolist(),
+        "volume": df["volume"].tolist(),
     }
     dataSource = []
     for i in range(len(chart_data["dates"])):
@@ -109,21 +218,52 @@ def stockchart(stockCode):
             "Volume": chart_data["volume"][i],
         }
         dataSource.append(data_point)
-    plt.figure(figsize=(5, 3))
-    plt.plot(df['Date'], df['SMA5'], label='SMA5')
-    plt.plot(df['Date'], df['SMA20'], label='SMA20')
-    plt.plot(df['Date'], df['SMA50'], label='SMA50')
-    plt.plot(df['Date'], df['SMA75'], label='SMA75')
-    plt.ylabel('SMA Values')
+
+    close_prices = data_label["close"].values
+    combined_labels = data_label["combined_label"].values
+    last_label = combined_labels[-1]
+    num_points = 20
+    x_values = np.linspace(
+        len(close_prices) - 1, len(close_prices) - 1 + num_points, num_points
+    )
+    plt.figure(figsize=(6, 3))
+    plt.plot(close_prices, label="Close Prices")
+    if last_label == 1:
+        y_values_parabol = (
+            5 * (x_values - len(close_prices) + 1) ** 2 + close_prices[-1]
+        )
+        plt.plot(
+            x_values,
+            y_values_parabol,
+            color="green",
+            linestyle="--",
+            label="line prediction",
+        )
+    elif last_label == -1:
+        y_values_parabol = (
+            -5 * (x_values - len(close_prices) + 1) ** 2 + close_prices[-1]
+        )
+        plt.plot(
+            x_values,
+            y_values_parabol,
+            color="red",
+            linestyle="--",
+            label="line prediction",
+        )
+    else:
+        y_values_parabol = np.full_like(x_values, fill_value=close_prices[-1])
+        plt.plot(x_values, y_values_parabol, linestyle="--", label="line prediction")
+
+    plt.xlabel("Time")
+    plt.ylabel("Close Prices")
+    plt.title("Trend Prediction")
     plt.legend()
-    plt.gca().xaxis.set_major_locator(plt.MaxNLocator(nbins=5))
-    plt.title('SMA Line Chart')
     img_buffer = BytesIO()
     plt.savefig(img_buffer, format='png')
     img_buffer.seek(0)
     plt.close()
-    img_base64 = base64.b64encode(img_buffer.getvalue()).decode('utf-8')
-    return jsonify({"chart_data": dataSource,"chart_SMA":img_base64})
+    img_predict = base64.b64encode(img_buffer.getvalue()).decode("utf-8")
+    return jsonify({"chart_data": dataSource, "img_predict": img_predict})
 
 @app.route('/stock/<stockCode>', methods=['GET','POST','UPDATE'],)
 def get_stock_list(stockCode):

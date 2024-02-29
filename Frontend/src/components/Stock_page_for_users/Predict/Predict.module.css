@@ -35,3 +35,12 @@
         'Liberation Sans', sans-serif;
 
 }
+.chartpredict{
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    gap:20px
+}
+.chartpredict ul li {
+list-style: none;
+}
