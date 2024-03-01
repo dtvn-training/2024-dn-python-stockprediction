@@ -64,7 +64,7 @@
 }
 
 .discussGroup {
-  display: block;
+    display: block;
 }
 
 .detail {
@@ -104,9 +104,11 @@
     color: #000;
     flex-direction: column;
     gap: 30px;
-    
+
 }
-.discusscomment .wiritecomment,.discusscomment .discussGroup{
+
+.discusscomment .wiritecomment,
+.discusscomment .discussGroup {
     margin-left: 64px;
 }
 
@@ -120,7 +122,7 @@
     width: 200px;
 }
 
-.wiritecomment{
+.wiritecomment {
     background-color: rgb(201, 234, 240);
     padding: 10px;
     width: fit-content;

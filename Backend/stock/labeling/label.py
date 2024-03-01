@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def cusum_filter(dataset, threshold):
     pos_dates, neg_dates = [], []
     pos_sum, neg_sum = 0, 0
@@ -37,8 +38,8 @@ def detect_peaks(y, lag, threshold, influence):
             if i < len(y) - 1:
                 filtered_y[i + 1] = y[i + 1]
 
-        avg_filter = np.mean(filtered_y[max(i - lag + 1, 0) : i + 1])
-        std_filter = np.std(filtered_y[max(i - lag + 1, 0) : i + 1])
+        avg_filter = np.mean(filtered_y[max(i - lag + 1, 0): i + 1])
+        std_filter = np.std(filtered_y[max(i - lag + 1, 0): i + 1])
 
     return signals
 
@@ -46,7 +47,7 @@ def detect_peaks(y, lag, threshold, influence):
 def label_tripple_barrier_method(data, length):
     data["tri_barr_point"] = 0
     for i in range(length, len(data) - 1):
-        volatility = data["close"].iloc[i - length : i].std()
+        volatility = data["close"].iloc[i - length: i].std()
 
         upper_barrier = data["close"].iloc[i] + volatility
         lower_barrier = data["close"].iloc[i] - volatility
@@ -114,4 +115,3 @@ def combine_labels(row):
         return -1
     else:
         return 0
-    

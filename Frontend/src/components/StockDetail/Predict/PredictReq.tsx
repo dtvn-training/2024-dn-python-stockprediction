@@ -6,7 +6,6 @@ export const PostPredictText = async (
   stockCode: string,
   textPrediction: string
 ): Promise<any> => {
-  // const [predictext, setPredictText] = useState("");
   const userToken = localStorage.getItem("token");
   if (userToken) {
     fetch(`${API_BASE_URL}/admin/predictions/${stockCode}`, {
@@ -35,25 +34,25 @@ export const PostPredictText = async (
 export const deletePredictText = async (stockCode: String): Promise<any> => {
   const userToken = localStorage.getItem("token");
   if (userToken) {
-      fetch(`${API_BASE_URL}/admin/predictions/${stockCode}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userToken}`,
-        },
+    fetch(`${API_BASE_URL}/admin/predictions/${stockCode}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userToken}`,
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          alert("Xóa dự đoán thành công!");
+        } else {
+          alert("Bạn không có quyền xóa dự đoán hoặc có lỗi xảy ra.");
+        }
       })
-        .then((response) => {
-          if (response.ok) {
-            alert("Xóa dự đoán thành công!");
-          } else {
-            alert("Bạn không có quyền xóa dự đoán hoặc có lỗi xảy ra.");
-          }
-        })
-        .catch((error) => {
-          console.error("Error deleting prediction:", error);
-          alert("Lỗi khi xóa dự đoán.");
-        });
-  } 
+      .catch((error) => {
+        console.error("Error deleting prediction:", error);
+        alert("Lỗi khi xóa dự đoán.");
+      });
+  }
 };
 export const getPredictText = async (symbol: string): Promise<any> => {
   try {

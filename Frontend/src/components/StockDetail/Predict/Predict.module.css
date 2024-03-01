@@ -4,7 +4,8 @@
     flex-direction: row;
     gap: 25px;
 }
-.predict .title span{
+
+.predict .title span {
     font-size: 30px;
 
 }
@@ -28,7 +29,8 @@
     float: bottom;
     height: fit-content;
 }
-.content{
+
+.content {
     width: 80%;
     min-height: 250px;
     margin-top: 30px;
@@ -49,28 +51,35 @@
     border: 1px solid #0000000e;
 
 }
-.chartpredict{
+
+.chartpredict {
     display: flex;
     flex-direction: column;
     color: #000;
-    gap:20px
+    gap: 20px
 }
+
 .chartpredict ul li {
-list-style: none;
+    list-style: none;
 }
-.updatecontent span{
+
+.updatecontent span {
     color: rgb(16, 96, 161);
 }
-.updatecontent :hover{
+
+.updatecontent :hover {
     cursor: pointer;
 }
-.update,.delete{
+
+.update,
+.delete {
     background-color: rgb(201, 234, 240);
     padding: 10px;
     border-radius: 10px;
     font-size: 16px;
     font-weight: 500;
 }
-.updatecontent{
+
+.updatecontent {
     margin-right: 200px;
 }

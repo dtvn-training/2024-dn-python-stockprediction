@@ -2,21 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { memo } from 'react';
 import type { FC } from 'react';
 import classes from './UserProfile.module.css';
-import { Avatar, Container, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
 import resets from '../../components/_resets.module.css';
 import { IconlyBoldProfileIcon } from './IconlyBoldProfileIcon.js';
 import { Line20Icon } from './Line20Icon.js';
 import { InterfaceEssentialLock_StyleFi } from '../Password_Login/InterfaceEssentialLock_StyleFi/InterfaceEssentialLock_StyleFi';
-import { ShapeIcon2 } from './ShapeIcon2.js';
 import { ShapeIcon } from './ShapeIcon.js';
 import { EnvelopeLightSolid } from '../../components/EnvelopeLightSolid/EnvelopeLightSolid';
-import { ChevronRight } from '../../components/ChevronRight/ChevronRight';
-import {Link, useNavigate}from "react-router-dom";
 import Header from '../../components/Header/Header';
-import { useParams } from 'react-router';
-import { getUserByEmail } from '../../services/api/user.api'
 interface Props {
   className?: string;
 }
@@ -28,32 +21,6 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
     password: ''
   });
   const [isEditing, setIsEditing] = useState(false);
-  // const handleUpdate = () => {
-  //   setIsEditing(false); 
-  //   fetch('http://localhost:5000/userprofile', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'Authorization': `Bearer ${localStorage.getItem('token')}`,
-  //     },
-  //     body: JSON.stringify({
-  //       fullname: user.fullname,
-  //       password: user.password
-  //     }),
-  //   })
-  //   .then(response => {
-  //     if (response.ok) {
-  //       alert('Cập nhật thông tin thành công!');
-  //     } else {
-  //       alert('Cập nhật thông tin thất bại. Vui lòng thử lại.');
-  //     }
-  //   })
-  //   .catch(error => {
-  //     console.error('Lỗi khi cập nhật thông tin:', error);
-  //     alert('Đã xảy ra lỗi khi cập nhật thông tin. Vui lòng thử lại.');
-  //   });
-
-  // };
   const userToken = localStorage.getItem('token');
   console.log(userToken,'token');
   useEffect(() => {
