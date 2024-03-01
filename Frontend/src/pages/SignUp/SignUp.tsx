@@ -19,9 +19,7 @@ interface Props {
 }
 /* @figmaId 2333:220 */
 export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
-  const { signUpForm, handleChange, signUp ,fullnameError, passwordError, confirmPasswordError} = useSignUpForm();
-  // const [email,setEmail] = useState('');
-  // const [password,setPassword] = useState('');
+  const { signUpForm, handleChange, signUp ,fullnameError, emailError, passwordError, confirmPasswordError} = useSignUpForm();
   return (
     <div className={`${resets.storybrainResets} ${classes.root}`}>
       <div className={classes.line20}>
@@ -49,7 +47,7 @@ export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
           </div>
 
           <label className={classes.labelRegister}>Email</label>
-          <div className={`${classes.rectangle} ${classes.rectangleEmail}`}>
+          <div className={`${classes.rectangle} ${classes.rectangleEmail} ${emailError ? classes.inputerror : ''}`}>
             <EnvelopeLightSolid
               className={classes.envelopeLightSolid}
               swap={{

@@ -94,18 +94,22 @@ export function useSignUpForm() {
     })
     .then((response) => {
       if (response.status === 200) {
-        alert(response.data.message);
+        alert(response.data.success);
         setToken(response.data.access_token);
+        setEmailError(false);
         clearSignUpForm();
         navigate('/login'); 
-      } else {
-        alert(response.data.message);
       }
     })
     .catch((error) => {
+      if (error.response.status === 409) {
+        alert(error.response.data.error);
+        setEmailError(true);
+      }
       console.error('Error:', error);
     });
   }
+
   function isFullValue(signUpForm: { [key: string]: string }): boolean {
     for (const key in signUpForm) {
         if (signUpForm[key].trim() === '') {
@@ -114,6 +118,7 @@ export function useSignUpForm() {
     }
     return true; 
   }
+
   function isValidFullname(fullname: string) {
     return !/\d/.test(fullname);
   }
@@ -130,8 +135,10 @@ export function useSignUpForm() {
     const { name, value } = event.target;
     setSignUpForm(prevState => ({ ...prevState, [name]: value }));
   }
+
   function clearSignUpForm() {
     setSignUpForm({ fullname: "", email: "", password: "" ,confirmpassword:""});
   }
-  return { signUpForm, handleChange, signUp, clearSignUpForm, fullnameError, passwordError, confirmPasswordError };
+
+  return { signUpForm, handleChange, signUp, clearSignUpForm, fullnameError, emailError, passwordError, confirmPasswordError };
 }
