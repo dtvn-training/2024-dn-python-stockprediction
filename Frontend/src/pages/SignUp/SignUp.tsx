@@ -44,6 +44,7 @@ export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
               name='fullname'
               value={signUpForm.fullname}
             />
+            {fullnameError && <span className={classes.errorMessage}>Họ và tên không chứa kí tự số</span>}
           </div>
 
           <label className={classes.labelRegister}>Email</label>
@@ -62,6 +63,7 @@ export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
               value={signUpForm.email}
               type='email'
             />
+            {emailError && <span className={classes.errorMessage}>Email đã tồn tại</span>}
           </div>
 
           <label className={classes.labelRegister}>Mật khẩu</label>
@@ -75,6 +77,7 @@ export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
               className={`${classes.input} ${classes.inputPassword}`}
               placeholder='Mật khẩu'
             />
+            {passwordError && <span className={classes.errorMessage}>Mật khẩu ít nhất 8 ký tự,có ít nhất kí tự hoa, số và ký tự đặc biệt</span>}
           </div>
           <label className={classes.labelRegister}>Xác nhận mật khẩu</label>
           <div className={`${classes.rectangle} ${classes.rectanglePassword} ${confirmPasswordError ? classes.inputerror : ''}`}>
@@ -87,6 +90,7 @@ export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
               className={`${classes.input} ${classes.inputPassword}`}
               placeholder='Nhập lại mật khẩu'
             />
+            {confirmPasswordError && <span className={classes.errorMessage}>Mật khẩu xác nhận không trùng khớp</span>}
           </div>
 
           <div className={classes.next_BTN}>

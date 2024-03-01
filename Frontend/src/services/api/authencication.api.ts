@@ -66,23 +66,23 @@ export function useSignUpForm() {
       alert("Vui lòng điền đầy đủ thông tin.");
       return;
     }
+
     if (!isValidFullname(signUpForm.fullname)) {
       setFullnameError(true);
-      alert("Họ và tên không được chứa ký tự số.");
       return;
     } else {
       setFullnameError(false)
     }
+
     if (!isValidPassword(signUpForm.password)) {
       setPasswordError(true);
-      alert("Mật khẩu phải chứa ít nhất 8 ký tự, bao gồm ít nhất một chữ hoa, một số và một ký tự đặc biệt.")
       return; 
     } else {
       setPasswordError(false)
     }
+
     if (!isConfirmPassword(signUpForm.password, signUpForm.confirmpassword)) {
       setConfirmPasswordError(true);
-      alert("Mật khẩu xác nhận không trùng khớp")
       return; 
     } else {
       setConfirmPasswordError(false)
@@ -133,6 +133,18 @@ export function useSignUpForm() {
   
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
+    if (name === "fullname"){
+      setFullnameError(false)
+    }      
+    if (name === "email"){
+      setEmailError(false)
+    }   
+    if (name === "password"){
+      setPasswordError(false)
+    }
+    if (name === "confirmpassword"){
+      setConfirmPasswordError(false)
+    }
     setSignUpForm(prevState => ({ ...prevState, [name]: value }));
   }
 

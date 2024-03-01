@@ -86,7 +86,7 @@
 }
 
 .rectangle {
-    margin: 8px 0;
+    margin: 8px 0 16px;
     padding: 8px;
     width: 443px;
     height: 64px;
@@ -349,4 +349,11 @@
 
 .inputerror {
     border: 2px solid rgb(255, 43, 43) !important;
+}
+
+.errorMessage {
+    position: absolute;
+    bottom: -20px;
+    color: red;
+    font-size: 14px;
 }
