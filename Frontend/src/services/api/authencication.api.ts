@@ -7,8 +7,11 @@ export function useLoginForm() {
     email: "",
     password: ""
   });
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
   const { setToken } = useToken();
   function logmeIn(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     axios.post("http://127.0.0.1:5000/token", {
       email: loginForm.email,
       password: loginForm.password
@@ -19,12 +22,22 @@ export function useLoginForm() {
       window.location.href = "/";
     })
     .catch((error) => {
+      if (error.response.status === 401) {
+        setEmailError(true);
+        setPasswordError(true);
+      }
       console.error('Error:', error);
     });
   }
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
+    if (name === "email"){
+      setEmailError(false)
+    }   
+    if (name === "password"){
+      setPasswordError(false)
+    }
     setLoginForm(prevState => ({ ...prevState, [name]: value }));
   }
 
@@ -43,7 +56,7 @@ export function useLoginForm() {
         }
     })}
 
-  return { loginForm, handleChange, logmeIn, logMeOut };
+  return { loginForm, handleChange, logmeIn, logMeOut ,passwordError,emailError};
 }
 export function useSignUpForm() {
   const [signUpForm, setSignUpForm] = useState({
@@ -103,7 +116,6 @@ export function useSignUpForm() {
     })
     .catch((error) => {
       if (error.response.status === 409) {
-        alert(error.response.data.error);
         setEmailError(true);
       }
       console.error('Error:', error);

@@ -66,6 +66,9 @@
     position: relative;
     display: block;
     margin: 140px auto;
+    padding: 8px 24px 24px 24px;
+    border-radius: 10px;
+    background-color: #ececec;
 }
 
 .frame2 {

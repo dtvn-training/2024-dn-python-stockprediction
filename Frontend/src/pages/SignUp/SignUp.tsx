@@ -77,7 +77,7 @@ export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
               className={`${classes.input} ${classes.inputPassword}`}
               placeholder='Mật khẩu'
             />
-            {passwordError && <span className={classes.errorMessage}>Mật khẩu ít nhất 8 ký tự,có ít nhất kí tự hoa, số và ký tự đặc biệt</span>}
+            {passwordError && <span className={classes.errorMessage}>Mật khẩu ít nhất 8 ký tự, có ít nhất một kí tự hoa, số và ký tự đặc biệt</span>}
           </div>
           <label className={classes.labelRegister}>Xác nhận mật khẩu</label>
           <div className={`${classes.rectangle} ${classes.rectanglePassword} ${confirmPasswordError ? classes.inputerror : ''}`}>
