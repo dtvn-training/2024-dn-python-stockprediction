@@ -379,15 +379,9 @@ def signup():
     fullname = request.json.get("fullname", None)
     email = request.json.get("email", None)
     password = request.json.get("password", None)
-    if fullname == "":
-        return jsonify({"error": "Fullname is required"}), 400
-    if email == "":
-        return jsonify({"error": "Email is required"}), 400
-    if password == "":
-        return jsonify({"error": "Password is required"}), 400
     user_exists = Users.query.filter_by(email=email).first()
     if user_exists:
-        return jsonify({"error": "Email already exists"}), 400
+        return jsonify({"message": "Email already exists"}), 400
     new_user = Users(
         userid=str(uuid.uuid4()),
         username=email.split('@')[0],
@@ -400,7 +394,7 @@ def signup():
     )
     db.session.add(new_user)
     db.session.commit()
-    return jsonify({"success": "User registered successfully"})
+    return jsonify({"message": "User registered successfully"}), 200
 
 @app.route('/getAllStocks', methods=['GET'])
 def get_stock_lists():

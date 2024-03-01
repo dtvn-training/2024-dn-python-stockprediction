@@ -49,37 +49,89 @@ export function useSignUpForm() {
   const [signUpForm, setSignUpForm] = useState({
     fullname: "",
     email: "",
-    password: ""
+    password: "",
+    confirmpassword:""
   });
   const { setToken } = useToken();
-  const navigate = useNavigate(); // Initialize useNavigate hook
+  const navigate = useNavigate(); 
 
+  const [fullnameError, setFullnameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   function signUp(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault(); // Prevent default form submission
-    
+    event.preventDefault(); 
+
+    if (!isFullValue(signUpForm)) {
+      alert("Vui lòng điền đầy đủ thông tin.");
+      return;
+    }
+    if (!isValidFullname(signUpForm.fullname)) {
+      setFullnameError(true);
+      alert("Họ và tên không được chứa ký tự số.");
+      return;
+    } else {
+      setFullnameError(false)
+    }
+    if (!isValidPassword(signUpForm.password)) {
+      setPasswordError(true);
+      alert("Mật khẩu phải chứa ít nhất 8 ký tự, bao gồm ít nhất một chữ hoa, một số và một ký tự đặc biệt.")
+      return; 
+    } else {
+      setPasswordError(false)
+    }
+    if (!isConfirmPassword(signUpForm.password, signUpForm.confirmpassword)) {
+      setConfirmPasswordError(true);
+      alert("Mật khẩu xác nhận không trùng khớp")
+      return; 
+    } else {
+      setConfirmPasswordError(false)
+    }
     axios.post("http://127.0.0.1:5000/signup", {
       fullname: signUpForm.fullname,
       email: signUpForm.email,
       password: signUpForm.password
     })
     .then((response) => {
-      setToken(response.data.access_token);
-      clearSignUpForm();
-      navigate('/login'); // Navigate to the login page after successful registration
+      if (response.status === 200) {
+        alert(response.data.message);
+        setToken(response.data.access_token);
+        clearSignUpForm();
+        navigate('/login'); 
+      } else {
+        alert(response.data.message);
+      }
     })
     .catch((error) => {
       console.error('Error:', error);
     });
   }
+  function isFullValue(signUpForm: { [key: string]: string }): boolean {
+    for (const key in signUpForm) {
+        if (signUpForm[key].trim() === '') {
+            return false;
+        }
+    }
+    return true; 
+  }
+  function isValidFullname(fullname: string) {
+    return !/\d/.test(fullname);
+  }
 
+  function isValidPassword(password: string) {
+    return /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password);
+  }
+
+  function isConfirmPassword(password: string, confirmPassword: string) {
+    return password === confirmPassword;
+  }
+  
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
     setSignUpForm(prevState => ({ ...prevState, [name]: value }));
   }
-
   function clearSignUpForm() {
-    setSignUpForm({ fullname: "", email: "", password: "" });
+    setSignUpForm({ fullname: "", email: "", password: "" ,confirmpassword:""});
   }
-
-  return { signUpForm, handleChange, signUp, clearSignUpForm };
+  return { signUpForm, handleChange, signUp, clearSignUpForm, fullnameError, passwordError, confirmPasswordError };
 }

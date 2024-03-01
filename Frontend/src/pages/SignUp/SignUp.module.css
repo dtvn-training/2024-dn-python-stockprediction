@@ -346,3 +346,7 @@
     white-space: nowrap;
     flex-direction: column;
 }
+
+.inputerror {
+    border: 2px solid rgb(255, 43, 43) !important;
+}
