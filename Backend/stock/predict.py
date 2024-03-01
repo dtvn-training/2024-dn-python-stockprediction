@@ -1,3 +1,5 @@
+import datetime
+from flask import jsonify
 from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
@@ -98,3 +100,4 @@ def chart_stock(stock_infos):
     img_predict = base64.b64encode(img_buffer.getvalue()).decode("utf-8")
 
     return dataSource,img_predict
+

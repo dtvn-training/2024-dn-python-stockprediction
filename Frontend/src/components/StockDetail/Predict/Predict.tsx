@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import classes from "./Predict.module.css";
-import { PostPredictText, getPredictText, getimagePredict } from "./PredictReq";
+import { PostPredictText, getPredictText, getimagePredict,deletePredictText } from "./PredictReq";
 
 interface PredictInfoProps {
   symbol: string;
@@ -19,13 +19,24 @@ const Predict: React.FC<PredictInfoProps> = ({ symbol }) => {
     const stockCode = symbol;
     await PostPredictText (stockCode, editedContent);
     setIsEditing(false);
-    alert("Nhận định về cổ phiếu đã được cập nhật");
     fetchData();
   };
 
   const handleCancelClick = () => {
     setIsEditing(false);
   };
+  const handleDeleteClick= async()=>{
+    const stockCode = symbol;
+    const confirmDelete = window.confirm(
+      "Bạn có chắc chắn muốn xóa dự đoán không?"
+    );
+    if (confirmDelete) {
+      await deletePredictText (stockCode);
+      setPredictText("")
+      fetchData();
+    }
+    
+  }
 
   const handleTextareaChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -35,17 +46,13 @@ const Predict: React.FC<PredictInfoProps> = ({ symbol }) => {
 
   const fetchData = async () => {
     try {
-      // const data = await getPredictText(symbol);
-      // setPredictText(data);
-      // setEditedContent(data?.textPrediction || "");
-
       const imagepredict = await getimagePredict(symbol);
       const image = JSON.parse(imagepredict);
       setPredictImage(image.img_predict);
       const predictext=await getPredictText(symbol)
       setPredictText(predictext)
     } catch (error) {
-      console.error("Error fetching company data:", error);
+      console.error("Error fetching data:", error);
     }
   };
 
@@ -90,7 +97,7 @@ const Predict: React.FC<PredictInfoProps> = ({ symbol }) => {
               Sửa nhận định
             </span>
           )}
-          <span className={classes.delete}>Xóa</span>
+          <span className={classes.delete} onClick={handleDeleteClick}>Xóa</span>
         </div>
       </div>
     </div>

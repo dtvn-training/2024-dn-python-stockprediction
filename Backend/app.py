@@ -99,19 +99,22 @@ def get_stock_list(stockCode):
         {"Content-Type": "application/json; charset=utf-8"},
     )
 
-@app.route('/admin/predictions/<stockCode>', methods=['POST'])
+@app.route('/admin/predictions/<stockCode>', methods=['POST','DELETE'])
+@jwt_required()
 def predictions(stockCode):
-    print(stockCode)
-    stock = StockList.query.filter_by(symbol=stockCode).first()
+    
     emailUser = get_jwt_identity()
     user = Users.query.filter_by(email=emailUser).first()
-
+    if not user or user.type != "admin":
+        return jsonify({'error': 'Unauthorized access'}), 403
+    stock = StockList.query.filter_by(symbol=stockCode).first()
     if not stock:
         return jsonify({'error': 'Stock not found'}), 404
     if request.method == 'POST':
         data = request.get_json()
-        new_text_prediction = data.get('textPrediction') 
+        new_text_prediction = data.get('textpredict') 
         stock_prediction = StockPrediction.query.filter_by(stockid=stock.stockid).first()
+
         if not stock_prediction:
             stock_prediction = StockPrediction(
                 stockid=stock.stockid,
@@ -120,10 +123,18 @@ def predictions(stockCode):
                 text_prediction=new_text_prediction
             )
             db.session.add(stock_prediction)
+            db.session.commit()
         else:
             stock_prediction.text_prediction = new_text_prediction
-        db.session.commit()
-        return jsonify({'success': True, 'predictionId': stock_prediction.predictionid}), 200
+            db.session.flush()
+            db.session.commit()
+        return jsonify({'success': True}), 200
+    if request.method == "DELETE":
+        stock_prediction = StockPrediction.query.filter_by(stockid=stock.stockid).first()
+        if stock_prediction:
+            db.session.delete(stock_prediction)
+            db.session.commit()
+        return jsonify({'success': True}), 200
 
 @app.route('/user/predictions/<stockCode>')
 def get_predictions(stockCode):
