@@ -1,23 +1,22 @@
-import { memo } from 'react';
-import type { FC } from 'react';
+import { memo } from "react";
+import type { FC } from "react";
 import React, { useState } from "react";
-import axios from 'axios';
-import {useNavigate, Link} from "react-router-dom";
-import resets from '../../components/_resets.module.css';
-import { ChevronRight } from '../../components/ChevronRight/ChevronRight';
-import { EnvelopeLightSolid } from '../../components/EnvelopeLightSolid/EnvelopeLightSolid';
-import { IconlyBoldProfileIcon } from './IconlyBoldProfileIcon.js';
-import { Line20Icon } from './Line20Icon.js';
-import { InterfaceEssentialLock_StyleFi } from '../Password_Login/InterfaceEssentialLock_StyleFi/InterfaceEssentialLock_StyleFi';
-import { ShapeIcon2 } from './ShapeIcon2.js';
-import { ShapeIcon } from './ShapeIcon.js';
-import classes from './SignUp.module.css';
-import {useSignUpForm} from '../../services/api/authencication.api'
+import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
+import resets from "../../components/_resets.module.css";
+import { ChevronRight } from "../../components/ChevronRight/ChevronRight";
+import { EnvelopeLightSolid } from "../../components/EnvelopeLightSolid/EnvelopeLightSolid";
+import { IconlyBoldProfileIcon } from "./IconlyBoldProfileIcon.js";
+import { Line20Icon } from "./Line20Icon.js";
+import { InterfaceEssentialLock_StyleFi } from "../Password_Login/InterfaceEssentialLock_StyleFi/InterfaceEssentialLock_StyleFi";
+import { ShapeIcon2 } from "./ShapeIcon2.js";
+import { ShapeIcon } from "./ShapeIcon.js";
+import classes from "./SignUp.module.css";
+import { useSignUpForm } from "../../services/api/authencication.api";
 
 interface Props {
   className?: string;
 }
-/* @figmaId 2333:220 */
 export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
   const { signUpForm, handleChange, signUp ,fullnameError, emailError, passwordError, confirmPasswordError} = useSignUpForm();
   return (
@@ -35,13 +34,15 @@ export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
           <label className={classes.labelRegister}>Họ và tên</label>
           <div className={`${classes.rectangle} ${classes.rectangleName} ${fullnameError ? classes.inputerror : ''}`}>
             <div className={classes.iconlyBoldProfile}>
-              <IconlyBoldProfileIcon className={`${classes.icon4} ${classes.iconName}`} />
+              <IconlyBoldProfileIcon
+                className={`${classes.icon4} ${classes.iconName}`}
+              />
             </div>
             <input
               className={`${classes.input} ${classes.inputFullname}`}
               onChange={handleChange}
-              placeholder='Họ và tên'
-              name='fullname'
+              placeholder="Họ và tên"
+              name="fullname"
               value={signUpForm.fullname}
             />
             {fullnameError && <span className={classes.errorMessage}>Họ và tên không chứa kí tự số</span>}
@@ -58,8 +59,8 @@ export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
             <input
               className={`${classes.input} ${classes.inputEmail}`}
               onChange={handleChange}
-              placeholder='Email'
-              name='email'
+              placeholder="Email"
+              name="email"
               value={signUpForm.email}
               type='email'
             />
@@ -68,7 +69,9 @@ export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
 
           <label className={classes.labelRegister}>Mật khẩu</label>
           <div className={`${classes.rectangle} ${classes.rectanglePassword} ${passwordError ? classes.inputerror : ''}`}>
-            <InterfaceEssentialLock_StyleFi className={classes.interfaceEssentialLock} />
+            <InterfaceEssentialLock_StyleFi
+              className={classes.interfaceEssentialLock}
+            />
             <input
               onChange={handleChange}
               type="password"
@@ -94,7 +97,7 @@ export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
           </div>
 
           <div className={classes.next_BTN}>
-            <button className={classes.next_Icon} type='submit'>
+            <button className={classes.next_Icon} type="submit">
               <div className={classes.next}>
                 <div className={classes.AngNhap2}>Đăng kí</div>
                 <div className={classes.icon3}>
@@ -108,12 +111,15 @@ export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
         <div className={classes.loginGroup}>
           <div className={classes.line2}></div>
           <div className={classes.loginAction}>
-            <Link to="/login" className={classes.banACoTaiKhoan} >Bạn đã có tài khoản?</Link>
-            <Link to="/login" className={classes.AngNhap}>Đăng nhập </Link>
+            <Link to="/login" className={classes.banACoTaiKhoan}>
+              Bạn đã có tài khoản?
+            </Link>
+            <Link to="/login" className={classes.AngNhap}>
+              Đăng nhập{" "}
+            </Link>
           </div>
         </div>
       </div>
-
     </div>
   );
 });

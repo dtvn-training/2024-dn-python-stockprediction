@@ -9,19 +9,17 @@ import Discuss from "../../components/StockDetail/Discuss/Discuss";
 import CommentBox from "../../components/StockDetail/CommentBox/CommentBox";
 import Header from "../../components/Header/Header";
 import Candlestick from "../../components/StockDetail/Candlestick/Candlestick";
-import { useParams } from 'react-router-dom';
-import { getAllComments } from '../../services/api/comment.api';
-import React, { useEffect, useState} from "react";
-
+import { useParams } from "react-router-dom";
+import { getAllComments } from "../../services/api/comment.api";
+import React, { useEffect, useState } from "react";
 
 interface Props {
   className?: string;
-  
 }
 
 export const Stock_page_for_users: FC<Props> = memo(
   function Stock_page_for_users(props = {}) {
-    const { stocks } = useParams();    
+    const { stocks } = useParams();
     const [comment, setComments] = useState([]);
     const [updateTrigger, setUpdateTrigger] = useState(false); // State to trigger update
 
@@ -31,17 +29,16 @@ export const Stock_page_for_users: FC<Props> = memo(
           const data = await getAllComments({ stocks });
           setComments(data);
         } catch (error) {
-          console.error('Error fetching company data:', error);
+          console.error("Error fetching company data:", error);
         }
       };
 
       fetchData();
     }, [updateTrigger]);
-    const handleEditClick = (id: string) => () => {
-    };
+    const handleEditClick = (id: string) => () => {};
 
     const handleCommentUpdate = () => {
-      setUpdateTrigger(prevState => !prevState);
+      setUpdateTrigger((prevState) => !prevState);
     };
 
     return (
@@ -55,10 +52,10 @@ export const Stock_page_for_users: FC<Props> = memo(
           <Line />
           <div className={classes.detail}>
             <div className={classes.image13}>
-              {stocks && <Candlestick symbol={stocks}  />}
+              {stocks && <Candlestick symbol={stocks} />}
             </div>
             <div className={classes.tabledetail}>
-              {stocks && <TableDetail symbol={stocks}  />}
+              {stocks && <TableDetail symbol={stocks} />}
             </div>
           </div>
           <Line />
@@ -66,7 +63,7 @@ export const Stock_page_for_users: FC<Props> = memo(
             <div className={classes.labelpredict}>
               <span>Dự đoán</span>
             </div>
-            {stocks && <Predict symbol={stocks}  />}
+            {stocks && <Predict symbol={stocks} />}
           </div>
           <div className={classes.discusscomment}>
             <Line />

@@ -31,7 +31,6 @@ interface CandlestickProps {
 const Candlestick: React.FC<CandlestickProps> = ({ symbol }) => {
   const [chartImage, setChartImage] = useState<any | null>(null);
   const [visualRange, setVisualRange] = useState({});
-  // const [SMAdata, setSMAdata] = useState<string  | null>(null);
   const updateVisualRange = useCallback(
     (e: RangeSelectorTypes.ValueChangedEvent) => {
       setVisualRange(e.value);
@@ -43,7 +42,6 @@ const Candlestick: React.FC<CandlestickProps> = ({ symbol }) => {
       try {
         const imageJson = await getStockImage(symbol);
         const stockDict = JSON.parse(imageJson);
-        // setSMAdata(stockDict.chart_SMA);
         setChartImage(stockDict.chart_data);
       } catch (error) {
         console.error("Error fetching stock image:", error);
@@ -95,11 +93,6 @@ const Candlestick: React.FC<CandlestickProps> = ({ symbol }) => {
         />
         <Behavior snapToTicks={false} valueChangeMode="onHandleMove" />
       </RangeSelector>
-      {/* <div>
-      {SMAdata && (
-        <img src={`data:image/png;base64,${SMAdata}`} alt="SMA Chart"  style={{ width: '900px', height: 'auto' }}/>
-      )}
-      </div> */}
     </div>
   );
 };

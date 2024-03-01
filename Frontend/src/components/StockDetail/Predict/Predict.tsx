@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import classes from "./Predict.module.css";
-import { PostPredictText, getPredictText, getimagePredict,deletePredictText } from "./PredictReq";
+import {
+  PostPredictText,
+  getPredictText,
+  getimagePredict,
+  deletePredictText,
+} from "./PredictReq";
 
 interface PredictInfoProps {
   symbol: string;
@@ -17,7 +22,7 @@ const Predict: React.FC<PredictInfoProps> = ({ symbol }) => {
 
   const handleSaveClick = async () => {
     const stockCode = symbol;
-    await PostPredictText (stockCode, editedContent);
+    await PostPredictText(stockCode, editedContent);
     setIsEditing(false);
     fetchData();
   };
@@ -25,18 +30,17 @@ const Predict: React.FC<PredictInfoProps> = ({ symbol }) => {
   const handleCancelClick = () => {
     setIsEditing(false);
   };
-  const handleDeleteClick= async()=>{
+  const handleDeleteClick = async () => {
     const stockCode = symbol;
     const confirmDelete = window.confirm(
       "Bạn có chắc chắn muốn xóa dự đoán không?"
     );
     if (confirmDelete) {
-      await deletePredictText (stockCode);
-      setPredictText("")
+      await deletePredictText(stockCode);
+      setPredictText("");
       fetchData();
     }
-    
-  }
+  };
 
   const handleTextareaChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -49,8 +53,8 @@ const Predict: React.FC<PredictInfoProps> = ({ symbol }) => {
       const imagepredict = await getimagePredict(symbol);
       const image = JSON.parse(imagepredict);
       setPredictImage(image.img_predict);
-      const predictext=await getPredictText(symbol)
-      setPredictText(predictext)
+      const predictext = await getPredictText(symbol);
+      setPredictText(predictext);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -62,9 +66,10 @@ const Predict: React.FC<PredictInfoProps> = ({ symbol }) => {
 
   return (
     <div className={classes.predict}>
-      
       <div className={classes.chartpredict}>
-      <div className={classes.title}><span>Biểu đồ dự đoán</span></div>
+        <div className={classes.title}>
+          <span>Biểu đồ dự đoán</span>
+        </div>
         {PredictImage && (
           <img
             src={`data:image/png;base64,${PredictImage}`}
@@ -74,7 +79,9 @@ const Predict: React.FC<PredictInfoProps> = ({ symbol }) => {
         )}
       </div>
       <div className={classes.contentpredict}>
-        <div className={classes.title}><span>Nhận định</span></div>
+        <div className={classes.title}>
+          <span>Nhận định</span>
+        </div>
         {isEditing ? (
           <textarea
             className={classes.contentbox}
@@ -100,7 +107,9 @@ const Predict: React.FC<PredictInfoProps> = ({ symbol }) => {
               Sửa nhận định
             </span>
           )}
-          <span className={classes.delete} onClick={handleDeleteClick}>Xóa</span>
+          <span className={classes.delete} onClick={handleDeleteClick}>
+            Xóa
+          </span>
         </div>
       </div>
     </div>

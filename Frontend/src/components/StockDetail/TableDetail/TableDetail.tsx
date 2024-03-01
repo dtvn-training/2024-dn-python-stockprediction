@@ -1,13 +1,10 @@
 import classes from "./TableDetail.module.css";
-import React, {  useState,useEffect  } from "react";
-import {getStockdata} from "./TableDetailReq"
+import React, { useState, useEffect } from "react";
+import { getStockdata } from "./TableDetailReq";
 interface DetailProps {
   symbol: string;
-
 }
-const TableDetail: React.FC<DetailProps> = ({
-  symbol,
-}) => {
+const TableDetail: React.FC<DetailProps> = ({ symbol }) => {
   const [StockData, setStockData] = useState<any | null>(null);
 
   useEffect(() => {
@@ -16,7 +13,7 @@ const TableDetail: React.FC<DetailProps> = ({
         const data = await getStockdata(symbol);
         setStockData(data);
       } catch (error) {
-        console.error('Error fetching company data:', error);
+        console.error("Error fetching company data:", error);
       }
     };
 
@@ -25,25 +22,25 @@ const TableDetail: React.FC<DetailProps> = ({
 
   return (
     <div className={classes.tabledetail}>
-     <div className={classes.open}>
+      <div className={classes.open}>
         <span>Ngày</span>
-        {StockData ? StockData.date : 'Loading...'}
+        {StockData ? StockData.date : "Loading..."}
       </div>
       <div className={classes.open}>
         <span>Giá mở cửa</span>
-        {StockData ? StockData.open : 'Loading...'}
+        {StockData ? StockData.open : "Loading..."}
       </div>
       <div className={classes.high}>
         <span>Giá trần</span>
-        {StockData ? StockData.high : 'Loading...'}
+        {StockData ? StockData.high : "Loading..."}
       </div>
       <div className={classes.low}>
         <span>Giá đáy</span>
-        {StockData ? StockData.low : 'Loading...'}
+        {StockData ? StockData.low : "Loading..."}
       </div>
       <div className={classes.close}>
         <span>Giá đóng cửa hôm qua</span>
-        {StockData ? StockData.previous_close_price : 'Loading...'}
+        {StockData ? StockData.previous_close_price : "Loading..."}
       </div>
     </div>
   );

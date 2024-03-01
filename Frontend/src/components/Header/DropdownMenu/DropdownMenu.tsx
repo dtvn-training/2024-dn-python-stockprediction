@@ -1,11 +1,11 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Paper from '@mui/material/Paper';
-import MenuItem from '@mui/material/MenuItem';
-import MenuList from '@mui/material/MenuList';
-import Stack from '@mui/material/Stack';
-import { Link, useNavigate } from 'react-router-dom';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Paper from "@mui/material/Paper";
+import MenuItem from "@mui/material/MenuItem";
+import MenuList from "@mui/material/MenuList";
+import Stack from "@mui/material/Stack";
+import { Link, useNavigate } from "react-router-dom";
 import classes from "./DropdownMenu.module.css";
 
 export default function DropdownMenu() {
@@ -13,10 +13,9 @@ export default function DropdownMenu() {
   const anchorRef = React.useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
 
-
   const handleLogout = () => {
     navigate("/");
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     window.location.reload();
   };
 
@@ -32,10 +31,10 @@ export default function DropdownMenu() {
   };
 
   function handleListKeyDown(event: React.KeyboardEvent) {
-    if (event.key === 'Tab') {
+    if (event.key === "Tab") {
       event.preventDefault();
       setOpen(false);
-    } else if (event.key === 'Escape') {
+    } else if (event.key === "Escape") {
       setOpen(false);
     }
   }
@@ -61,10 +60,8 @@ export default function DropdownMenu() {
               aria-labelledby="composition-button"
               onKeyDown={handleListKeyDown}
             >
-              <MenuItem> 
-                <Link to="/userprofile">
-                  Thông tin cá nhân 
-                </Link>
+              <MenuItem>
+                <Link to="/userprofile">Thông tin cá nhân</Link>
               </MenuItem>
               <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
             </MenuList>
