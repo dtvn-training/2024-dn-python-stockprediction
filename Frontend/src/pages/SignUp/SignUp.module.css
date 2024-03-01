@@ -54,10 +54,13 @@
   background-size: cover;
 }
 
-.registerForm{
-  position: relative;
-  display: block;
-  margin: 140px auto;
+.registerForm {
+    position: relative;
+    display: block;
+    margin: 140px auto;
+    padding: 8px 24px 24px 24px;
+    border-radius: 10px;
+    background-color: #ececec;
 }
 
 .frame2 {
@@ -77,12 +80,12 @@
 }
 
 .rectangle {
-  margin: 8px 0;
-  padding: 8px;
-  width: 443px;
-  height: 64px;
-  border-radius: 10px;
-  background-color: #f5f5f7;
+    margin: 8px 0 16px;
+    padding: 8px;
+    width: 443px;
+    height: 64px;
+    border-radius: 10px;
+    background-color: #f5f5f7;
 }
 
 .rectangleName {
@@ -324,4 +327,15 @@
     height: min-content;
     white-space: nowrap;
     flex-direction: column;
+}
+
+.inputerror {
+    border: 2px solid rgb(255, 43, 43) !important;
+}
+
+.errorMessage {
+    position: absolute;
+    bottom: -20px;
+    color: red;
+    font-size: 14px;
 }

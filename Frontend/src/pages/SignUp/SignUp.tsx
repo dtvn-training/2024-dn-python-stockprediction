@@ -19,10 +19,7 @@ interface Props {
 }
 /* @figmaId 2333:220 */
 export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
-  const { signUpForm, handleChange, signUp } = useSignUpForm();
-  // const [email,setEmail] = useState('');
-  // const [password,setPassword] = useState('');
-
+  const { signUpForm, handleChange, signUp ,fullnameError, emailError, passwordError, confirmPasswordError} = useSignUpForm();
   return (
     <div className={`${resets.storybrainResets} ${classes.root}`}>
       <div className={classes.line20}>
@@ -36,7 +33,7 @@ export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
         </div>
         <form className={classes.frame3} onSubmit={signUp}>
           <label className={classes.labelRegister}>Họ và tên</label>
-          <div className={`${classes.rectangle} ${classes.rectangleName}`}>
+          <div className={`${classes.rectangle} ${classes.rectangleName} ${fullnameError ? classes.inputerror : ''}`}>
             <div className={classes.iconlyBoldProfile}>
               <IconlyBoldProfileIcon className={`${classes.icon4} ${classes.iconName}`} />
             </div>
@@ -46,12 +43,12 @@ export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
               placeholder='Họ và tên'
               name='fullname'
               value={signUpForm.fullname}
-              // text={signUpForm.fullname}
             />
+            {fullnameError && <span className={classes.errorMessage}>Họ và tên không chứa kí tự số</span>}
           </div>
 
           <label className={classes.labelRegister}>Email</label>
-          <div className={`${classes.rectangle} ${classes.rectangleEmail}`}>
+          <div className={`${classes.rectangle} ${classes.rectangleEmail} ${emailError ? classes.inputerror : ''}`}>
             <EnvelopeLightSolid
               className={classes.envelopeLightSolid}
               swap={{
@@ -64,23 +61,36 @@ export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
               placeholder='Email'
               name='email'
               value={signUpForm.email}
-              // text={signUpForm.email}
               type='email'
             />
+            {emailError && <span className={classes.errorMessage}>Email đã tồn tại</span>}
           </div>
 
           <label className={classes.labelRegister}>Mật khẩu</label>
-          <div className={`${classes.rectangle} ${classes.rectanglePassword}`}>
+          <div className={`${classes.rectangle} ${classes.rectanglePassword} ${passwordError ? classes.inputerror : ''}`}>
             <InterfaceEssentialLock_StyleFi className={classes.interfaceEssentialLock} />
             <input
               onChange={handleChange}
               type="password"
-              // text={signUpForm.password}
               name="password"
               value={signUpForm.password}
               className={`${classes.input} ${classes.inputPassword}`}
               placeholder='Mật khẩu'
             />
+            {passwordError && <span className={classes.errorMessage}>Mật khẩu ít nhất 8 ký tự, có ít nhất một kí tự hoa, số và ký tự đặc biệt</span>}
+          </div>
+          <label className={classes.labelRegister}>Xác nhận mật khẩu</label>
+          <div className={`${classes.rectangle} ${classes.rectanglePassword} ${confirmPasswordError ? classes.inputerror : ''}`}>
+            <InterfaceEssentialLock_StyleFi className={classes.interfaceEssentialLock} />
+            <input
+              onChange={handleChange}
+              type="password"
+              name="confirmpassword"
+              value={signUpForm.confirmpassword}
+              className={`${classes.input} ${classes.inputPassword}`}
+              placeholder='Nhập lại mật khẩu'
+            />
+            {confirmPasswordError && <span className={classes.errorMessage}>Mật khẩu xác nhận không trùng khớp</span>}
           </div>
 
           <div className={classes.next_BTN}>

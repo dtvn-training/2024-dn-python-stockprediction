@@ -27,35 +27,49 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
     email: '',
     password: ''
   });
-  const [isEditing, setIsEditing] = useState(false);
-  // const handleUpdate = () => {
-  //   setIsEditing(false); 
-  //   fetch('http://localhost:5000/userprofile', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'Authorization': `Bearer ${localStorage.getItem('token')}`,
-  //     },
-  //     body: JSON.stringify({
-  //       fullname: user.fullname,
-  //       password: user.password
-  //     }),
-  //   })
-  //   .then(response => {
-  //     if (response.ok) {
-  //       alert('Cập nhật thông tin thành công!');
-  //     } else {
-  //       alert('Cập nhật thông tin thất bại. Vui lòng thử lại.');
-  //     }
-  //   })
-  //   .catch(error => {
-  //     console.error('Lỗi khi cập nhật thông tin:', error);
-  //     alert('Đã xảy ra lỗi khi cập nhật thông tin. Vui lòng thử lại.');
-  //   });
-
-  // };
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setUser(prevUser => ({
+      ...prevUser,
+      password: value
+    }));
+  };
+  const handleFullNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setUser(prevUser => ({
+      ...prevUser,
+      fullname: value
+    }));
+  };
   const userToken = localStorage.getItem('token');
   console.log(userToken,'token');
+  const [isEditing, setIsEditing] = useState(false);
+  const handleUpdate = () => {
+    setIsEditing(false); 
+    fetch('http://localhost:5000/userprofile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userToken}`,
+      },
+      body: JSON.stringify({
+        fullname: user.fullname,
+        email: user.email,
+        password: user.password
+      }),
+    })
+    .then(response => {
+      if (response.ok) {
+        alert('Cập nhật thông tin thành công!');
+      } else {
+        alert('Cập nhật thông tin thất bại. Vui lòng thử lại.');
+      }
+    })
+    .catch(error => {
+      console.error('Lỗi khi cập nhật thông tin:', error);
+      alert('Đã xảy ra lỗi khi cập nhật thông tin. Vui lòng thử lại.');
+    });
+  };
   useEffect(() => {
     if (userToken) {
       fetch('http://localhost:5000/userprofile', {
@@ -80,7 +94,7 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
         alert('Failed to fetch user profile. Please try again.');
       });
     }
-  }, [userToken]); 
+  }, [userToken]); // Chỉ gọi fetch khi userToken thay đổi
   
   return (
     <div className={`${resets.storybrainResets} ${classes.root}`}>
@@ -92,10 +106,10 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
           </div>
           <div className={classes.registerForm}>
             <div className={classes.frame2}>
-              <div className={classes.profile} style={{ color: 'white' }}>Thông tin cá nhân</div>
+              <div className={classes.profile}>Thông tin cá nhân</div>
             </div>
             <div className={classes.frame3}>
-              <label className={classes.labelRegister} style={{ color: 'white' }}>Họ và tên</label>
+              <label className={classes.labelRegister}>Họ và tên</label>
               <div className={`${classes.rectangle} ${classes.rectangleName}`}>
                 <div className={classes.iconlyBoldProfile}>
                   <IconlyBoldProfileIcon className={`${classes.icon4} ${classes.iconName}`} />
@@ -103,11 +117,13 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
                 <input 
                   id="fullname" 
                   className={`${classes.input} ${classes.inputEmail}`}
-                  placeholder={user.fullname}
+                  placeholder=""
+                  defaultValue={user.fullname}
                   readOnly={!isEditing}
+                  onChange={handleFullNameChange}
                 />
               </div>
-              <label className={classes.labelRegister} style={{ color: 'white' }}>Email</label>
+              <label className={classes.labelRegister}>Email</label>
               <div className={`${classes.rectangle} ${classes.rectangleEmail}`}>
                 <EnvelopeLightSolid
                   className={classes.envelopeLightSolid}
@@ -121,22 +137,23 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
                   readOnly
                 />
               </div>
-              <label className={classes.labelRegister} style={{ color: 'white' }}>Mật khẩu</label>
+              <label className={classes.labelRegister}>Mật khẩu</label>
               <div className={`${classes.rectangle} ${classes.rectanglePassword}`}>
                 <InterfaceEssentialLock_StyleFi className={classes.interfaceEssentialLock} />
                 <input 
                   id="passwordInput" 
                   className={`${classes.input} ${classes.inputPassword}`} 
                   placeholder=""
+                  defaultValue={user.password}
                   type='password' 
                   readOnly={!isEditing}
-                  onChange={(e) => setUser(prevUser => ({...prevUser, password: e.target.value}))}
+                  onChange={handlePasswordChange}
                 />
               </div>
               {isEditing ? (
                 <Button className={classes.outlined} variant="outlined" onClick={handleUpdate}>Update</Button>
               ) : (
-                <Button className={classes.outlined} variant="outlined" onClick={() => setIsEditing(true)}>Chỉnh sửa thông tin cá nhân</Button>
+                <Button className={classes.outlined} variant="outlined" onClick={() => setIsEditing(true)}>Edit</Button>
               )}
               {/* <Button className={classes.outlined} variant="outlined">Update</Button> */}
             </div>
@@ -146,5 +163,3 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
     </div>   
   );
 });
-
-

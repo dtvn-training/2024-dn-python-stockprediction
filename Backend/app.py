@@ -170,15 +170,9 @@ def signup():
     fullname = request.json.get("fullname", None)
     email = request.json.get("email", None)
     password = request.json.get("password", None)
-    if fullname == "":
-        return jsonify({"error": "Fullname is required"}), 400
-    if email == "":
-        return jsonify({"error": "Email is required"}), 400
-    if password == "":
-        return jsonify({"error": "Password is required"}), 400
     user_exists = Users.query.filter_by(email=email).first()
     if user_exists:
-        return jsonify({"error": "Email already exists"}), 400
+        return jsonify({"error": "Email already exists"}), 409
     new_user = Users(
         userid=str(uuid.uuid4()),
         username=email.split('@')[0],
@@ -191,7 +185,7 @@ def signup():
     )
     db.session.add(new_user)
     db.session.commit()
-    return jsonify({"success": "User registered successfully"})
+    return jsonify({"success": "User registered successfully"}), 200
 
 @app.route('/getAllStocks', methods=['GET'])
 def get_stock_lists():
@@ -201,18 +195,27 @@ def get_stock_lists():
         jsonify(stocks)
     )
 
-@app.route('/userprofile', methods=['GET', 'POST'])
+@app.route('/userprofile', methods=['GET'])
 @jwt_required()
 def user_profile():
-    if request.method == 'GET':
-        email_user = get_jwt_identity()
-        user = Users.query.filter_by(email=email_user).first()
-        user_get_by_email = {
-            "fullname": user.fullname,
-            "email": user.email,
-            "password": user.password
-        }
-        return jsonify(user_get_by_email)
+    email_user = get_jwt_identity()
+    user = Users.query.filter_by(email=email_user).first()
+    user_get_by_email = {
+        "fullname": user.fullname,
+        "email": user.email,
+        "password": user.password
+    }
+    return jsonify(user_get_by_email)
+@app.route('/userprofile', methods=['POST'])
+def update_user_profile():
+    fullname = request.json.get('fullname') 
+    password = request.json.get('password')
+    email = request.json.get('email')
+    user = Users.query.filter_by(email=email).first()
+    user.fullname = fullname
+    user.password = password
+    db.session.commit()  
+    return jsonify({"message": "Updated profile successfully."}), 200
 @app.route('/comment/showAll/<symbol>', methods=['GET'])
 
 def get_comment_lists(symbol):
