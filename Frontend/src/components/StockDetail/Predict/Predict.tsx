@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import classes from "./Predict.module.css";
-import { PostPredictText, getPredictText, getimagePredict } from "./PredictReq";
+import { PostPredictText, getPredictText, getimagePredict,deletePredictText } from "./PredictReq";
 
 interface PredictInfoProps {
   symbol: string;
@@ -12,22 +12,31 @@ const Predict: React.FC<PredictInfoProps> = ({ symbol }) => {
   const [PredictImage, setPredictImage] = useState<string | null>(null);
   const handleEditClick = () => {
     setIsEditing(true);
-    setEditedContent(PredictText?.textPrediction || ""); // Gán giá trị từ textPrediction khi bấm chỉnh sửa
+    setEditedContent(PredictText?.textPrediction || "");
   };
 
   const handleSaveClick = async () => {
     const stockCode = symbol;
-    const userId = "111";
-    await PostPredictText(userId, stockCode, editedContent);
+    await PostPredictText (stockCode, editedContent);
     setIsEditing(false);
-
-    alert("Nhận định về cổ phiếu đã được cập nhật");
     fetchData();
   };
 
   const handleCancelClick = () => {
     setIsEditing(false);
   };
+  const handleDeleteClick= async()=>{
+    const stockCode = symbol;
+    const confirmDelete = window.confirm(
+      "Bạn có chắc chắn muốn xóa dự đoán không?"
+    );
+    if (confirmDelete) {
+      await deletePredictText (stockCode);
+      setPredictText("")
+      fetchData();
+    }
+    
+  }
 
   const handleTextareaChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -37,16 +46,13 @@ const Predict: React.FC<PredictInfoProps> = ({ symbol }) => {
 
   const fetchData = async () => {
     try {
-      // const data = await getPredictText(symbol);
-      // setPredictText(data);
-      // setEditedContent(data?.textPrediction || "");
-
       const imagepredict = await getimagePredict(symbol);
       const image = JSON.parse(imagepredict);
-      console.log(image);
       setPredictImage(image.img_predict);
+      const predictext=await getPredictText(symbol)
+      setPredictText(predictext)
     } catch (error) {
-      console.error("Error fetching company data:", error);
+      console.error("Error fetching data:", error);
     }
   };
 
@@ -64,13 +70,6 @@ const Predict: React.FC<PredictInfoProps> = ({ symbol }) => {
             style={{ width: "600px", height: "auto" }}
           />
         )}
-        <div>
-          <ul>
-            <li>Đường line cong lên: xu hướng tăng</li>
-            <li>Đường line cong xuống: xu hướng giảm</li>
-            <li>Đường line nằm ngang: không có dự báo về xu hướng</li>
-          </ul>
-        </div>
       </div>
       <div className={classes.contentpredict}>
         {isEditing ? (
@@ -98,7 +97,7 @@ const Predict: React.FC<PredictInfoProps> = ({ symbol }) => {
               Sửa nhận định
             </span>
           )}
-          <span className={classes.delete}>Xóa</span>
+          <span className={classes.delete} onClick={handleDeleteClick}>Xóa</span>
         </div>
       </div>
     </div>

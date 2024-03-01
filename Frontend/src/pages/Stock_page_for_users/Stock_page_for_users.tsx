@@ -36,14 +36,11 @@ export const Stock_page_for_users: FC<Props> = memo(
       };
 
       fetchData();
-    }, [updateTrigger]); // Trigger useEffect when updateTrigger state changes
-
+    }, [updateTrigger]);
     const handleEditClick = (id: string) => () => {
-      // Your handleEditClick logic here
     };
 
     const handleCommentUpdate = () => {
-      // Trigger update by changing the state
       setUpdateTrigger(prevState => !prevState);
     };
 

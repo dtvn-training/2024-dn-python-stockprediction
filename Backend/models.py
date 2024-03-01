@@ -42,7 +42,7 @@ class StockPrediction(db.Model):
     __tablename__ = 'stockprediction'
     predictionid = db.Column(db.Integer, primary_key=True, autoincrement=True)
     stockid = db.Column(db.String(50), db.ForeignKey('stocklist.stockid'), nullable=False)
-    userid = db.Column(db.String(50), db.ForeignKey('user.userid'), nullable=False)
+    userid = db.Column(db.String(50), db.ForeignKey('users.userid'), nullable=False)
     date = db.Column(db.DateTime, nullable=False)
     text_prediction = db.Column(db.String(300), nullable=False)
     stock = db.relationship('StockList', back_populates='predictions', lazy=True, primaryjoin="StockPrediction.stockid == StockList.stockid")
