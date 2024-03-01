@@ -96,7 +96,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
         } else if (value < 0) {
           textColor = 'red'; 
         } else {
-          textColor = 'yellow'; 
+          textColor = '#FFC300'; 
         }
     
         return (
@@ -119,7 +119,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
         } else if (value < 0) {
           textColor = 'red'; 
         } else {
-          textColor = 'yellow'; 
+          textColor = '#FFC300'; 
         }
     
         return (
@@ -155,7 +155,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       width: 250,
       renderCell: (params) => ( 
         <Button variant="outlined">
-          <Link to={`/stock/${params.row.symbol}`} style={{ color: 'white' }}>Chi tiết</Link>
+          <Link to={`/stock/${params.row.symbol}`} style={{ color: 'black' }}>Chi tiết</Link>
         </Button>
       // <Select value="" displayEmpty IconComponent={() => null}>
       //   <MenuItem value="" >
@@ -182,27 +182,27 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
             }}
             pageSizeOptions={[5, 10]}
             slots={{ toolbar: GridToolbar }}
-            sx={{
-              color: 'red', 
-              '& .MuiDataGrid-columnHeader, & .MuiDataGrid-cell': {
-                color: 'white', 
-              },
-              '& .MuiDataGrid-footerContainer': {
-                color: 'white', 
-              },
-              '& .MuiTablePagination-selectLabel, & .MuiTablePagination-input, & .MuiTablePagination-displayedRows ': {
-                color: 'white',
-              },
-              '& .MuiSelect-icon': {
-                color: 'white', 
-              },
-              '& .MuiSvgIcon-root, & .MuiSvgIcon-fontSizeMedium': {
-                color: 'white', 
-              },
-              '& .MuiOutlinedInput-input': {
-                color: 'white'
-              },
-            }}
+            // sx={{
+            //   color: 'red', 
+            //   '& .MuiDataGrid-columnHeader, & .MuiDataGrid-cell': {
+            //     color: 'white', 
+            //   },
+            //   '& .MuiDataGrid-footerContainer': {
+            //     color: 'white', 
+            //   },
+            //   '& .MuiTablePagination-selectLabel, & .MuiTablePagination-input, & .MuiTablePagination-displayedRows ': {
+            //     color: 'white',
+            //   },
+            //   '& .MuiSelect-icon': {
+            //     color: 'white', 
+            //   },
+            //   '& .MuiSvgIcon-root, & .MuiSvgIcon-fontSizeMedium': {
+            //     color: 'white', 
+            //   },
+            //   '& .MuiOutlinedInput-input': {
+            //     color: 'white'
+            //   },
+            // }}
           />
         </div>
       </div>

@@ -258,6 +258,45 @@ def stockchart(stockCode):
     plt.xlabel("Time")
     plt.ylabel("Close Prices")
     plt.title("Trend Prediction")
+
+    close_prices = data_label["close"].values
+    combined_labels = data_label["combined_label"].values
+    last_label = combined_labels[-1]
+    num_points = 20
+    x_values = np.linspace(
+        len(close_prices) - 1, len(close_prices) - 1 + num_points, num_points
+    )
+    plt.figure(figsize=(6, 3))
+    plt.plot(close_prices, label="Close Prices")
+    if last_label == 1:
+        y_values_parabol = (
+            5 * (x_values - len(close_prices) + 1) ** 2 + close_prices[-1]
+        )
+        plt.plot(
+            x_values,
+            y_values_parabol,
+            color="green",
+            linestyle="--",
+            label="line prediction",
+        )
+    elif last_label == -1:
+        y_values_parabol = (
+            -5 * (x_values - len(close_prices) + 1) ** 2 + close_prices[-1]
+        )
+        plt.plot(
+            x_values,
+            y_values_parabol,
+            color="red",
+            linestyle="--",
+            label="line prediction",
+        )
+    else:
+        y_values_parabol = np.full_like(x_values, fill_value=close_prices[-1])
+        plt.plot(x_values, y_values_parabol, linestyle="--", label="line prediction")
+
+    plt.xlabel("Time")
+    plt.ylabel("Close Prices")
+    plt.title("Trend Prediction")
     plt.legend()
     img_buffer = BytesIO()
     plt.savefig(img_buffer, format='png')
@@ -522,6 +561,7 @@ def updateComment(commentid):
     emailUser = get_jwt_identity()
     user = Users.query.filter_by(email=emailUser).first()
     comment = Comments.query.filter_by(commentid=commentid).first()
+    print(emailUser,'lll')
     if user.userid == comment.userid:
         update_comment_text = request.json.get("commenttext", None)
         print(update_comment_text,'new cmt',comment)

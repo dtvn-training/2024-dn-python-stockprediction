@@ -28,12 +28,37 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
     password: ''
   });
   const [isEditing, setIsEditing] = useState(false);
-  const API_BASE_URL = "http://127.0.0.1:5000";
+  // const handleUpdate = () => {
+  //   setIsEditing(false); 
+  //   fetch('http://localhost:5000/userprofile', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Authorization': `Bearer ${localStorage.getItem('token')}`,
+  //     },
+  //     body: JSON.stringify({
+  //       fullname: user.fullname,
+  //       password: user.password
+  //     }),
+  //   })
+  //   .then(response => {
+  //     if (response.ok) {
+  //       alert('Cập nhật thông tin thành công!');
+  //     } else {
+  //       alert('Cập nhật thông tin thất bại. Vui lòng thử lại.');
+  //     }
+  //   })
+  //   .catch(error => {
+  //     console.error('Lỗi khi cập nhật thông tin:', error);
+  //     alert('Đã xảy ra lỗi khi cập nhật thông tin. Vui lòng thử lại.');
+  //   });
+
+  // };
   const userToken = localStorage.getItem('token');
   console.log(userToken,'token');
   useEffect(() => {
     if (userToken) {
-      fetch(`${API_BASE_URL}/userprofile`, {
+      fetch('http://localhost:5000/userprofile', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
