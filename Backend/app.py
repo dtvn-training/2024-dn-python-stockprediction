@@ -12,7 +12,7 @@ from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, uns
 from stock.predict import chart_stock
 from stock.allstock import allstock
 
-sqlstring="mysql://root:1234@127.0.0.1:3306/stock_prediction"
+sqlstring="mysql://root:Ncgncg1102@127.0.0.1:3306/stock_prediction"
 app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = 'python'
 app.config["SQLALCHEMY_DATABASE_URI"] = (sqlstring)
@@ -143,7 +143,7 @@ def get_predictions(stockCode):
         return jsonify({'error': 'Stock not found'}), 404
     stock_prediction = StockPrediction.query.filter_by(stockid=stock.stockid).first()
     if not stock_prediction:
-        return jsonify({'error': 'Prediction not found for this stock'}), 404
+        return jsonify({'textPrediction': ''}), 200
     return jsonify({'textPrediction': stock_prediction.text_prediction}), 200
 
 @app.route('/token', methods=["POST"])

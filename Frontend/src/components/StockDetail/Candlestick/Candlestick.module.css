@@ -1,6 +1,7 @@
 .chartbox{
     display: flex;
     flex-direction: column;
+    margin-left: 64px
 }
 .chart{
     display: flex;

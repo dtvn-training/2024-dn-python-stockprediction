@@ -36,3 +36,22 @@
     color: rgba(255, 255, 255, 0.6);
     min-height: 100px;
 }
+.edit span,.delete span{
+    color:rgb(16, 96, 161);
+}
+.commentinfo{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    
+}
+.commentinfo .time{
+    color: #00000075;
+    font-weight: 100;
+    font-size: 16px;
+    
+}
+.commentinfo .username{
+    color: rgb(16, 96, 161);
+    
+}

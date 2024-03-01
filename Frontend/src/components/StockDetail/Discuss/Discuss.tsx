@@ -56,16 +56,7 @@ const Discuss: React.FC<CommentProps> = ({ id, username, time, commenttext, toke
       else {
       alert('Vui lòng đăng nhập.');
       }
-    } 
-
-  
-  // const handleSaveClick = () => {
-  //   // Thêm logic xử lý khi lưu bình luận sau khi sửa
-  //   console.log('editedComment9',editedComment);
-  //   alert("Nội dung đã được cập nhật");
-  //   setIsEditing(false);
-  // };
-
+    }
   const handleCancelClick = () => {
     setEditedComment(commenttext);
     setIsEditing(false);
@@ -80,8 +71,8 @@ const Discuss: React.FC<CommentProps> = ({ id, username, time, commenttext, toke
   return (
     <div className={classes.discuss}>
       <div className={classes.commentinfo}>
-        <div className={classes.username}>{username}</div>
-        <div className={classes.time}>{time}</div>
+        <span className={classes.username}>{username}</span>
+        <span className={classes.time}>{time}</span>
       </div>
       <div className={classes.commenttext}>
         {isEditing ? (

@@ -54,6 +54,9 @@
   border-radius: 10px;
   cursor: pointer;
 }
+.feature span {
+  color: rgb(16, 96, 161);
+}
 
 
 

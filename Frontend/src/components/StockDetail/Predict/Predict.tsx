@@ -62,7 +62,9 @@ const Predict: React.FC<PredictInfoProps> = ({ symbol }) => {
 
   return (
     <div className={classes.predict}>
+      
       <div className={classes.chartpredict}>
+      <div className={classes.title}><span>Biểu đồ dự đoán</span></div>
         {PredictImage && (
           <img
             src={`data:image/png;base64,${PredictImage}`}
@@ -72,6 +74,7 @@ const Predict: React.FC<PredictInfoProps> = ({ symbol }) => {
         )}
       </div>
       <div className={classes.contentpredict}>
+        <div className={classes.title}><span>Nhận định</span></div>
         {isEditing ? (
           <textarea
             className={classes.contentbox}
