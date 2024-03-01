@@ -22,6 +22,8 @@ interface Props {
 }
 
 export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
+  const [fullnameError, setFullnameError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
   const [user, setUser] = useState({
     fullname: '',
     email: '',
@@ -29,6 +31,7 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
   });
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
+    setPasswordError(false)
     setUser(prevUser => ({
       ...prevUser,
       password: value
@@ -36,6 +39,7 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
   };
   const handleFullNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
+    setFullnameError(false)
     setUser(prevUser => ({
       ...prevUser,
       fullname: value
@@ -45,7 +49,19 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
   console.log(userToken,'token');
   const [isEditing, setIsEditing] = useState(false);
   const handleUpdate = () => {
-    setIsEditing(false); 
+    if (!isValidFullname(user.fullname)) {
+      setFullnameError(true);
+      return;
+    } else {
+      setFullnameError(false)
+    }
+    if (!isValidPassword(user.password)) {
+      setPasswordError(true);
+      return; 
+    } else {
+      setPasswordError(false)
+    } 
+    setIsEditing(false);
     fetch('http://localhost:5000/userprofile', {
       method: 'POST',
       headers: {
@@ -70,6 +86,15 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
       alert('Đã xảy ra lỗi khi cập nhật thông tin. Vui lòng thử lại.');
     });
   };
+
+  function isValidFullname(fullname: string) {
+    return !/\d/.test(fullname);
+  }
+  
+  function isValidPassword(password: string) {
+    return /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password);
+  }
+
   useEffect(() => {
     if (userToken) {
       fetch('http://localhost:5000/userprofile', {
@@ -110,9 +135,9 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
             </div>
             <div className={classes.frame3}>
               <label className={classes.labelRegister}>Họ và tên</label>
-              <div className={`${classes.rectangle} ${classes.rectangleName}`}>
+              <div className={`${classes.rectangle} ${classes.rectangleName} ${fullnameError ? classes.inputerror : ''}`}>
                 <div className={classes.iconlyBoldProfile}>
-                  <IconlyBoldProfileIcon className={`${classes.icon4} ${classes.iconName}`} />
+                  <IconlyBoldProfileIcon className={`${classes.icon4} ${classes.iconName} `} />
                 </div>
                 <input 
                   id="fullname" 
@@ -122,6 +147,7 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
                   readOnly={!isEditing}
                   onChange={handleFullNameChange}
                 />
+                {fullnameError && <span className={classes.errorMessage}>Họ và tên không chứa kí tự số</span>}
               </div>
               <label className={classes.labelRegister}>Email</label>
               <div className={`${classes.rectangle} ${classes.rectangleEmail}`}>
@@ -138,7 +164,7 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
                 />
               </div>
               <label className={classes.labelRegister}>Mật khẩu</label>
-              <div className={`${classes.rectangle} ${classes.rectanglePassword}`}>
+              <div className={`${classes.rectangle} ${classes.rectanglePassword} ${passwordError ? classes.inputerror : ''}`}>
                 <InterfaceEssentialLock_StyleFi className={classes.interfaceEssentialLock} />
                 <input 
                   id="passwordInput" 
@@ -149,6 +175,7 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
                   readOnly={!isEditing}
                   onChange={handlePasswordChange}
                 />
+                {passwordError && <span className={classes.errorMessage}>Mật khẩu ít nhất 8 ký tự, có ít nhất một kí tự hoa, số và ký tự đặc biệt</span>}
               </div>
               {isEditing ? (
                 <Button className={classes.outlined} variant="outlined" onClick={handleUpdate}>Update</Button>
