@@ -252,7 +252,6 @@ def updateComment(commentid):
     emailUser = get_jwt_identity()
     user = Users.query.filter_by(email=emailUser).first()
     comment = Comments.query.filter_by(commentid=commentid).first()
-    print(emailUser,'lll')
     if user.userid == comment.userid:
         update_comment_text = request.json.get("commenttext", None)
         comment.comment_text = update_comment_text

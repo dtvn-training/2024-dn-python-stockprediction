@@ -2,28 +2,35 @@ import { useState } from 'react';
 import axios from 'axios';
 import {useToken} from '../../components/token'
 import { useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
+
+const API_BASE_URL = "http://127.0.0.1:5000";
 export function useLoginForm() {
   const [loginForm, setLoginForm] = useState({
     email: "",
     password: ""
   });
-  const API_BASE_URL = "http://127.0.0.1:5000";
   const { setToken } = useToken();
-  function logmeIn(event: React.FormEvent<HTMLFormElement>) {
-    axios.post(`${API_BASE_URL}/token`, {
-      email: loginForm.email,
-      password: loginForm.password
-    })
-    .then((response) => {
+  async function logmeIn(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+  
+    try {
+      const response = await axios.post(`${API_BASE_URL}/token`, {
+        email: loginForm.email,
+        password: loginForm.password
+      });
+  
       setToken(response.data.access_token);
       setLoginForm({ email: "", password: "" });
       window.location.href = "/";
-    })
-    .catch((error) => {
+      toast.success("Login successfully!");
+    } catch (error) {
+      toast.error("Unable to login. Please try again.");
       console.error('Error:', error);
-    });
+    }
   }
-
+  
+  
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
     setLoginForm(prevState => ({ ...prevState, [name]: value }));

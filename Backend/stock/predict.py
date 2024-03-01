@@ -5,7 +5,6 @@ from stock.labeling.label import predict,combine_labels
 from io import BytesIO
 import base64
 def chart_stock(stock_infos):   
-    print("stock_info",stock_infos) 
     dates = []
     opens = []
     highs = []

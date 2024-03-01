@@ -1,7 +1,7 @@
 import { memo, useState } from 'react';
 import { BrowserRouter, Link, Route, Routes, useNavigate } from 'react-router-dom'
 import type { FC } from 'react';
-import axios from "axios";
+import { ToastContainer } from 'react-toastify'; 
 import resets from '../../components/_resets.module.css';
 import { ChevronRight } from '../../components/ChevronRight/ChevronRight';
 import { EnvelopeLightSolid } from '../../components/EnvelopeLightSolid/EnvelopeLightSolid';
@@ -21,6 +21,7 @@ export const Password_Login: FC<Props> = memo(function Password_Login(props: Pro
   return (
 
     <div className={`${resets.storybrainResets} ${classes.root}`}>
+      <ToastContainer />
       <div className={classes.line20}>
         <Line20Icon className={classes.icon2} />
       </div>

@@ -1,11 +1,8 @@
 // CommentBox.js
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import classes from "./CommentBox.module.css"; // Import CSS file
 import { useParams } from "react-router-dom";
-
 const CommentBox = () => {
   const [comment, setComment] = useState("");
   const [isCommenting, setIsCommenting] = useState(false);
@@ -62,19 +59,27 @@ const CommentBox = () => {
       <animated.div style={slideInAnimation} className={classes.commentGroup}>
         {isCommenting && (
           <div className={`${classes.commentbox} ${classes.editorContainer}`}> {/* Apply CSS class */}
-            <CKEditor
+          
+            {/* <CKEditor
               editor={ClassicEditor}
               data={comment}
               onChange={(event, editor) => {
                 const data = editor.getData().replace(/<[^>]+>/g, '');
                 setComment(data);
               }}
-            />
+            /> */}
+             <textarea
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Nhập bình luận của bạn"
+            ></textarea>
+            
             <button onClick={handleCommentSubmit}>Gửi</button>
           </div>
         )}
       </animated.div>
     </div>
+    
   );
 };
 
