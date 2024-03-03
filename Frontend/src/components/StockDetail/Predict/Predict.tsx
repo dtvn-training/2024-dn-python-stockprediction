@@ -43,7 +43,6 @@ const Predict: React.FC<PredictInfoProps> = ({ symbol }) => {
 
       const imagepredict = await getimagePredict(symbol);
       const image = JSON.parse(imagepredict);
-      console.log(image);
       setPredictImage(image.img_predict);
     } catch (error) {
       console.error("Error fetching company data:", error);

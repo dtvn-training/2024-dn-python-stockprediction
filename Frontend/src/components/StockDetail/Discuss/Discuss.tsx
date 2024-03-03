@@ -1,23 +1,30 @@
 import React, { useEffect, useState } from "react";
 import classes from "./Discuss.module.css";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Button } from "@mui/material";
 
 interface CommentProps {
-  id:string,
+  id: string;
   username: string;
   time: string;
   commenttext: string;
-  tokenUser:string;
+  tokenUser: string;
+  onUpdate: () => void; // Add onUpdate prop
 }
 
-const Discuss: React.FC<CommentProps> = ({ id, username, time, commenttext, tokenUser }) => {
+const Discuss: React.FC<CommentProps> = ({
+  id,
+  username,
+  time,
+  commenttext,
+  tokenUser,
+  onUpdate,
+}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedComment, setEditedComment] = useState(commenttext);
   const API_BASE_URL = "http://127.0.0.1:5000";
   const [isComment, setIsComment] = useState(false);
-  const userToken = localStorage.getItem('token');
+  const userToken = localStorage.getItem("token");
+
   useEffect(() => {
     if (userToken === tokenUser) {
       setIsComment(true);
@@ -25,56 +32,69 @@ const Discuss: React.FC<CommentProps> = ({ id, username, time, commenttext, toke
       setIsComment(false);
     }
   }, []);
+
   const handleEditClick = () => {
-    console.log(id,'id cmt',username);
     setIsEditing(true);
   };
 
   const handleSaveCommentEdit = () => {
     if (userToken) {
       fetch(`${API_BASE_URL}/comment/update/${id}`, {
-          method: 'PUT',
-          headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${userToken}`, 
-          },
-          body: JSON.stringify({ commentid: id, commenttext: editedComment, token: userToken }),
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify({ commentid: id, commenttext: editedComment, token: userToken }),
       })
-      .then(response => {
+        .then((response) => {
           if (response.ok) {
-          alert('Bình luận thành công!');
-          setEditedComment(""); 
+            alert("Bình luận thành công!");
+            setEditedComment("");
+            setIsEditing(false); 
+            onUpdate(); 
           } else {
-          alert('Lỗi bình luận.');
+            alert("Lỗi bình luận.");
           }
-      })
-      .catch(error => {
-          console.error('Error sending comment:', error);
-          alert('Lỗi.');
-      });
-      } 
-      else {
-      alert('Vui lòng đăng nhập.');
-      }
-    } 
-
-  
-  // const handleSaveClick = () => {
-  //   // Thêm logic xử lý khi lưu bình luận sau khi sửa
-  //   console.log('editedComment9',editedComment);
-  //   alert("Nội dung đã được cập nhật");
-  //   setIsEditing(false);
-  // };
+        })
+        .catch((error) => {
+          console.error("Error sending comment:", error);
+          alert("Lỗi.");
+        });
+    } else {
+      alert("Vui lòng đăng nhập.");
+    }
+  };
 
   const handleCancelClick = () => {
     setEditedComment(commenttext);
     setIsEditing(false);
   };
 
-  const handleTextChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setEditedComment(event.target.value);
+  const handleDelClick = () => {
+    if (userToken) {
+      fetch(`${API_BASE_URL}/comment/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            alert("Xóa bình luận thành công!");
+            onUpdate(); // Gọi hàm onUpdate để cập nhật danh sách bình luận
+          } else {
+            alert("Lỗi khi xóa bình luận a.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting comment:", error);
+          alert("Lỗi khi xóa bình luận.");
+        });
+    } else {
+      alert("Vui lòng đăng nhập để xóa bình luận.");
+    }
   };
 
   return (
@@ -85,14 +105,11 @@ const Discuss: React.FC<CommentProps> = ({ id, username, time, commenttext, toke
       </div>
       <div className={classes.commenttext}>
         {isEditing ? (
-          <CKEditor
-          editor={ClassicEditor}
-          data={editedComment}
-          onChange={(event, editor) => {
-            const data = editor.getData().replace(/<[^>]+>/g, '');
-            setEditedComment(data);
-          }}
-        />
+          <textarea
+            value={editedComment}
+            onChange={(event) => setEditedComment(event.target.value)}
+            placeholder="Nhập bình luận của bạn"
+          />
         ) : (
           <div>{commenttext}</div>
         )}
@@ -112,7 +129,7 @@ const Discuss: React.FC<CommentProps> = ({ id, username, time, commenttext, toke
             <span>Sửa</span>
           </Button>
         )}
-        <Button className={classes.delete}>
+        <Button className={classes.delete} onClick={handleDelClick}>
           <span>Xóa</span>
         </Button>
       </div>

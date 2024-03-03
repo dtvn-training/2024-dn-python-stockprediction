@@ -54,7 +54,6 @@ const Header: React.FC = () => {
           className={classes.userCircle} 
           onClick={() => {
             setOpenDropdown((openDropdown) => !openDropdown);
-            console.log(openDropdown,'opend');
           }} 
         />
 

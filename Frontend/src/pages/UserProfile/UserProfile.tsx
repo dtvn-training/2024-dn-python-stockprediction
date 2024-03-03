@@ -55,7 +55,6 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
 
   // };
   const userToken = localStorage.getItem('token');
-  console.log(userToken,'token');
   useEffect(() => {
     if (userToken) {
       fetch('http://localhost:5000/userprofile', {

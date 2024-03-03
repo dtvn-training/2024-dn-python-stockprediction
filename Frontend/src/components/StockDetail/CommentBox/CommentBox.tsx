@@ -1,9 +1,9 @@
-// CommentBox.js
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
 import classes from "./CommentBox.module.css"; // Import CSS file
 import { useParams } from "react-router-dom";
-const CommentBox = () => {
+
+const CommentBox = ({ onUpdateComments }) => {
   const [comment, setComment] = useState("");
   const [isCommenting, setIsCommenting] = useState(false);
   const symbol = useParams();
@@ -30,10 +30,12 @@ const CommentBox = () => {
           },
           body: JSON.stringify({ comment: comment, symbol: symbol }),
         })
-          .then(response => {
+          .then(response => {            
             if (response.ok) {
               alert('Bình luận thành công!');
               setComment("");
+              // Gọi hàm onUpdateComments để cập nhật danh sách bình luận
+              onUpdateComments();
             } else {
               alert('Lỗi bình luận.');
             }
@@ -59,15 +61,6 @@ const CommentBox = () => {
       <animated.div style={slideInAnimation} className={classes.commentGroup}>
         {isCommenting && (
           <div className={`${classes.commentbox} ${classes.editorContainer}`}> {/* Apply CSS class */}
-          
-            {/* <CKEditor
-              editor={ClassicEditor}
-              data={comment}
-              onChange={(event, editor) => {
-                const data = editor.getData().replace(/<[^>]+>/g, '');
-                setComment(data);
-              }}
-            /> */}
              <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}

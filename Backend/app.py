@@ -11,6 +11,7 @@ from datetime import datetime, timedelta, timezone
 from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
 from stock.predict import chart_stock
 from stock.allstock import allstock
+import pandas as pd
 
 sqlstring="mysql://root:1234@127.0.0.1:3306/stock_prediction"
 app = Flask(__name__)
@@ -214,14 +215,16 @@ def get_comment_lists(symbol):
         minutes = int((total_seconds % 3600) // 60)
         time = f"{hours} giờ, {minutes} phút"
         comment = {
-            "commentid": commentObject.commentid,
+            # "commentid": commentObject.commentid,
             "name": str(user.fullname),
             "userToken": str(tokenUser),
             "stockid": commentObject.stockid,
             "comment_text":commentObject.comment_text,
             "updated_at":time,
+            "second": total_seconds,
         }
         commentStock.append(comment)
+    commentStock = sorted(commentStock, key=lambda x: x['second'])
     return (
        jsonify(commentStock)
     )
@@ -259,6 +262,19 @@ def updateComment(commentid):
         return jsonify({"message": "Comment updated successfully"}), 200
     else:
         return jsonify({"error": "You are not authorized to update this comment"}), 401
+
+@app.route("/comment/delete/<comment_id>", methods=["DELETE"])
+@jwt_required()  
+def delete_comment(comment_id):
+    emailUser = get_jwt_identity()
+    user = Users.query.filter_by(email=emailUser).first()
+    # comment = Comments.query.filter_by(commentid=commentid).first()
+    comment = Comments.query.get(comment_id)
+    # print(comment,'cmt del')
+    if user.userid == comment.userid:
+        db.session.delete(comment)
+        db.session.commit() 
+    return jsonify({"message": "Comment deleted successfully"}), 200
 
 if __name__ == '__main__':
     app.run()
