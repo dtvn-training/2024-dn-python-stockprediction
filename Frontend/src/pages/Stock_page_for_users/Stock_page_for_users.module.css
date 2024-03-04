@@ -110,6 +110,7 @@
 .discusscomment .wiritecomment,
 .discusscomment .discussGroup {
     margin-left: 64px;
+    height: 37px;
 }
 
 .discusscomment .text {
