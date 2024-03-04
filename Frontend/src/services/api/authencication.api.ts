@@ -13,22 +13,25 @@ export function useLoginForm() {
   const { setToken } = useToken();
   async function logmeIn(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-  
-    try {
-      const response = await axios.post(`${API_BASE_URL}/token`, {
-        email: loginForm.email,
-        password: loginForm.password
-      });
-  
-      setToken(response.data.access_token);
-      setLoginForm({ email: "", password: "" });
-      window.location.href = "/";
-      toast.success("Login successfully!");
-    } catch (error) {
-      toast.error("Unable to login. Please try again.");
-      console.error('Error:', error);
+
+    if (!loginForm.email || !loginForm.password) {
+        toast.error('Vui lòng nhập đầy đủ thông tin'); // Hiển thị thông báo lỗi
+        return;
     }
-  }
+
+    try {
+        const response = await axios.post(`${API_BASE_URL}/token`, {
+            email: loginForm.email,
+            password: loginForm.password
+        });
+
+        setToken(response.data.access_token);
+        setLoginForm({ email: "", password: "" });
+        window.location.href = "/";
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
   
   
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
