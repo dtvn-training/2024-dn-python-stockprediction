@@ -116,7 +116,7 @@ export function useSignUpForm() {
       }
     })
     .catch((error) => {
-      if (error.response.status === 409) {
+      if (error.response.status === 400) {
         setEmailError(true);
       }
       console.error('Error:', error);

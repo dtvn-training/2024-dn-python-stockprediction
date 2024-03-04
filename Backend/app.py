@@ -217,7 +217,7 @@ def get_stock_lists():
     )
 
 
-@app.route('/userprofile', methods=['GET', 'POST'])
+@app.route('/userprofile', methods=['GET'])
 @jwt_required()
 def user_profile():
     email_user = get_jwt_identity()
