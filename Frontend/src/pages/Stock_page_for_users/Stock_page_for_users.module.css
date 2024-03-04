@@ -33,7 +33,7 @@
     font-weight: bold;
     font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
     margin: 10px 120px;
-    margin-top: 100px;
+    margin-top: 20px;
 }
 
 .symbol {
@@ -72,18 +72,14 @@
     display: flex;
     flex-direction: row;
     gap: 50px;
-    margin: 0px;
-    margin-top: 200px;
-    margin-bottom: 50px;
-    margin-left: 64px;
+    margin-top: 40px;
+    padding: 10px 40px;
 }
 
 .image13 {
     padding: 30px;
     width: 55%;
     height: auto;
-    background-color: rgb(201, 234, 240);
-    border-radius: 10px;
 }
 
 .predictcontent {

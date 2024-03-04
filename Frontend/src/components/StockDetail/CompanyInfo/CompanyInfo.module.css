@@ -3,6 +3,10 @@
     flex-direction: column;
     color: #000;
     margin-bottom: 10px;
+    background-color:  rgba(116, 116, 117, 0.2);
+    padding: 10px 20px;
+    border-radius: 10px;
+    animation: slideIn 1s ease-in-out;
 }
 
 .symbol {
@@ -17,4 +21,12 @@
 
 .unfollow {
     color: #bebebe;
+}
+@keyframes slideIn {
+    from {
+        transform: translateX(-50%);
+    }
+    to {
+        transform: translateX(0);
+    }
 }

@@ -12,6 +12,7 @@ import Candlestick from "../../components/StockDetail/Candlestick/Candlestick";
 import { useParams } from "react-router-dom";
 import { getAllComments } from "../../services/api/comment.api";
 import React, { useEffect, useState } from "react";
+import AnimationChange from "../../components/StockDetail/AnimationChange/animationchange";
 
 interface Props {
   className?: string;
@@ -44,13 +45,19 @@ export const Stock_page_for_users: FC<Props> = memo(
     return (
       <div className={` ${classes.root}`}>
         <Header />
+        
         <div className={classes.companyinfo}>
+          
           {stocks && <CompanyInfo symbol={stocks} follow={false} />}
+        </div>
+        <div className={classes.animation}>
+          <AnimationChange/>
         </div>
 
         <div className={classes.container}>
           <Line />
           <div className={classes.detail}>
+
             <div className={classes.image13}>
               {stocks && <Candlestick symbol={stocks} />}
             </div>
