@@ -6,6 +6,7 @@
   width: initial;
   height: initial;
 }
+
 .placeholderText.placeholderText {
   left: 9.7403%;
   right: 30.5195%;
@@ -14,6 +15,7 @@
   width: initial;
   height: initial;
 }
+
 .dropdownList.dropdownList {
   opacity: 0;
   left: 4.5455%;
@@ -24,6 +26,7 @@
   max-height: 100%;
   transform: initial;
 }
+
 .root {
   position: absolute;
   left: 20px;
@@ -32,6 +35,7 @@
   height: 289px;
   align-items: flex-start;
 }
+
 .listBoxBG {
   position: absolute;
   left: 4.5455%;
@@ -42,6 +46,7 @@
   background-color: #fff;
   box-shadow: 0px 4px 14px 0px #0000001a;
 }
+
 .chevron {
   position: absolute;
   left: 85.0649%;
@@ -50,10 +55,12 @@
   bottom: 78.8927%;
   overflow: visible;
 }
+
 .icon {
   width: 100%;
   height: 100%;
 }
+
 .clipList {
   position: absolute;
   left: 0;
