@@ -29,7 +29,7 @@
     width: 100%;
     height: 100%;
     align-items: flex-start;
-    background-color: #0f1729;
+    background-color: #fff;
     overflow: hidden;
 }
 
@@ -77,6 +77,9 @@
     position: relative;
     display: block;
     margin: 140px auto;
+    padding: 8px 24px 24px 24px;
+    border-radius: 10px;
+    background-color: #ececec;
 }
 
 .frame2 {
@@ -97,7 +100,7 @@
 }
 
 .rectangle {
-    margin: 8px 0;
+    margin: 8px 0 16px;
     padding: 8px;
     width: 443px;
     height: 64px;
@@ -137,9 +140,6 @@
     width: 100%;
     height: 100%;
 }
-
-
-/* icon name */
 
 .iconlyBoldProfile {
     position: absolute;
@@ -345,4 +345,15 @@
     display: flex;
     margin: 12px 0;
     justify-content: space-between;
+}
+
+.inputerror {
+    border: 2px solid rgb(255, 43, 43) !important;
+}
+
+.errorMessage {
+    position: absolute;
+    bottom: -20px;
+    color: red;
+    font-size: 14px;
 }
