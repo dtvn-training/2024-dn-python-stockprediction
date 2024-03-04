@@ -11,10 +11,9 @@ export default function DropdownMenu() {
   const anchorRef = React.useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
 
-
   const handleLogout = () => {
-    // navigate("/");
-    localStorage.removeItem('token');
+    navigate("/");
+    localStorage.removeItem("token");
     window.location.reload();
     
   };
@@ -31,10 +30,10 @@ export default function DropdownMenu() {
   };
 
   function handleListKeyDown(event: React.KeyboardEvent) {
-    if (event.key === 'Tab') {
+    if (event.key === "Tab") {
       event.preventDefault();
       setOpen(false);
-    } else if (event.key === 'Escape') {
+    } else if (event.key === "Escape") {
       setOpen(false);
     }
   }
@@ -60,10 +59,8 @@ export default function DropdownMenu() {
               aria-labelledby="composition-button"
               onKeyDown={handleListKeyDown}
             >
-              <MenuItem> 
-                <Link to="/userprofile">
-                  Thông tin cá nhân 
-                </Link>
+              <MenuItem>
+                <Link to="/userprofile">Thông tin cá nhân</Link>
               </MenuItem>
               <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
             </MenuList>

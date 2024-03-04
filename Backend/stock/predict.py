@@ -1,7 +1,9 @@
+import datetime
+from flask import jsonify
 from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
-from stock.labeling.label import predict,combine_labels
+from stock.labeling.label import predict, combine_labels
 from io import BytesIO
 import base64
 def chart_stock(stock_infos):   
@@ -28,7 +30,8 @@ def chart_stock(stock_infos):
     }
     df = pd.DataFrame(data)
     data_label = predict(df)
-    label_combine_feature = ["ema_point", "cusum_point", "peak_point", "tri_barr_point"]
+    label_combine_feature = ["ema_point",
+                             "cusum_point", "peak_point", "tri_barr_point"]
     data_label["combined_label"] = data_label[label_combine_feature].apply(
         combine_labels, axis=1
     )
@@ -85,7 +88,8 @@ def chart_stock(stock_infos):
         )
     else:
         y_values_parabol = np.full_like(x_values, fill_value=close_prices[-1])
-        plt.plot(x_values, y_values_parabol, linestyle="--", label="line prediction")
+        plt.plot(x_values, y_values_parabol,
+                 linestyle="--", label="line prediction")
 
     plt.xlabel("Time")
     plt.ylabel("Close Prices")
@@ -97,4 +101,4 @@ def chart_stock(stock_infos):
     plt.close()
     img_predict = base64.b64encode(img_buffer.getvalue()).decode("utf-8")
 
-    return dataSource,img_predict
+    return dataSource, img_predict

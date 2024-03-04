@@ -1,7 +1,11 @@
+// CommentBox.js
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
-import classes from "./CommentBox.module.css"; // Import CSS file
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import classes from "./CommentBox.module.css";
 import { useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 const CommentBox = ({ onUpdateComments }) => {
   const [comment, setComment] = useState("");
@@ -20,47 +24,47 @@ const CommentBox = ({ onUpdateComments }) => {
 
   const handleCommentSubmit = () => {
     if (comment.trim() !== "") {
-      const userToken = localStorage.getItem('token');
+      const userToken = localStorage.getItem("token");
       if (userToken) {
         fetch(`${API_BASE_URL}/comment/create`, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${userToken}`,
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
           },
           body: JSON.stringify({ comment: comment, symbol: symbol }),
         })
           .then(response => {            
             if (response.ok) {
-              alert('Bình luận thành công!');
+              toast.success("Bình luận thành công!");
               setComment("");
-              // Gọi hàm onUpdateComments để cập nhật danh sách bình luận
               onUpdateComments();
             } else {
-              alert('Lỗi bình luận.');
+              toast.error("Lỗi bình luận.");
             }
           })
-          .catch(error => {
-            console.error('Error sending comment:', error);
-            alert('Lỗi.');
+          .catch((error) => {
+            console.error("Error sending comment:", error);
+            toast.error("Lỗi.");
           });
       } else {
-        alert('Vui lòng đăng nhập để bình luận.');
+        toast.error("Vui lòng đăng nhập để bình luận.");
       }
     } else {
-      alert("Vui lòng nhập nội dung bình luận trước khi gửi.");
+      toast.info("Vui lòng nhập nội dung bình luận trước khi gửi.");
     }
   };
 
   return (
+
     <div className={classes.writecomment}>
       <span className={classes.writecommentlabel} onClick={handleCommentToggle}>
         Thêm bình luận
       </span>
-
+      <ToastContainer />
       <animated.div style={slideInAnimation} className={classes.commentGroup}>
         {isCommenting && (
-          <div className={`${classes.commentbox} ${classes.editorContainer}`}> {/* Apply CSS class */}
+          <div className={`${classes.commentbox} ${classes.editorContainer}`}> 
              <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}

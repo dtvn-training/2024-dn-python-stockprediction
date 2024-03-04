@@ -64,22 +64,26 @@
 }
 
 .discussGroup {
-  display: block;
+    display: block;
 }
 
 .detail {
-    justify-content: flex-start;
+    justify-content: space-around;
     display: flex;
     flex-direction: row;
     gap: 50px;
     margin: 0px;
     margin-top: 200px;
     margin-bottom: 50px;
+    margin-left: 64px;
 }
 
 .image13 {
-    width: 60%;
+    padding: 30px;
+    width: 55%;
     height: auto;
+    background-color: rgb(201, 234, 240);
+    border-radius: 10px;
 }
 
 .predictcontent {
@@ -100,6 +104,12 @@
     color: #000;
     flex-direction: column;
     gap: 30px;
+
+}
+
+.discusscomment .wiritecomment,
+.discusscomment .discussGroup {
+    margin-left: 64px;
 }
 
 .discusscomment .text {
@@ -113,9 +123,20 @@
 }
 
 .wiritecomment {
+    background-color: rgb(201, 234, 240);
+    padding: 10px;
     width: fit-content;
-    background-color: rgba(255, 255, 255, 0.05);
-    font-size: 18px;
-    font-weight: 700px;
-    border-radius: 15px;
+    border-radius: 10px;
+}
+
+.wiritecomment {
+    display: block;
+}
+
+.commentbox >div{
+    display: block;
+}
+
+._writecomment_rctcg_19 {
+    display: block;
 }

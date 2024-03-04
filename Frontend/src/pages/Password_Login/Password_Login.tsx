@@ -9,7 +9,7 @@ import { Line20Icon } from './Line20Icon';
 import classes from './Password_Login.module.css';
 import { ShapeIcon } from './ShapeIcon';
 import {useLoginForm} from '../../services/api/authencication.api'
-import { ToastContainer, toast } from 'react-toastify'; 
+import { ToastContainer} from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css';
 interface Props {
   className?: string;
@@ -17,7 +17,8 @@ interface Props {
 
 export const Password_Login: FC<Props> = memo(function Password_Login(props: Props = {}) {
 
-  const { loginForm, handleChange, logmeIn } = useLoginForm();
+  const { loginForm, handleChange, logmeIn, emailError, passwordError } = useLoginForm();
+
   const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
@@ -36,11 +37,10 @@ export const Password_Login: FC<Props> = memo(function Password_Login(props: Pro
 
     <div className={`${resets.storybrainResets} ${classes.root}`}>
       <ToastContainer />
-      {error && <div style={{ color: 'red' }}>{error}</div>} {/* Display error message */}
       <div className={classes.line20}>
         <Line20Icon className={classes.icon2} />
       </div>
-      <div className={classes.image10}></div>
+      <Link to="/" className={classes.image10}></Link>
 
       <div className={classes.loginForm}>
         <div className={classes.frame2}>
@@ -49,7 +49,7 @@ export const Password_Login: FC<Props> = memo(function Password_Login(props: Pro
 
         <form className={classes.frame3} onSubmit={logmeIn}>
           <label className={classes.labelLogin}>Email</label>
-          <div className={`${classes.rectangle} ${classes.rectangleEmail}`}>
+          <div className={`${classes.rectangle} ${classes.rectangleEmail} ${emailError ? classes.inputerror : ''}`}>
             <EnvelopeLightSolid
               className={classes.envelopeLightSolid}
               swap={{
@@ -57,26 +57,26 @@ export const Password_Login: FC<Props> = memo(function Password_Login(props: Pro
               }}
             />
             <input
-              className={`${classes.input} ${classes.inputEmail}`}
+              className={`${classes.input} ${classes.inputEmail} `}
               onChange={handleChange}
               placeholder='Email'
               name='email'
               value={loginForm.email}
               type='email'
             />
-
           </div>
           <label className={classes.labelLogin}>Mật khẩu</label>
-          <div className={`${classes.rectangle} ${classes.rectanglePassword}`}>
+          <div className={`${classes.rectangle} ${classes.rectanglePassword} ${passwordError ? classes.inputerror : ''}`}>
             <InterfaceEssentialLock_StyleFi className={classes.interfaceEssentialLock} />
             <input
               onChange={handleChange}
               type="password"
               name="password"
               value={loginForm.password}
-              className={`${classes.input} ${classes.inputPassword}`}
+              className={`${classes.input} ${classes.inputPassword} `}
               placeholder='Mật khẩu'
             />
+            {passwordError && <span className={classes.errorMessage}>Email hoặc mật khẩu sai</span>}
           </div>
           <div className={classes.next_BTN}>
             <button className={classes.next_Icon}  >

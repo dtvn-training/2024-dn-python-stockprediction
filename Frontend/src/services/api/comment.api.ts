@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API_BASE_URL = "http://127.0.0.1:5000";
 
-export const getAllComments = async (symbol: string): Promise<any> => {
+export const getAllComments = async (symbol: any): Promise<any> => {
     try {
         let param = symbol.stocks
         const response = await axios.get(`${API_BASE_URL}/comment/showAll/${param}`);

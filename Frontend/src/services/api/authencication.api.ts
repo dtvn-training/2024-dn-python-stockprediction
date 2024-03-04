@@ -10,12 +10,14 @@ export function useLoginForm() {
     email: "",
     password: ""
   });
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
   const { setToken } = useToken();
   async function logmeIn(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (!loginForm.email || !loginForm.password) {
-        toast.error('Vui lòng nhập đầy đủ thông tin'); // Hiển thị thông báo lỗi
+        toast.info('Vui lòng nhập đầy đủ thông tin');
         return;
     }
 
@@ -28,14 +30,25 @@ export function useLoginForm() {
         setToken(response.data.access_token);
         setLoginForm({ email: "", password: "" });
         window.location.href = "/";
+        localStorage.setItem("isLoggedIn", "true");
+        toast.success("đăng nhập thành công")
+        console.log(response,'rélogin');
+        
     } catch (error) {
         console.error('Error:', error);
+        toast.error('Vui lòng nhập đầy đủ thông tin')
     }
 }
   
   
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
+    if (name === "email"){
+      setEmailError(false)
+    }   
+    if (name === "password"){
+      setPasswordError(false)
+    }
     setLoginForm(prevState => ({ ...prevState, [name]: value }));
   }
 
@@ -46,6 +59,7 @@ export function useLoginForm() {
     })
     .then((response) => {
        props.token()
+       toast.success('đăng xuất thành công')
     }).catch((error) => {
       if (error.response) {
         console.log(error.response)
@@ -54,43 +68,116 @@ export function useLoginForm() {
         }
     })}
 
-  return { loginForm, handleChange, logmeIn, logMeOut };
+  return { loginForm, handleChange, logmeIn, logMeOut ,passwordError,emailError};
 }
 export function useSignUpForm() {
   const [signUpForm, setSignUpForm] = useState({
     fullname: "",
     email: "",
-    password: ""
+    password: "",
+    confirmpassword:""
   });
   const { setToken } = useToken();
-  const navigate = useNavigate(); // Initialize useNavigate hook
+  const navigate = useNavigate(); 
 
+  const [fullnameError, setFullnameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   function signUp(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault(); // Prevent default form submission
-    
+    event.preventDefault(); 
+
+    if (!isFullValue(signUpForm)) {
+      toast.info("Vui lòng điền đầy đủ thông tin.");
+      return;
+    }
+
+    if (!isValidFullname(signUpForm.fullname)) {
+      setFullnameError(true);
+      return;
+    } else {
+      setFullnameError(false)
+    }
+
+    if (!isValidPassword(signUpForm.password)) {
+      setPasswordError(true);
+      return; 
+    } else {
+      setPasswordError(false)
+    }
+
+    if (!isConfirmPassword(signUpForm.password, signUpForm.confirmpassword)) {
+      setConfirmPasswordError(true);
+      return; 
+    } else {
+      setConfirmPasswordError(false)
+    }
     axios.post(`${API_BASE_URL}/signup`, {
       fullname: signUpForm.fullname,
       email: signUpForm.email,
       password: signUpForm.password
     })
     .then((response) => {
-      setToken(response.data.access_token);
-      clearSignUpForm();
-      navigate('/login'); // Navigate to the login page after successful registration
+      if (response.status === 200) {
+        setToken(response.data.access_token);
+        setEmailError(false);
+        clearSignUpForm();
+        window.location.href = "/";
+        localStorage.setItem("isLoggedIn", "true");
+        toast.success(response.data.success);
+      }
     })
     .catch((error) => {
+      if (error.response.status === 400) {
+        setEmailError(true);
+      }
+      let msgErr = error.response.
+      toast.error("")
       console.error('Error:', error);
     });
   }
 
+  function isFullValue(signUpForm: { [key: string]: string }): boolean {
+    for (const key in signUpForm) {
+        if (signUpForm[key].trim() === '') {
+            return false;
+        }
+    }
+    return true; 
+  }
+
+  function isValidFullname(fullname: string) {
+    return !/\d/.test(fullname);
+  }
+
+  function isValidPassword(password: string) {
+    return /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password);
+  }
+
+  function isConfirmPassword(password: string, confirmPassword: string) {
+    return password === confirmPassword;
+  }
+  
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
+    if (name === "fullname"){
+      setFullnameError(false)
+    }      
+    if (name === "email"){
+      setEmailError(false)
+    }   
+    if (name === "password"){
+      setPasswordError(false)
+    }
+    if (name === "confirmpassword"){
+      setConfirmPasswordError(false)
+    }
     setSignUpForm(prevState => ({ ...prevState, [name]: value }));
   }
 
   function clearSignUpForm() {
-    setSignUpForm({ fullname: "", email: "", password: "" });
+    setSignUpForm({ fullname: "", email: "", password: "" ,confirmpassword:""});
   }
 
-  return { signUpForm, handleChange, signUp, clearSignUpForm };
+  return { signUpForm, handleChange, signUp, clearSignUpForm, fullnameError, emailError, passwordError, confirmPasswordError };
 }

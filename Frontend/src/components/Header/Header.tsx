@@ -1,24 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import Button from '@mui/material/Button';
-import {
-  LoginLink,
-  TopRight,
-} from "./TopBar.styled";
+import React, { useState, useEffect } from "react";
+import Button from "@mui/material/Button";
+import { LoginLink, TopRight } from "./TopBar.styled";
 import { UserCircle } from "./UserCircle/UserCircle";
-import { Navigate, useNavigate } from 'react-router';
+import { Navigate, useNavigate } from "react-router";
 import classes from "./Header.module.css";
-import DropdownMenu from "./DropdownMenu/DropdownMenu"
-import { Link } from 'react-router-dom';
+import DropdownMenu from "./DropdownMenu/DropdownMenu";
+import { Link } from "react-router-dom";
 
 const Header: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<boolean>(false);
-  
+
   const navigate = useNavigate();
 
   // Check for token in localStorage on component mount
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
     }
@@ -37,17 +34,18 @@ const Header: React.FC = () => {
         </div>
         <div className={classes.rightheader}>
           <div className={classes.search}>
-            <Button variant="outlined" onClick={handleLoginClick}>Đăng nhập</Button>
+            <Button variant="outlined" onClick={handleLoginClick}>
+              Đăng nhập
+            </Button>
           </div>
         </div>
       </div>
     );
-  }
-  else {
+  } else {
     return (
       <div className={classes.header}>
         <div className={classes.leftheader}>
-          <Link to="/" className={classes.logo} ></Link>
+          <Link to="/" className={classes.logo}></Link>
         </div>
         <div className={classes.rightheader}>
         <UserCircle 
@@ -58,14 +56,11 @@ const Header: React.FC = () => {
         />
 
           {openDropdown && <DropdownMenu />}
-          {/* <div className={classes.search}>
-            <Button variant="outlined" onClick={handleLogout}>Đăng xuất</Button>
-          </div> */}
         </div>
       </div>
     );
   }
-  
+
   // Render null if isLoggedIn is true
   return null;
 };

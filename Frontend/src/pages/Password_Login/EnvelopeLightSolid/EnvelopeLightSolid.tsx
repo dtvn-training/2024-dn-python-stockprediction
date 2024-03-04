@@ -1,9 +1,9 @@
-import { memo } from 'react';
-import type { FC, ReactNode } from 'react';
+import { memo } from "react";
+import type { FC, ReactNode } from "react";
 
-import resets from '../../_resets.module.css';
-import classes from './EnvelopeLightSolid.module.css';
-import { ShapeIcon } from './ShapeIcon.js';
+import resets from "../../_resets.module.css";
+import classes from "./EnvelopeLightSolid.module.css";
+import { ShapeIcon } from "./ShapeIcon.js";
 
 interface Props {
   className?: string;
@@ -14,11 +14,19 @@ interface Props {
     shape?: ReactNode;
   };
 }
-/* @figmaId 2346:74 */
-export const EnvelopeLightSolid: FC<Props> = memo(function EnvelopeLightSolid(props = {}) {
+
+export const EnvelopeLightSolid: FC<Props> = memo(function EnvelopeLightSolid(
+  props = {}
+) {
   return (
-    <div className={`${resets.storybrainResets} ${props.classes?.root || ''} ${props.className || ''} ${classes.root}`}>
-      <div className={classes.shape}>{props.swap?.shape || <ShapeIcon className={classes.icon} />}</div>
+    <div
+      className={`${resets.storybrainResets} ${props.classes?.root || ""} ${
+        props.className || ""
+      } ${classes.root}`}
+    >
+      <div className={classes.shape}>
+        {props.swap?.shape || <ShapeIcon className={classes.icon} />}
+      </div>
     </div>
   );
 });

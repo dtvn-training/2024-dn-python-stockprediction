@@ -1,15 +1,18 @@
-import React, { memo, useEffect, useState} from "react";
-import { useParams } from 'react-router-dom';
-import { getAllComments } from '../../services/api/comment.api';
-import CommentBox from "../../components/StockDetail/CommentBox/CommentBox";
+import { memo } from "react";
+import type { FC } from "react";
+import Line from "./Line";
+import classes from "./Stock_page_for_users.module.css";
+import CompanyInfo from "../../components/StockDetail/CompanyInfo/CompanyInfo";
+import TableDetail from "../../components/StockDetail/TableDetail/TableDetail";
+import Predict from "../../components/StockDetail/Predict/Predict";
 import Discuss from "../../components/StockDetail/Discuss/Discuss";
+import CommentBox from "../../components/StockDetail/CommentBox/CommentBox";
 import Header from "../../components/Header/Header";
 import Candlestick from "../../components/StockDetail/Candlestick/Candlestick";
-import CompanyInfo from "../../components/StockDetail/CompanyInfo/CompanyInfo";
-import Line from "./Line";
-import Predict from "../../components/StockDetail/Predict/Predict";
-import TableDetail from "../../components/StockDetail/TableDetail/TableDetail";
-import classes from "./Stock_page_for_users.module.css";
+import { useParams } from "react-router-dom";
+import { getAllComments } from "../../services/api/comment.api";
+import React, { useEffect, useState } from "react";
+
 
 interface Props {
   className?: string;
@@ -19,15 +22,15 @@ export const Stock_page_for_users: FC<Props> = memo(
   function Stock_page_for_users(props = {}) {
     const { stocks } = useParams();    
     const [comments, setComments] = useState([]);
-    const [updateTrigger, setUpdateTrigger] = useState(false); // State to trigger update
+    const [updateTrigger, setUpdateTrigger] = useState(false); 
 
     useEffect(() => {
       fetchData();
-    }, [updateTrigger]); // Trigger useEffect when updateTrigger state changes
+    }, [updateTrigger]); 
 
     const fetchData = async () => {
       try {
-        const data = await getAllComments({ stocks });
+        const data = await getAllComments({ stocks });        
         setComments(data);
       } catch (error) {
         console.error('Error fetching comments:', error);
@@ -36,10 +39,9 @@ export const Stock_page_for_users: FC<Props> = memo(
 
     const handleCommentUpdate = async () => {
       try {
-        await fetchData(); // Fetch updated comments
+        await fetchData(); 
         setUpdateTrigger(prevState => !prevState);
         console.log(updateTrigger,"updateTrigger");
-         // Toggle updateTrigger to trigger update
       } catch (error) {
         console.error('Error updating comments:', error);
       }
@@ -56,10 +58,10 @@ export const Stock_page_for_users: FC<Props> = memo(
           <Line />
           <div className={classes.detail}>
             <div className={classes.image13}>
-              {stocks && <Candlestick symbol={stocks}  />}
+              {stocks && <Candlestick symbol={stocks} />}
             </div>
             <div className={classes.tabledetail}>
-              {stocks && <TableDetail symbol={stocks}  />}
+              {stocks && <TableDetail symbol={stocks} />}
             </div>
           </div>
           <Line />
@@ -67,7 +69,7 @@ export const Stock_page_for_users: FC<Props> = memo(
             <div className={classes.labelpredict}>
               <span>Dự đoán</span>
             </div>
-            {stocks && <Predict symbol={stocks}  />}
+            {stocks && <Predict symbol={stocks} />}
           </div>
           <div className={classes.discusscomment}>
             <Line />
@@ -91,7 +93,8 @@ export const Stock_page_for_users: FC<Props> = memo(
                   />
                   <Line />
                 </React.Fragment>
-              ))}
+              ))
+              }
             </div>
           </div>
         </div>

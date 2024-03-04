@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import classes from "./Discuss.module.css";
 import { Button } from "@mui/material";
+import { toast } from "react-toastify";
 
 interface CommentProps {
   id: string;
@@ -45,24 +46,24 @@ const Discuss: React.FC<CommentProps> = ({
           "Content-Type": "application/json",
           Authorization: `Bearer ${userToken}`,
         },
-        body: JSON.stringify({ commentid: id, commenttext: editedComment, token: userToken }),
+        body: JSON.stringify({ id: id, commenttext: editedComment, token: userToken }),
       })
         .then((response) => {
           if (response.ok) {
-            alert("Bình luận thành công!");
+            toast.success("Bình luận thành công!");
             setEditedComment("");
             setIsEditing(false); 
             onUpdate(); 
           } else {
-            alert("Lỗi bình luận.");
+            toast.error("Lỗi bình luận.");
           }
         })
         .catch((error) => {
-          console.error("Error sending comment:", error);
-          alert("Lỗi.");
+          console.error("Error sending comment: checkk", error);
+          toast.error("Lỗi.");
         });
     } else {
-      alert("Vui lòng đăng nhập.");
+      toast.error("Vui lòng đăng nhập.");
     }
   };
 
@@ -82,26 +83,26 @@ const Discuss: React.FC<CommentProps> = ({
       })
         .then((response) => {
           if (response.ok) {
-            alert("Xóa bình luận thành công!");
+            toast.success("Xóa bình luận thành công!");
             onUpdate(); // Gọi hàm onUpdate để cập nhật danh sách bình luận
           } else {
-            alert("Lỗi khi xóa bình luận a.");
+            toast.error("Lỗi khi xóa bình luận.");
           }
         })
         .catch((error) => {
           console.error("Error deleting comment:", error);
-          alert("Lỗi khi xóa bình luận.");
+          toast.error("Lỗi khi xóa bình luận.");
         });
     } else {
-      alert("Vui lòng đăng nhập để xóa bình luận.");
+      toast.error("Vui lòng đăng nhập để xóa bình luận.");
     }
   };
 
   return (
     <div className={classes.discuss}>
       <div className={classes.commentinfo}>
-        <div className={classes.username}>{username}</div>
-        <div className={classes.time}>{time}</div>
+        <span className={classes.username}>{username}</span>
+        <span className={classes.time}>{time}</span>
       </div>
       <div className={classes.commenttext}>
         {isEditing ? (
