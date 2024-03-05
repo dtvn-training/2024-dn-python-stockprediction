@@ -6,7 +6,15 @@ from datetime import datetime, timedelta, timezone
 import json
 import uuid
 from flask import Flask, request, jsonify
-from models import db, StockList, StockHistory, StockPrediction, Users, Comments
+from models import (
+    StockFollow,
+    db,
+    StockList,
+    StockHistory,
+    StockPrediction,
+    Users,
+    Comments,
+)
 from sqlalchemy import desc
 from flask_cors import CORS
 import matplotlib
@@ -170,6 +178,35 @@ def get_predictions(stockCode):
     if not stock_prediction:
         return jsonify({'textPrediction': ''}), 200
     return jsonify({'textPrediction': stock_prediction.text_prediction}), 200
+
+
+@app.route("/user/follow/<stockCode>", methods=["GET", "POST"])
+@jwt_required()
+def follow_data(stockCode):
+    email_user = get_jwt_identity()
+    user = Users.query.filter_by(email=email_user).first()
+    stock = StockList.query.filter_by(symbol=stockCode).first()
+    followed = StockFollow.query.filter_by(
+        userid=user.userid, stockid=stock.stockid
+    ).first()
+    if request.method == "GET":
+        if followed:
+            return jsonify({"is_follow": True})
+        else:
+            return jsonify({"is_follow": False})
+
+    if request.method == "POST":
+        if followed:
+            db.session.delete(followed)
+            db.session.commit()
+            return jsonify({"message": f"You've unfollowed {stockCode}."})
+        else:
+            new_followed = StockFollow(
+                followid=str(uuid.uuid4()), userid=user.userid, stockCode=stockCode
+            )
+            db.session.add(new_followed)
+            db.session.commit()
+            return jsonify({"message": f"You're now following {stockCode}."})
 
 
 @app.route('/token', methods=["POST"])

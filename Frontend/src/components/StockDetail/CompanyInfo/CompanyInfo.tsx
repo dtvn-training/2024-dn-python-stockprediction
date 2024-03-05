@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import classes from "./CompanyInfo.module.css";
 import { Star } from "@mui/icons-material";
-import { getCompanyData } from "./CompanyInfoReq";
+import { getCompanyData, isfollowstock } from "./CompanyInfoReq";
 
 interface CompanyInfoProps {
   symbol: string;
@@ -16,7 +16,9 @@ const CompanyInfo: React.FC<CompanyInfoProps> = ({ symbol, follow }) => {
     const fetchData = async () => {
       try {
         const data = await getCompanyData(symbol);
+        const isfollowdata = await isfollowstock(symbol);
         setCompanyData(data);
+        console.log(isfollowdata);
       } catch (error) {
         console.error("Error fetching company data:", error);
       }
@@ -27,6 +29,11 @@ const CompanyInfo: React.FC<CompanyInfoProps> = ({ symbol, follow }) => {
 
   const handlefollow = () => {
     setIsFollow(!isFollow);
+    if (isFollow) {
+      alert(" followed");
+    } else {
+      alert("unfollowed");
+    }
   };
   return (
     <div className={classes.companyinfo}>
