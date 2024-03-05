@@ -1,7 +1,7 @@
 .header {
     display: flex;
     flex-direction: row;
-    padding:20px 120px;
+    margin-top: 20px;
     align-items: center;
     justify-content: space-between;
     width: 100%;
@@ -9,12 +9,12 @@
 }
 
 .leftheader {
+    display: flex;
     align-items: center;
 }
 
 .rightheader {
-    position: absolute;
-    right: 114px;
+    position: relative;
     display: flex;
     margin-right: 50px;
     flex-direction: row;

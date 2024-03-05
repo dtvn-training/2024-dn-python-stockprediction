@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 SQL_STRING="mysql://root:Ncgncg1102@127.0.0.1:3306/stock_prediction"
+=======
+SQL_STRING="mysql://root:123456@127.0.0.1:3306/stock_prediction"
+>>>>>>> 28-config-ui
 
 #  message
 STOCK_NOT_FOUND="Stock not found"
