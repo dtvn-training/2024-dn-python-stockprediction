@@ -23,24 +23,36 @@ const TableDetail: React.FC<DetailProps> = ({ symbol }) => {
   return (
     <div className={classes.tabledetail}>
       <div className={classes.header}>
-      <span>Date</span>
-      {StockData ? new Date(StockData.date).toLocaleDateString() : "Loading..."}
+        <span>Date</span>
+        <span className={classes.datetime}>
+          {StockData
+            ? new Date(StockData.date).toLocaleDateString()
+            : "Loading..."}
+        </span>
       </div>
       <div className={classes.open}>
         <span>Open</span>
-        {StockData ? StockData.open : "Loading..."}
+        <span className={classes.info}>
+          {StockData ? StockData.open : "Loading..."}
+        </span>
       </div>
       <div className={classes.high}>
         <span>High</span>
-        {StockData ? StockData.high : "Loading..."}
+        <span className={classes.info}>
+          {StockData ? StockData.high : "Loading..."}
+        </span>
       </div>
       <div className={classes.low}>
         <span>Low</span>
-        {StockData ? StockData.low : "Loading..."}
+        <span className={classes.info}>
+          {StockData ? StockData.low : "Loading..."}
+        </span>
       </div>
       <div className={classes.close}>
         <span>Previous Close</span>
-        {StockData ? StockData.previous_close_price : "Loading..."}
+        <span className={classes.info}>
+          {StockData ? StockData.previous_close_price : "Loading..."}
+        </span>
       </div>
     </div>
   );

@@ -12,6 +12,7 @@ import Candlestick from "../../components/StockDetail/Candlestick/Candlestick";
 import { useParams } from "react-router-dom";
 import { getAllComments } from "../../services/api/comment.api";
 import React, { useEffect, useState } from "react";
+import StockChange from "../../components/StockDetail/PriceChange/PriceChange";
 import AnimationChange from "../../components/StockDetail/AnimationChange/animationchange";
 
 interface Props {
@@ -56,6 +57,7 @@ export const Stock_page_for_users: FC<Props> = memo(
 
         <div className={classes.container}>
           <Line />
+          
           <div className={classes.detail}>
 
             <div className={classes.image13}>
@@ -63,7 +65,9 @@ export const Stock_page_for_users: FC<Props> = memo(
             </div>
             <div className={classes.tabledetail}>
               {stocks && <TableDetail symbol={stocks} />}
+              {stocks && <StockChange symbol={stocks} />}
             </div>
+            
           </div>
           <Line />
           <div className={classes.predictcontent}>
@@ -80,7 +84,6 @@ export const Stock_page_for_users: FC<Props> = memo(
                 <CommentBox onUpdate={handleCommentUpdate} />
               </div>
             </div>
-            <Line />
             <div className={classes.discussGroup}>
               {comment.map((commentItem, index) => (
                 <React.Fragment key={index}>
@@ -91,7 +94,8 @@ export const Stock_page_for_users: FC<Props> = memo(
                     commenttext={commentItem.comment_text}
                     tokenUser={commentItem.userToken}
                   />
-                  <Line />
+                  
+                  
                 </React.Fragment>
               ))}
             </div>

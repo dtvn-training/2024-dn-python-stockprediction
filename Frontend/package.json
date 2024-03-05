@@ -18,6 +18,7 @@
     "@mui/x-data-grid": "^6.19.4",
     "apexcharts": "^3.46.0",
     "axios": "^1.6.7",
+    "d3": "^7.8.5",
     "devextreme-react": "^23.2.4",
     "igniteui-react": "^18.5.1",
     "igniteui-react-charts": "^18.5.1",
@@ -36,9 +37,13 @@
     "react-router-dom": "^6.22.1",
     "react-spring": "^9.7.3",
     "react-toastify": "^10.0.4",
+    "scichart": "^3.3.570",
+    "scichart-example-dependencies": "^0.1.7",
+    "scichart-react": "^0.1.7",
     "styled-components": "^6.1.8"
   },
   "devDependencies": {
+    "@types/d3": "^7.4.3",
     "@types/http-proxy-middleware": "^1.0.0",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",

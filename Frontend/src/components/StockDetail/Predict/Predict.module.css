@@ -2,7 +2,9 @@
     margin-left: 64px;
     display: flex;
     flex-direction: row;
-    gap: 25px;
+    gap: 100px;
+    
+
 }
 
 .predict .title span {
@@ -16,9 +18,10 @@
     flex-direction: column;
     gap: 20px;
     width: 100%;
+    border: 1px solid  #00000031;
+    border-radius: 5px;
+    padding:20px 60px; 
     
-    padding: 20px;
-    border-radius: 10px 
 
 }
 
@@ -39,7 +42,7 @@
     margin-top: 30px;
     border: 1px solid #0000000e;
     border-radius: 5px;
-    padding: 10px;
+    padding: 20px;
 }
 
 .contentpredict .contentbox {
@@ -53,6 +56,7 @@
     font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
         'Liberation Sans', sans-serif;
     border: 1px solid #0000000e;
+    padding: 20px;
 
 }
 
@@ -63,7 +67,8 @@
     gap: 20px;
     border: 1px solid #00000031;
     padding: 20px;
-    border-radius: 10px 
+    border-radius: 10px ;
+    box-shadow: 0px 0px 5px ;
 }
 
 .chartpredict ul li {
@@ -79,7 +84,9 @@
 }
 
 .update,
-.delete {
+.delete,
+.save,
+.cancel {
     background-color: rgb(201, 234, 240);
     padding: 10px;
     border-radius: 10px;
