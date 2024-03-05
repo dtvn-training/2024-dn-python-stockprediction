@@ -19,12 +19,11 @@
 .dashboard {
     display: block;
     width: 100%;
-    margin: 30px auto;
 }
 
 .main {
     display: block;
-    margin: 30px 118px;
+    margin: 30px auto;
 }
 
 .contentbox {

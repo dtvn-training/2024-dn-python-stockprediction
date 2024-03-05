@@ -18,7 +18,10 @@ interface Props {
 }
 export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
   const [stocks, setStocks] = useState([]);
-
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
   useEffect(() => {
     getAllStocks()
       .then((data) => {
@@ -27,20 +30,41 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       .catch((error) => {
         console.log("Error fetching stocks:", error);
       });
-  }, []);
 
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  let width_maCK = 0.1;
+  let width_giaTran = 0.08;
+  let width_giaDay = 0.08;
+  let width_giaMoCua = 0.08;
+  let width_giaDongCua = 0.08;
+  let width_tangGiam = 0.08;
+  let width_tiLe = 0.08;
+  let width_tongKhoiLuong = 0.1;
+  let width_hanhdong = 0.15;
   const columns: GridColDef[] = [
     {
       field: "Mã chứng khoán",
       headerName: "Mã CK",
-      width: 200,
+      width: windowSize.width*width_maCK,
       valueGetter: (params: GridValueGetterParams) =>
         `${params.row.symbol || ""}`,
     },
     {
       field: "Giá trần",
       headerName: "Giá trần",
-      width: 100,
+      width: windowSize.width*width_giaTran,
       valueGetter: (params: GridValueGetterParams) => {
         if (typeof params.row.high === "number") {
           return params.row.high.toFixed(0);
@@ -52,7 +76,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
     {
       field: "Giá đáy",
       headerName: "Giá đáy",
-      width: 100,
+      width: windowSize.width*width_giaDay,
       valueGetter: (params: GridValueGetterParams) => {
         if (typeof params.row.low === "number") {
           return params.row.low.toFixed(0);
@@ -64,7 +88,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
     {
       field: "Giá mở cửa",
       headerName: "Giá mở cửa",
-      width: 100,
+      width: windowSize.width*width_giaMoCua,
       valueGetter: (params: GridValueGetterParams) => {
         if (typeof params.row.open === "number") {
           return params.row.open.toFixed(0);
@@ -74,9 +98,9 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       },
     },
     {
-      field: "Giá đóng cửa hôm qua",
-      headerName: "Giá đóng cửa hôm qua",
-      width: 100,
+      field: "Giá đóng cửa",
+      headerName: "Giá đóng cửa",
+      width: windowSize.width*width_giaDongCua,
       valueGetter: (params: GridValueGetterParams) => {
         if (typeof params.row.previous_close_price === "number") {
           return params.row.previous_close_price.toFixed(0);
@@ -88,7 +112,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
     {
       field: "Tăng giảm",
       headerName: "+/-",
-      width: 100,
+      width: windowSize.width*width_tangGiam,
       renderCell: (params: GridValueGetterParams) => {
         const value =
           typeof params.row.diffirence === "number" ? params.row.diffirence : 0;
@@ -108,7 +132,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
     {
       field: "Tỉ lệ %",
       headerName: "%",
-      width: 100,
+      width: windowSize.width*width_tiLe,
       renderCell: (params: GridValueGetterParams) => {
         const value =
           typeof params.row.percent === "number" ? params.row.percent : 0;
@@ -132,7 +156,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
     {
       field: "Tổng khối lượng",
       headerName: "Tổng khối lượng",
-      width: 200,
+      width: windowSize.width*width_tongKhoiLuong,
       valueGetter: (params: GridValueGetterParams) => {
         if (typeof params.row.volume === "number") {
           return params.row.volume.toFixed(0);
@@ -145,13 +169,13 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       field: "Hành động",
       headerName: "Hành động",
       sortable: false,
-      width: 250,
+      width: windowSize.width*width_hanhdong,
       renderCell: (params) => (
-        <Button variant="outlined">
-          <Link to={`/stock/${params.row.symbol}`} style={{ color: "black" }}>
-            Chi tiết
-          </Link>
-        </Button>
+          <Button variant="outlined">
+            <Link to={`/stock/${params.row.symbol}`} style={{color: "black" }}>
+              Chi tiết
+            </Link>
+          </Button>
       ),
     },
   ];
@@ -166,6 +190,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
           <DataGrid
             rows={rows}
             columns={columns}
+            style={{width:windowSize.width*0.85, margin:"0 auto"}}
             initialState={{
               pagination: {
                 paginationModel: { page: 0, pageSize: 10 },

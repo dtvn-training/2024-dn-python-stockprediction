@@ -1,7 +1,6 @@
 .header {
     display: flex;
     flex-direction: row;
-    margin: 0px 100px;
     margin-top: 20px;
     align-items: center;
     justify-content: space-between;
@@ -9,17 +8,16 @@
 }
 
 .leftheader {
+    display: flex;
     align-items: center;
 }
 
 .rightheader {
-    position: absolute;
-    right: 114px;
+    position: relative;
     display: flex;
     margin-right: 50px;
     flex-direction: row;
     align-items: center;
-    gap: 20px;
 }
 
 .userCircle.userCircle {
