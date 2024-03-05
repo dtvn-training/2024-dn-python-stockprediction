@@ -11,7 +11,7 @@ import resets from "../../components/_resets.module.css";
 import classes from "./Dashboard.module.css";
 import Header from "../../components/Header/Header";
 import { getStockbyDate } from "../../services/api/stock.api";
-import { Link } from "react-router-dom";
+import { Link, useNavigate  } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -23,10 +23,11 @@ interface Props {
   className?: string;
 }
 export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
+  const navigate = useNavigate();
   const [stocks, setStocks] = useState([]);
   const currentDate  = dayjs();;
   const [selectedDate, setSelectedDate] = useState<Date>(currentDate);  
-
+  const isLoggedIn = localStorage.getItem("token");
   useEffect(() => {
     fetchStockData(selectedDate);
   }, [selectedDate]);
@@ -43,8 +44,8 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
 
   const [tokenTimeout, setTokenTimeout] = useState<NodeJS.Timeout | null>(null);
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
-    if (isLoggedIn === "true") {
+    const isLoggedInToToast = localStorage.getItem("isLoggedIn");
+    if (isLoggedInToToast === "true") {
       toast.success("Welcome");
 
       const timeout = setTimeout(() => {
@@ -62,6 +63,18 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
   }, []);
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date || new Date()); 
+  };
+
+  const handleDetailStock = (symbol: string) => {
+    const isLoggedIn = localStorage.getItem("token");
+    if (isLoggedIn) {
+      // Chuyển hướng người dùng đến trang đăng nhập nếu chưa đăng nhập
+      navigate("/login");
+    } else {
+      // Nếu đã đăng nhập, thực hiện hành động bình thường
+      // Ví dụ: chuyển hướng đến trang chi tiết chứng khoán
+      navigate(`/stock/${symbol}`);
+    }
   };
 
   const columns: GridColDef[] = [
@@ -83,13 +96,6 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
           return "0";
         }
       },
-    },
-    {
-      field: "ngay",
-      headerName: "ngay",
-      width: 200,
-      valueGetter: (params: GridValueGetterParams) =>
-        `${params.row.date || ""}`,
     },
     {
       field: "Giá đáy",
@@ -189,10 +195,11 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       sortable: false,
       width: 250,
       renderCell: (params) => (
-        <Button variant="outlined">
-          <Link to={`/stock/${params.row.symbol}`} style={{ color: "black" }}>
-            Chi tiết
-          </Link>
+        <Button 
+          variant="outlined"  
+          onClick={() => handleDetailStock(params.row.symbol)}
+        >
+          Chi tiết
         </Button>
       ),
     },
@@ -206,13 +213,15 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       <div className={classes.dashboard}>
         <Header />
         <div className={classes.main}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker 
-              value={selectedDate}
-              onChange={handleDateChange}
-              label="Chọn ngày"
-            />
-          </LocalizationProvider>
+          <div className={classes.datepicker}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker 
+                value={selectedDate}
+                onChange={handleDateChange}
+                label="Chọn ngày"
+              />
+            </LocalizationProvider>
+          </div>
           <DataGrid
             rows={rows}
             columns={columns}
