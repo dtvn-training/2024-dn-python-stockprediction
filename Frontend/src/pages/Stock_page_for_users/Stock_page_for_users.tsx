@@ -12,6 +12,8 @@ import Candlestick from "../../components/StockDetail/Candlestick/Candlestick";
 import { useParams } from "react-router-dom";
 import { getAllComments } from "../../services/api/comment.api";
 import React, { useEffect, useState } from "react";
+import StockChange from "../../components/StockDetail/PriceChange/PriceChange";
+import AnimationChange from "../../components/StockDetail/AnimationChange/animationchange";
 
 
 interface Props {
@@ -50,19 +52,28 @@ export const Stock_page_for_users: FC<Props> = memo(
     return (
       <div className={` ${classes.root}`}>
         <Header />
+        
         <div className={classes.companyinfo}>
+          
           {stocks && <CompanyInfo symbol={stocks} follow={false} />}
+        </div>
+        <div className={classes.animation}>
+          <AnimationChange/>
         </div>
 
         <div className={classes.container}>
           <Line />
+          
           <div className={classes.detail}>
+
             <div className={classes.image13}>
               {stocks && <Candlestick symbol={stocks} />}
             </div>
             <div className={classes.tabledetail}>
               {stocks && <TableDetail symbol={stocks} />}
+              {stocks && <StockChange symbol={stocks} />}
             </div>
+            
           </div>
           <Line />
           <div className={classes.predictcontent}>
@@ -79,7 +90,6 @@ export const Stock_page_for_users: FC<Props> = memo(
                 <CommentBox onUpdateComments ={handleCommentUpdate} />
               </div>
             </div>
-            <Line />
             <div className={classes.discussGroup}>
               {comments.map((commentItem, index) => (
                 <React.Fragment key={index}>
@@ -91,7 +101,8 @@ export const Stock_page_for_users: FC<Props> = memo(
                     tokenUser={commentItem.userToken}
                     onUpdate={handleCommentUpdate}
                   />
-                  <Line />
+                  
+                  
                 </React.Fragment>
               ))
               }

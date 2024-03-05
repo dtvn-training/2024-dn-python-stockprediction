@@ -1,11 +1,11 @@
 .header {
     display: flex;
     flex-direction: row;
-    margin: 0px 100px;
-    margin-top: 20px;
+    padding:20px 120px;
     align-items: center;
     justify-content: space-between;
     width: 100%;
+
 }
 
 .leftheader {

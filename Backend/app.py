@@ -1,4 +1,5 @@
 from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
+from stock.changeprice import changeprice
 from stock.allstock import allstock, get_stock_by_date
 from stock.predict import chart_stock
 from datetime import datetime, timedelta, timezone
@@ -54,6 +55,18 @@ def stockchart(stockCode):
     dataSource, img_predict = chart_stock(stock_infos)
     return jsonify({"chart_data": dataSource, "img_predict": img_predict})
 
+@app.route('/stock/change/<stockCode>', methods=['GET'])
+def get_change_price(stockCode):
+    stock = StockList.query.filter_by(symbol=stockCode).first()
+    if not stock:
+        return jsonify({'error': STOCK_NOT_FOUND}), 404
+    stock_infos = (
+        StockHistory.query.filter_by(stockid=stock.stockid)
+        .order_by(desc(StockHistory.date))
+        .all()
+    )
+    change_price = changeprice(stock_infos)
+    return jsonify({"change_price": change_price})
 
 @app.route('/stock/<stockCode>', methods=['GET', 'POST', 'UPDATE'],)
 def get_stock_list(stockCode):
