@@ -13,6 +13,7 @@ import { ShapeIcon2 } from "./ShapeIcon2.js";
 import { ShapeIcon } from "./ShapeIcon.js";
 import classes from "./SignUp.module.css";
 import { useSignUpForm } from "../../services/api/authencication.api";
+import { ToastContainer} from 'react-toastify'; 
 
 interface Props {
   className?: string;
@@ -21,6 +22,7 @@ export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
   const { signUpForm, handleChange, signUp ,fullnameError, emailError, passwordError, confirmPasswordError} = useSignUpForm();
   return (
     <div className={`${resets.storybrainResets} ${classes.root}`}>
+      <ToastContainer />
       <div className={classes.line20}>
         <Line20Icon className={classes.icon3} />
       </div>

@@ -1,7 +1,7 @@
 import axios from "axios";
 const API_BASE_URL = "http://127.0.0.1:5000";
 import React, { useState } from "react";
-
+import { toast } from "react-toastify";
 export const PostPredictText = async (
   stockCode: string,
   textPrediction: string
@@ -18,17 +18,17 @@ export const PostPredictText = async (
     })
       .then((response) => {
         if (response.ok) {
-          alert("Cập nhật dự đoán thành công!");
+          toast.success("Cập nhật dự đoán thành công!");
         } else {
-          alert("Bạn không có quyền cập nhật");
+          toast.info("Bạn không có quyền cập nhật");
         }
       })
       .catch((error) => {
         console.error("Error sending comment:", error);
-        alert("Lỗi.");
+        toast.error("Lỗi.");
       });
   } else {
-    alert("Vui lòng đăng nhập để bình luận.");
+    toast.info("Vui lòng đăng nhập để bình luận.");
   }
 };
 export const deletePredictText = async (stockCode: String): Promise<any> => {
@@ -43,14 +43,14 @@ export const deletePredictText = async (stockCode: String): Promise<any> => {
     })
       .then((response) => {
         if (response.ok) {
-          alert("Xóa dự đoán thành công!");
+          toast.success("Xóa dự đoán thành công!");
         } else {
-          alert("Bạn không có quyền xóa dự đoán hoặc có lỗi xảy ra.");
+          toast.error("Bạn không có quyền xóa dự đoán hoặc có lỗi xảy ra.");
         }
       })
       .catch((error) => {
         console.error("Error deleting prediction:", error);
-        alert("Lỗi khi xóa dự đoán.");
+        toast.error("Lỗi khi xóa dự đoán.");
       });
   }
 };

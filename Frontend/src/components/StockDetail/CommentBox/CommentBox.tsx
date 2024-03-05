@@ -1,11 +1,14 @@
+// CommentBox.js
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import classes from "./CommentBox.module.css";
 import { useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import { Button } from "@mui/material";
 
-const CommentBox = () => {
+const CommentBox = ({ onUpdateComments }) => {
   const [comment, setComment] = useState("");
   const [isCommenting, setIsCommenting] = useState(false);
   const symbol = useParams();
@@ -32,49 +35,50 @@ const CommentBox = () => {
           },
           body: JSON.stringify({ comment: comment, symbol: symbol }),
         })
-          .then((response) => {
+          .then(response => {            
             if (response.ok) {
-              alert("Bình luận thành công!");
+              toast.success("Bình luận thành công!");
               setComment("");
+              onUpdateComments();
             } else {
-              alert("Lỗi bình luận.");
+              toast.error("Lỗi bình luận.");
             }
           })
           .catch((error) => {
             console.error("Error sending comment:", error);
-            alert("Lỗi.");
+            toast.error("Lỗi.");
           });
       } else {
-        alert("Vui lòng đăng nhập để bình luận.");
+        toast.error("Vui lòng đăng nhập để bình luận.");
       }
     } else {
-      alert("Vui lòng nhập nội dung bình luận trước khi gửi.");
+      toast.info("Vui lòng nhập nội dung bình luận trước khi gửi.");
     }
   };
 
   return (
+
     <div className={classes.writecomment}>
       <span className={classes.writecommentlabel} onClick={handleCommentToggle}>
         Thêm bình luận
       </span>
-
+      <ToastContainer />
       <animated.div style={slideInAnimation} className={classes.commentGroup}>
         {isCommenting && (
-          <div className={`${classes.commentbox} ${classes.editorContainer}`}>
-            {" "}
-            <CKEditor
-              editor={ClassicEditor}
-              data={comment}
-              onChange={(event, editor) => {
-                const data = editor.getData().replace(/<[^>]+>/g, "");
-                setComment(data);
-              }}
-            />
-            <button onClick={handleCommentSubmit}>Gửi</button>
+          <div className={`${classes.commentbox} ${classes.editorContainer}`}> 
+             <textarea
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Nhập bình luận của bạn"
+            >
+            </textarea>
+            
+            <Button onClick={handleCommentSubmit}>Gửi bình luận</Button>
           </div>
         )}
       </animated.div>
     </div>
+    
   );
 };
 

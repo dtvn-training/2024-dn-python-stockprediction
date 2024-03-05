@@ -1,5 +1,6 @@
 from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
-from stock.allstock import allstock
+from stock.changeprice import changeprice
+from stock.allstock import allstock, get_stock_by_date
 from stock.predict import chart_stock
 from datetime import datetime, timedelta, timezone
 import json
@@ -11,6 +12,7 @@ from flask_cors import CORS
 import matplotlib
 from config import SQL_STRING, STOCK_NOT_FOUND, UN_AUTHORIZED_ACCESS, INCORRECT_LOGIN, LOGOUT_SUCCESSFUL, VALIDATE_SIGNUP_FORM, REGISTER_SUCCESSFUL, COMMENT_SUCCESSFULL, UN_AUTHORIZED
 matplotlib.use('Agg')
+import pandas as pd
 
 sqlstring = SQL_STRING
 app = Flask(__name__)
@@ -53,6 +55,18 @@ def stockchart(stockCode):
     dataSource, img_predict = chart_stock(stock_infos)
     return jsonify({"chart_data": dataSource, "img_predict": img_predict})
 
+@app.route('/stock/change/<stockCode>', methods=['GET'])
+def get_change_price(stockCode):
+    stock = StockList.query.filter_by(symbol=stockCode).first()
+    if not stock:
+        return jsonify({'error': STOCK_NOT_FOUND}), 404
+    stock_infos = (
+        StockHistory.query.filter_by(stockid=stock.stockid)
+        .order_by(desc(StockHistory.date))
+        .all()
+    )
+    change_price = changeprice(stock_infos)
+    return jsonify({"change_price": change_price})
 
 @app.route('/stock/<stockCode>', methods=['GET', 'POST', 'UPDATE'],)
 def get_stock_list(stockCode):
@@ -210,10 +224,19 @@ def signup():
 
 @app.route('/getAllStocks', methods=['GET'])
 def get_stock_lists():
-    stockArr = StockList.query.all()
-    stocks = allstock(stockArr)
+    currentDate = "2024-03-04"
+    # currentDate = str(datetime.now().date())
+    print(currentDate,'currd')
+    dataFilterByDate =  get_stock_by_date(currentDate)
     return (
-        jsonify(stocks)
+        jsonify(dataFilterByDate)
+    )
+
+@app.route('/getAllStocks/<date>', methods=['GET'])
+def get_stock_date(date):
+    dataFilterByDate =  get_stock_by_date(date)
+    return (
+        jsonify(dataFilterByDate)
     )
 
 
@@ -240,6 +263,7 @@ def update_user_profile():
     user.password = password
     db.session.commit()  
     return jsonify({"message": "Updated profile successfully."}), 200
+
 @app.route('/comment/showAll/<symbol>', methods=['GET'])
 def get_comment_lists(symbol):
     stock = StockList.query.filter_by(symbol=symbol).first()
@@ -259,10 +283,12 @@ def get_comment_lists(symbol):
             "name": str(user.fullname),
             "userToken": str(tokenUser),
             "stockid": commentObject.stockid,
-            "comment_text": commentObject.comment_text,
-            "updated_at": time,
+            "comment_text":commentObject.comment_text,
+            "updated_at":time,
+            "second": total_seconds,
         }
         commentStock.append(comment)
+    commentStock = sorted(commentStock, key=lambda x: x['second'])
     return (
         jsonify(commentStock)
     )
@@ -295,15 +321,26 @@ def updateComment(commentid):
     emailUser = get_jwt_identity()
     user = Users.query.filter_by(email=emailUser).first()
     comment = Comments.query.filter_by(commentid=commentid).first()
-    print(emailUser, 'lll')
-    if user.userid == comment.userid:
+    if (user.userid == comment.userid):
         update_comment_text = request.json.get("commenttext", None)
         comment.comment_text = update_comment_text
         db.session.commit()
         return jsonify({"message": COMMENT_SUCCESSFULL}), 200
     else:
-        return jsonify({"error": UN_AUTHORIZED}), 401
+        return jsonify({"error": "You are not authorized to update this comment"}), 401
 
+@app.route("/comment/delete/<comment_id>", methods=["DELETE"])
+@jwt_required()  
+def delete_comment(comment_id):
+    emailUser = get_jwt_identity()
+    user = Users.query.filter_by(email=emailUser).first()
+    # comment = Comments.query.filter_by(commentid=commentid).first()
+    comment = Comments.query.get(comment_id)
+    # print(comment,'cmt del')
+    if user.userid == comment.userid:
+        db.session.delete(comment)
+        db.session.commit() 
+    return jsonify({"message": "Comment deleted successfully"}), 200
 
 if __name__ == '__main__':
     app.run()

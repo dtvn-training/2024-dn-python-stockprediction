@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import classes from "./Discuss.module.css";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Button } from "@mui/material";
+import { toast } from "react-toastify";
 
 interface CommentProps {
   id: string;
@@ -10,6 +9,7 @@ interface CommentProps {
   time: string;
   commenttext: string;
   tokenUser: string;
+  onUpdate: () => void; // Add onUpdate prop
 }
 
 const Discuss: React.FC<CommentProps> = ({
@@ -18,12 +18,14 @@ const Discuss: React.FC<CommentProps> = ({
   time,
   commenttext,
   tokenUser,
+  onUpdate,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedComment, setEditedComment] = useState(commenttext);
   const API_BASE_URL = "http://127.0.0.1:5000";
   const [isComment, setIsComment] = useState(false);
   const userToken = localStorage.getItem("token");
+
   useEffect(() => {
     if (userToken === tokenUser) {
       setIsComment(true);
@@ -31,6 +33,7 @@ const Discuss: React.FC<CommentProps> = ({
       setIsComment(false);
     }
   }, []);
+
   const handleEditClick = () => {
     setIsEditing(true);
   };
@@ -43,35 +46,56 @@ const Discuss: React.FC<CommentProps> = ({
           "Content-Type": "application/json",
           Authorization: `Bearer ${userToken}`,
         },
-        body: JSON.stringify({
-          commentid: id,
-          commenttext: editedComment,
-          token: userToken,
-        }),
+        body: JSON.stringify({ id: id, commenttext: editedComment, token: userToken }),
       })
         .then((response) => {
           if (response.ok) {
-            alert("Bình luận thành công!");
+            toast.success("Bình luận thành công!");
             setEditedComment("");
+            setIsEditing(false); 
+            onUpdate(); 
           } else {
-            alert("Lỗi bình luận.");
+            toast.error("Lỗi bình luận.");
           }
         })
         .catch((error) => {
-          console.error("Error sending comment:", error);
-          alert("Lỗi.");
+          console.error("Error sending comment: checkk", error);
+          toast.error("Lỗi.");
         });
     } else {
-      alert("Vui lòng đăng nhập.");
+      toast.error("Vui lòng đăng nhập.");
     }
   };
+
   const handleCancelClick = () => {
     setEditedComment(commenttext);
     setIsEditing(false);
   };
 
-  const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setEditedComment(event.target.value);
+  const handleDelClick = () => {
+    if (userToken) {
+      fetch(`${API_BASE_URL}/comment/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            toast.success("Xóa bình luận thành công!");
+            onUpdate(); // Gọi hàm onUpdate để cập nhật danh sách bình luận
+          } else {
+            toast.error("Lỗi khi xóa bình luận.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting comment:", error);
+          toast.error("Lỗi khi xóa bình luận.");
+        });
+    } else {
+      toast.error("Vui lòng đăng nhập để xóa bình luận.");
+    }
   };
 
   return (
@@ -82,13 +106,10 @@ const Discuss: React.FC<CommentProps> = ({
       </div>
       <div className={classes.commenttext}>
         {isEditing ? (
-          <CKEditor
-            editor={ClassicEditor}
-            data={editedComment}
-            onChange={(event, editor) => {
-              const data = editor.getData().replace(/<[^>]+>/g, "");
-              setEditedComment(data);
-            }}
+          <textarea
+            value={editedComment}
+            onChange={(event) => setEditedComment(event.target.value)}
+            placeholder="Nhập bình luận của bạn"
           />
         ) : (
           <div>{commenttext}</div>
@@ -109,7 +130,7 @@ const Discuss: React.FC<CommentProps> = ({
             <span>Sửa</span>
           </Button>
         )}
-        <Button className={classes.delete}>
+        <Button className={classes.delete} onClick={handleDelClick}>
           <span>Xóa</span>
         </Button>
       </div>

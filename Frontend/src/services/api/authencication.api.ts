@@ -2,6 +2,9 @@ import { useState } from 'react';
 import axios from 'axios';
 import {useToken} from '../../components/token'
 import { useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
+
+const API_BASE_URL = "http://127.0.0.1:5000";
 export function useLoginForm() {
   const [loginForm, setLoginForm] = useState({
     email: "",
@@ -9,28 +12,35 @@ export function useLoginForm() {
   });
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-  const API_BASE_URL = "http://127.0.0.1:5000";
   const { setToken } = useToken();
-  function logmeIn(event: React.FormEvent<HTMLFormElement>) {
+  async function logmeIn(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    axios.post(`${API_BASE_URL}/token`, {
-      email: loginForm.email,
-      password: loginForm.password
-    })
-    .then((response) => {
-      setToken(response.data.access_token);
-      setLoginForm({ email: "", password: "" });
-      window.location.href = "/";
-    })
-    .catch((error) => {
-      if (error.response.status === 401) {
-        setEmailError(true);
-        setPasswordError(true);
-      }
-      console.error('Error:', error);
-    });
-  }
 
+    if (!loginForm.email || !loginForm.password) {
+        toast.info('Vui lòng nhập đầy đủ thông tin');
+        return;
+    }
+
+    try {
+        const response = await axios.post(`${API_BASE_URL}/token`, {
+            email: loginForm.email,
+            password: loginForm.password
+        });
+
+        setToken(response.data.access_token);
+        setLoginForm({ email: "", password: "" });
+        window.location.href = "/";
+        localStorage.setItem("isLoggedIn", "true");
+        toast.success("đăng nhập thành công")
+        console.log(response,'rélogin');
+        
+    } catch (error) {
+        console.error('Error:', error);
+        toast.error('Vui lòng nhập đầy đủ thông tin')
+    }
+}
+  
+  
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
     if (name === "email"){
@@ -49,6 +59,7 @@ export function useLoginForm() {
     })
     .then((response) => {
        props.token()
+       toast.success('đăng xuất thành công')
     }).catch((error) => {
       if (error.response) {
         console.log(error.response)
@@ -77,7 +88,7 @@ export function useSignUpForm() {
     event.preventDefault(); 
 
     if (!isFullValue(signUpForm)) {
-      alert("Vui lòng điền đầy đủ thông tin.");
+      toast.info("Vui lòng điền đầy đủ thông tin.");
       return;
     }
 
@@ -101,24 +112,27 @@ export function useSignUpForm() {
     } else {
       setConfirmPasswordError(false)
     }
-    axios.post("http://127.0.0.1:5000/signup", {
+    axios.post(`${API_BASE_URL}/signup`, {
       fullname: signUpForm.fullname,
       email: signUpForm.email,
       password: signUpForm.password
     })
     .then((response) => {
       if (response.status === 200) {
-        alert(response.data.success);
         setToken(response.data.access_token);
         setEmailError(false);
         clearSignUpForm();
-        navigate('/login'); 
+        window.location.href = "/";
+        localStorage.setItem("isLoggedIn", "true");
+        toast.success(response.data.success);
       }
     })
     .catch((error) => {
       if (error.response.status === 400) {
         setEmailError(true);
       }
+      let msgErr = error.response.
+      toast.error("")
       console.error('Error:', error);
     });
   }

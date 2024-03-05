@@ -1,7 +1,6 @@
 import { memo, useState } from 'react';
 import { BrowserRouter, Link, Route, Routes, useNavigate } from 'react-router-dom'
 import type { FC } from 'react';
-import axios from "axios";
 import resets from '../../components/_resets.module.css';
 import { ChevronRight } from '../../components/ChevronRight/ChevronRight';
 import { EnvelopeLightSolid } from '../../components/EnvelopeLightSolid/EnvelopeLightSolid';
@@ -10,6 +9,8 @@ import { Line20Icon } from './Line20Icon';
 import classes from './Password_Login.module.css';
 import { ShapeIcon } from './ShapeIcon';
 import {useLoginForm} from '../../services/api/authencication.api'
+import { ToastContainer} from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css';
 interface Props {
   className?: string;
 }
@@ -18,13 +19,28 @@ export const Password_Login: FC<Props> = memo(function Password_Login(props: Pro
 
   const { loginForm, handleChange, logmeIn, emailError, passwordError } = useLoginForm();
 
+  const [error, setError] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    if (!loginForm.email || !loginForm.password) {
+        setError('Vui lòng nhập đầy đủ thông tin'); // Cập nhật state error
+        return;
+    }
+
+    // Add more validation logic here if needed
+
+    // If everything is valid, proceed with login
+};
   return (
 
     <div className={`${resets.storybrainResets} ${classes.root}`}>
+      <ToastContainer />
       <div className={classes.line20}>
         <Line20Icon className={classes.icon2} />
       </div>
-      <div className={classes.image10}></div>
+      <Link to="/" className={classes.image10}></Link>
 
       <div className={classes.loginForm}>
         <div className={classes.frame2}>

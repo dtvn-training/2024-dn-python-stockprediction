@@ -9,23 +9,36 @@ import {
 import { Button } from "@mui/material";
 import resets from "../../components/_resets.module.css";
 import classes from "./Dashboard.module.css";
-
 import Header from "../../components/Header/Header";
-import { getAllStocks } from "../../services/api/stock.api";
+import { getStockbyDate } from "../../services/api/stock.api";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
+
+
 interface Props {
   className?: string;
 }
 export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
   const [stocks, setStocks] = useState([]);
+  const currentDate  = dayjs();;
+  const [selectedDate, setSelectedDate] = useState<Date>(currentDate);  
+
+  useEffect(() => {
+    fetchStockData(selectedDate);
+  }, [selectedDate]);
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
-  useEffect(() => {
-    getAllStocks()
+  
+  const fetchStockData = (date: Date) => {
+    getStockbyDate(date)
       .then((data) => {
-        setStocks(data);
+        setStocks(data);        
       })
       .catch((error) => {
         console.log("Error fetching stocks:", error);
@@ -43,28 +56,43 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
+  };
+
+  const [tokenTimeout, setTokenTimeout] = useState<NodeJS.Timeout | null>(null);
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    if (isLoggedIn === "true") {
+      toast.success("Welcome");
+
+      const timeout = setTimeout(() => {
+        localStorage.removeItem("isLoggedIn");
+      }, 20 * 1000); 
+
+      setTokenTimeout(timeout);
+    }
+
+    return () => {
+      if (tokenTimeout) {
+        clearTimeout(tokenTimeout);
+      }
+    };
   }, []);
-  let width_maCK = 0.1;
-  let width_giaTran = 0.08;
-  let width_giaDay = 0.08;
-  let width_giaMoCua = 0.08;
-  let width_giaDongCua = 0.08;
-  let width_tangGiam = 0.08;
-  let width_tiLe = 0.08;
-  let width_tongKhoiLuong = 0.1;
-  let width_hanhdong = 0.15;
+  const handleDateChange = (date: Date | null) => {
+    setSelectedDate(date || new Date()); 
+  };
+
   const columns: GridColDef[] = [
     {
       field: "Mã chứng khoán",
       headerName: "Mã CK",
-      width: windowSize.width*width_maCK,
+      width: windowSize.width*0.1,
       valueGetter: (params: GridValueGetterParams) =>
         `${params.row.symbol || ""}`,
     },
     {
       field: "Giá trần",
       headerName: "Giá trần",
-      width: windowSize.width*width_giaTran,
+      width: windowSize.width*0.08,
       valueGetter: (params: GridValueGetterParams) => {
         if (typeof params.row.high === "number") {
           return params.row.high.toFixed(0);
@@ -74,9 +102,16 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       },
     },
     {
+      field: "ngay",
+      headerName: "ngay",
+      width: windowSize.width*0.08,
+      valueGetter: (params: GridValueGetterParams) =>
+        `${params.row.date || ""}`,
+    },
+    {
       field: "Giá đáy",
       headerName: "Giá đáy",
-      width: windowSize.width*width_giaDay,
+      width: windowSize.width*0.08,
       valueGetter: (params: GridValueGetterParams) => {
         if (typeof params.row.low === "number") {
           return params.row.low.toFixed(0);
@@ -88,7 +123,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
     {
       field: "Giá mở cửa",
       headerName: "Giá mở cửa",
-      width: windowSize.width*width_giaMoCua,
+      width: windowSize.width*0.08,
       valueGetter: (params: GridValueGetterParams) => {
         if (typeof params.row.open === "number") {
           return params.row.open.toFixed(0);
@@ -98,9 +133,9 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       },
     },
     {
-      field: "Giá đóng cửa",
-      headerName: "Giá đóng cửa",
-      width: windowSize.width*width_giaDongCua,
+      field: "Giá đóng cửa hôm qua",
+      headerName: "Giá đóng cửa hôm qua",
+      width: windowSize.width*0.08,
       valueGetter: (params: GridValueGetterParams) => {
         if (typeof params.row.previous_close_price === "number") {
           return params.row.previous_close_price.toFixed(0);
@@ -112,7 +147,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
     {
       field: "Tăng giảm",
       headerName: "+/-",
-      width: windowSize.width*width_tangGiam,
+      width: windowSize.width*0.07,
       renderCell: (params: GridValueGetterParams) => {
         const value =
           typeof params.row.diffirence === "number" ? params.row.diffirence : 0;
@@ -132,7 +167,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
     {
       field: "Tỉ lệ %",
       headerName: "%",
-      width: windowSize.width*width_tiLe,
+      width: windowSize.width*0.07,
       renderCell: (params: GridValueGetterParams) => {
         const value =
           typeof params.row.percent === "number" ? params.row.percent : 0;
@@ -156,7 +191,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
     {
       field: "Tổng khối lượng",
       headerName: "Tổng khối lượng",
-      width: windowSize.width*width_tongKhoiLuong,
+      width: windowSize.width*0.10,
       valueGetter: (params: GridValueGetterParams) => {
         if (typeof params.row.volume === "number") {
           return params.row.volume.toFixed(0);
@@ -169,13 +204,13 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       field: "Hành động",
       headerName: "Hành động",
       sortable: false,
-      width: windowSize.width*width_hanhdong,
+      width: windowSize.width*0.10,
       renderCell: (params) => (
-          <Button variant="outlined">
-            <Link to={`/stock/${params.row.symbol}`} style={{color: "black" }}>
-              Chi tiết
-            </Link>
-          </Button>
+        <Button variant="outlined">
+          <Link to={`/stock/${params.row.symbol}`} style={{ color: "black" }}>
+            Chi tiết
+          </Link>
+        </Button>
       ),
     },
   ];
@@ -184,9 +219,17 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
 
   return (
     <div className={`${resets.storybrainResets} ${classes.root}`}>
+      <ToastContainer />
       <div className={classes.dashboard}>
         <Header />
         <div className={classes.main}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker 
+              value={selectedDate}
+              onChange={handleDateChange}
+              label="Chọn ngày"
+            />
+          </LocalizationProvider>
           <DataGrid
             rows={rows}
             columns={columns}

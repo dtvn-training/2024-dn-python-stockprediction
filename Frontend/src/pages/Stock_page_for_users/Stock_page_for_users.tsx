@@ -12,6 +12,9 @@ import Candlestick from "../../components/StockDetail/Candlestick/Candlestick";
 import { useParams } from "react-router-dom";
 import { getAllComments } from "../../services/api/comment.api";
 import React, { useEffect, useState } from "react";
+import StockChange from "../../components/StockDetail/PriceChange/PriceChange";
+import AnimationChange from "../../components/StockDetail/AnimationChange/animationchange";
+
 
 interface Props {
   className?: string;
@@ -19,44 +22,58 @@ interface Props {
 
 export const Stock_page_for_users: FC<Props> = memo(
   function Stock_page_for_users(props = {}) {
-    const { stocks } = useParams();
-    const [comment, setComments] = useState([]);
-    const [updateTrigger, setUpdateTrigger] = useState(false); // State to trigger update
+    const { stocks } = useParams();    
+    const [comments, setComments] = useState([]);
+    const [updateTrigger, setUpdateTrigger] = useState(false); 
 
     useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const data = await getAllComments({ stocks });
-          setComments(data);
-        } catch (error) {
-          console.error("Error fetching company data:", error);
-        }
-      };
-
       fetchData();
-    }, [updateTrigger]);
-    const handleEditClick = (id: string) => () => {};
+    }, [updateTrigger]); 
 
-    const handleCommentUpdate = () => {
-      setUpdateTrigger((prevState) => !prevState);
+    const fetchData = async () => {
+      try {
+        const data = await getAllComments({ stocks });        
+        setComments(data);
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+    };
+
+    const handleCommentUpdate = async () => {
+      try {
+        await fetchData(); 
+        setUpdateTrigger(prevState => !prevState);
+        console.log(updateTrigger,"updateTrigger");
+      } catch (error) {
+        console.error('Error updating comments:', error);
+      }
     };
 
     return (
       <div className={` ${classes.root}`}>
         <Header />
+        
         <div className={classes.companyinfo}>
+          
           {stocks && <CompanyInfo symbol={stocks} follow={false} />}
+        </div>
+        <div className={classes.animation}>
+          <AnimationChange/>
         </div>
 
         <div className={classes.container}>
           <Line />
+          
           <div className={classes.detail}>
+
             <div className={classes.image13}>
               {stocks && <Candlestick symbol={stocks} />}
             </div>
             <div className={classes.tabledetail}>
               {stocks && <TableDetail symbol={stocks} />}
+              {stocks && <StockChange symbol={stocks} />}
             </div>
+            
           </div>
           <Line />
           <div className={classes.predictcontent}>
@@ -70,12 +87,11 @@ export const Stock_page_for_users: FC<Props> = memo(
             <div className={classes.text}>Thảo luận</div>
             <div className={classes.wiritecomment}>
               <div className={classes.commentbox}>
-                <CommentBox onUpdate={handleCommentUpdate} />
+                <CommentBox onUpdateComments ={handleCommentUpdate} />
               </div>
             </div>
-            <Line />
             <div className={classes.discussGroup}>
-              {comment.map((commentItem, index) => (
+              {comments.map((commentItem, index) => (
                 <React.Fragment key={index}>
                   <Discuss
                     id={commentItem.commentid}
@@ -83,10 +99,13 @@ export const Stock_page_for_users: FC<Props> = memo(
                     time={commentItem.updated_at}
                     commenttext={commentItem.comment_text}
                     tokenUser={commentItem.userToken}
+                    onUpdate={handleCommentUpdate}
                   />
-                  <Line />
+                  
+                  
                 </React.Fragment>
-              ))}
+              ))
+              }
             </div>
           </div>
         </div>
@@ -94,3 +113,5 @@ export const Stock_page_for_users: FC<Props> = memo(
     );
   }
 );
+
+export default Stock_page_for_users;

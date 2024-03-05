@@ -1,4 +1,5 @@
-from models import StockHistory
+from models import StockHistory, StockList
+from datetime import datetime, timedelta
 
 
 def allstock(stockArr):
@@ -10,7 +11,6 @@ def allstock(stockArr):
             .limit(2)
         )
         stock = {
-            "id": stock.stockid,
             "stockid": stock.stockid,
             "symbol": stock.symbol,
             "company_name": stock.company_name,
@@ -26,3 +26,39 @@ def allstock(stockArr):
         }
         stocks.append(stock)
     return stocks
+
+def get_stock_by_date(date):
+
+    queryDate = datetime.strptime(date, '%Y-%m-%d')
+    dayOfWeek = queryDate.weekday()
+    dashboardData = []
+    if (dayOfWeek==5 or dayOfWeek==6):
+        return dashboardData
+    elif(dayOfWeek==0):
+        beforeOneDay = queryDate - timedelta(days=3)
+    else:
+        beforeOneDay = queryDate - timedelta(days=1)
+    dataQueryByDate = StockHistory.query.filter(StockHistory.date.in_([queryDate, beforeOneDay])).all()
+    
+    stocks = StockList.query.all()
+
+    for stock in stocks:
+        dataStock = [item for item in dataQueryByDate if item.stockid == stock.stockid]
+        diffirenceVolume = dataStock[0].close - dataStock[1].close
+        stockDetail = {
+            "id": stock.stockid,
+            "stockid": stock.stockid,
+            "symbol": stock.symbol,
+            "company_name": stock.company_name,
+            "company_detail": stock.company_detail,
+            "previous_close_price": dataStock[0].close,
+            "date": str(queryDate),
+            "open": dataStock[1].open,
+            "high": dataStock[1].high,
+            "low": dataStock[1].low,
+            "percent": (diffirenceVolume)*100/dataStock[0].close,
+            "diffirence": diffirenceVolume,
+            "volume": dataStock[1].volume,
+        }
+        dashboardData.append(stockDetail)
+    return dashboardData

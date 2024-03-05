@@ -48,13 +48,12 @@ const Header: React.FC = () => {
           <Link to="/" className={classes.logo}></Link>
         </div>
         <div className={classes.rightheader}>
-          <UserCircle
-            className={classes.userCircle}
-            onClick={() => {
-              setOpenDropdown((openDropdown) => !openDropdown);
-              console.log(openDropdown, "opend");
-            }}
-          />
+        <UserCircle 
+          className={classes.userCircle} 
+          onClick={() => {
+            setOpenDropdown((openDropdown) => !openDropdown);
+          }} 
+        />
 
           {openDropdown && <DropdownMenu />}
         </div>

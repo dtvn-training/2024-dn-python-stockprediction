@@ -10,6 +10,8 @@ import { InterfaceEssentialLock_StyleFi } from '../Password_Login/InterfaceEssen
 import { ShapeIcon } from './ShapeIcon.js';
 import { EnvelopeLightSolid } from '../../components/EnvelopeLightSolid/EnvelopeLightSolid';
 import Header from '../../components/Header/Header';
+import { ToastContainer, toast } from "react-toastify";
+
 interface Props {
   className?: string;
 }
@@ -69,14 +71,14 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
     })
     .then(response => {
       if (response.ok) {
-        alert('Cập nhật thông tin thành công!');
+        toast.success('Cập nhật thông tin thành công!');
       } else {
-        alert('Cập nhật thông tin thất bại. Vui lòng thử lại.');
+        toast.error('Cập nhật thông tin thất bại. Vui lòng thử lại.');
       }
     })
     .catch(error => {
       console.error('Lỗi khi cập nhật thông tin:', error);
-      alert('Đã xảy ra lỗi khi cập nhật thông tin. Vui lòng thử lại.');
+      toast.error('Đã xảy ra lỗi khi cập nhật thông tin. Vui lòng thử lại.');
     });
   };
 
@@ -109,13 +111,14 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
       })
       .catch(error => {
         console.error('Error fetching user:', error);
-        alert('Failed to fetch user profile. Please try again.');
+        toast.error('Failed to fetch user profile. Please try again.');
       });
     }
   }, [userToken]); // Chỉ gọi fetch khi userToken thay đổi
   
   return (
     <div className={`${resets.storybrainResets} ${classes.root}`}>
+      <ToastContainer />
       <div className={classes.userprofile}>
         <Header/>
         <div className={classes.main}>
