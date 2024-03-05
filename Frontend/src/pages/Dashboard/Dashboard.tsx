@@ -10,12 +10,13 @@ import { Button } from "@mui/material";
 import resets from "../../components/_resets.module.css";
 import classes from "./Dashboard.module.css";
 import Header from "../../components/Header/Header";
-import { getAllStocks } from "../../services/api/stock.api";
+import { getStockbyDate } from "../../services/api/stock.api";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
 
 
 interface Props {
@@ -23,17 +24,23 @@ interface Props {
 }
 export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
   const [stocks, setStocks] = useState([]);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const currentDate  = dayjs();;
+  const [selectedDate, setSelectedDate] = useState<Date>(currentDate);  
 
   useEffect(() => {
-    getAllStocks()
+    fetchStockData(selectedDate);
+  }, [selectedDate]);
+
+  const fetchStockData = (date: Date) => {
+    getStockbyDate(date)
       .then((data) => {
-        setStocks(data);
+        setStocks(data);        
       })
       .catch((error) => {
         console.log("Error fetching stocks:", error);
       });
-  }, []);
+  };
+
   const [tokenTimeout, setTokenTimeout] = useState<NodeJS.Timeout | null>(null);
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("isLoggedIn");
@@ -54,17 +61,9 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
     };
   }, []);
   const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
+    setSelectedDate(date || new Date()); 
   };
-  const handleSubmit = () => {
-    if (selectedDate) {
-      // Gửi selectedDate về backend
-      console.log("Selected date:", selectedDate);
-      // Gọi hàm gửi request đến backend ở đây
-    } else {
-      console.log("Please select a date");
-    }
-  };
+
   const columns: GridColDef[] = [
     {
       field: "Mã chứng khoán",
@@ -84,6 +83,13 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
           return "0";
         }
       },
+    },
+    {
+      field: "ngay",
+      headerName: "ngay",
+      width: 200,
+      valueGetter: (params: GridValueGetterParams) =>
+        `${params.row.date || ""}`,
     },
     {
       field: "Giá đáy",
@@ -207,7 +213,6 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
               label="Chọn ngày"
             />
           </LocalizationProvider>
-          <Button onClick={handleSubmit}/>
           <DataGrid
             rows={rows}
             columns={columns}

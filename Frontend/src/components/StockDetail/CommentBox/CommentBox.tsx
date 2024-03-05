@@ -6,6 +6,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import classes from "./CommentBox.module.css";
 import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { Button } from "@mui/material";
 
 const CommentBox = ({ onUpdateComments }) => {
   const [comment, setComment] = useState("");
@@ -69,9 +70,10 @@ const CommentBox = ({ onUpdateComments }) => {
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               placeholder="Nhập bình luận của bạn"
-            ></textarea>
+            >
+            </textarea>
             
-            <button onClick={handleCommentSubmit}>Gửi</button>
+            <Button onClick={handleCommentSubmit}>Gửi bình luận</Button>
           </div>
         )}
       </animated.div>

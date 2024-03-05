@@ -1,5 +1,5 @@
 from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
-from stock.allstock import allstock
+from stock.allstock import allstock, get_stock_by_date
 from stock.predict import chart_stock
 from datetime import datetime, timedelta, timezone
 import json
@@ -211,10 +211,19 @@ def signup():
 
 @app.route('/getAllStocks', methods=['GET'])
 def get_stock_lists():
-    stockArr = StockList.query.all()
-    stocks = allstock(stockArr)
+    currentDate = "2024-03-04"
+    # currentDate = str(datetime.now().date())
+    print(currentDate,'currd')
+    dataFilterByDate =  get_stock_by_date(currentDate)
     return (
-        jsonify(stocks)
+        jsonify(dataFilterByDate)
+    )
+
+@app.route('/getAllStocks/<date>', methods=['GET'])
+def get_stock_date(date):
+    dataFilterByDate =  get_stock_by_date(date)
+    return (
+        jsonify(dataFilterByDate)
     )
 
 
@@ -241,6 +250,7 @@ def update_user_profile():
     user.password = password
     db.session.commit()  
     return jsonify({"message": "Updated profile successfully."}), 200
+
 @app.route('/comment/showAll/<symbol>', methods=['GET'])
 def get_comment_lists(symbol):
     stock = StockList.query.filter_by(symbol=symbol).first()
