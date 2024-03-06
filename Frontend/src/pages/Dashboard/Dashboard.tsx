@@ -102,13 +102,6 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       },
     },
     {
-      field: "ngay",
-      headerName: "ngay",
-      width: windowSize.width*0.08,
-      valueGetter: (params: GridValueGetterParams) =>
-        `${params.row.date || ""}`,
-    },
-    {
       field: "Giá đáy",
       headerName: "Giá đáy",
       width: windowSize.width*0.08,

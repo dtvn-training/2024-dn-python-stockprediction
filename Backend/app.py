@@ -1,6 +1,6 @@
 from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
 from stock.changeprice import changeprice
-from stock.allstock import allstock, get_stock_by_date
+from stock.getStocks import get_stock_history
 from stock.predict import chart_stock
 from datetime import datetime, timedelta, timezone
 import json
@@ -263,14 +263,14 @@ def signup():
 @app.route('/getAllStocks', methods=['GET'])
 def get_stock_lists():
     currentDate = "2024-03-04"
-    dataFilterByDate =  get_stock_by_date(currentDate)
+    dataFilterByDate =  get_stock_history(currentDate)
     return (
         jsonify(dataFilterByDate)
     )
 
 @app.route('/getAllStocks/<date>', methods=['GET'])
 def get_stock_date(date):
-    dataFilterByDate =  get_stock_by_date(date)
+    dataFilterByDate =  get_stock_history(date)
     return (
         jsonify(dataFilterByDate)
     )
