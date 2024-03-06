@@ -18,9 +18,7 @@ export const getStockbyDate = async(selectedDate: Date | null) => {
             let month = (selectedDate.$M + 1).toString().padStart(2, '0'); 
             let day = selectedDate.$d.getDate().toString().padStart(2, '0');
             let dateString = year + '-' + month + '-' + day;
-            console.log("Selected date:", selectedDate.$d);
             const response = await axios.get(`${API_BASE_URL}/getAllStocks/${dateString}`);
-            console.log(response,"res")
             return response.data;
           } else {
             console.log("Please select a date");

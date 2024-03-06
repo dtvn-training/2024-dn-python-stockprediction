@@ -1,6 +1,6 @@
 from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
 from stock.changeprice import changeprice
-from stock.allstock import allstock, get_stock_by_date
+from stock.allstock import allstock, get_stock_by_date, get_top_stock
 from stock.predict import chart_stock
 from datetime import datetime, timedelta, timezone
 import json
@@ -274,7 +274,13 @@ def get_stock_date(date):
     return (
         jsonify(dataFilterByDate)
     )
-
+@app.route('/getTopStock', methods=['GET'])
+def get_top_stock_lists():
+    currentDate = "2024-03-04"
+    topincrease,topdecrease =  get_top_stock(currentDate)
+    return (
+        jsonify({"top_increase":topincrease,"top_decrease":topdecrease})
+    )
 
 @app.route('/userprofile', methods=['GET'])
 @jwt_required()

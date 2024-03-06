@@ -17,6 +17,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
+import TopPrice from "./TopPrice/TopPrice";
 
 
 interface Props {
@@ -222,7 +223,11 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       <ToastContainer />
       <div className={classes.dashboard}>
         <Header />
+        <div className={classes.topblock}>
+          <TopPrice/>
+        </div>
         <div className={classes.main}>
+          <div className={classes.datetimebox}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker 
               value={selectedDate}
@@ -230,6 +235,8 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
               label="Chọn ngày"
             />
           </LocalizationProvider>
+          </div>
+          <div className={classes.tableclose}>
           <DataGrid
             rows={rows}
             columns={columns}
@@ -242,6 +249,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
             pageSizeOptions={[5, 10]}
             slots={{ toolbar: GridToolbar }}
           />
+          </div>
         </div>
       </div>
     </div>
