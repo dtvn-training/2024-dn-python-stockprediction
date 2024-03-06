@@ -32,14 +32,13 @@
     font-size: 20px;
     font-weight: bold;
     font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
-    margin: 10px 120px;
+    margin: 10px 100px;
     margin-top: 20px;
 }
 
 .symbol {
     color: #000;
     font-size: 16px;
-    line-height: 27.5px;
     font-weight: bold;
     font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
     left: 50px;
@@ -53,14 +52,9 @@
 .container {
     display: flex;
     flex-direction: column;
-    margin: 0px 120px;
+    margin: 0px auto;
     padding: 0px;
     height: fit-content;
-    padding-right: 50px;
-}
-
-.discussGroup {
-    display: block;
 }
 
 .discussGroup {
@@ -68,16 +62,16 @@
 }
 
 .detail {
-    justify-content: space-around;
     display: flex;
     flex-direction: row;
+    width: 100%;
     gap: 64px;
-    margin-top: 40px;
-    padding: 10px 40px;
+    margin-top: 40px auto;
+    padding: 10px 10px;
 }
 
 .tabledetail {
-    width: 100%;
+    padding-left: 5px;
     display: flex;
     flex-direction: column;
     gap: 50px;
@@ -86,7 +80,7 @@
 
 .image13 {
     padding: 30px;
-    width: 55%;
+    width: 100%;
     height: auto;
 }
 
@@ -96,7 +90,8 @@
     gap: 50px;
 }
 
-.labelpredict,.text {
+.labelpredict,
+.text {
     border-left: 4px solid #3677a8;
     padding-left: 20px;
     font-size: 48px;
@@ -108,7 +103,6 @@
     margin-top: 50px;
     display: flex;
     flex-direction: column;
-
 }
 
 .discusscomment .wiritecomment,
@@ -123,10 +117,6 @@
     font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
 }
 
-.line {
-    width: 200px;
-}
-
 .wiritecomment {
     background-color: rgb(201, 234, 240);
     padding: 10px;
@@ -138,10 +128,87 @@
     display: block;
 }
 
-.commentbox >div{
+.commentbox>div {
     display: block;
 }
 
 ._writecomment_rctcg_19 {
     display: block;
+}
+
+@media screen and (max-width: 1200px) {
+    .companyinfo {
+        font-size: 18px;
+        margin: 10px 80px;
+    }
+    .detail {
+        flex-direction: column;
+        width: 100%;
+    }
+    .tabledetail {
+        border-left: unset;
+        flex-direction: row;
+    }
+    .image13 {
+        width: 80%;
+        padding: 20px;
+    }
+    .labelpredict {
+        font-size: 40px;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .companyinfo {
+        font-size: 16px;
+        margin: 10px 60px;
+    }
+    .detail {
+        flex-direction: column;
+    }
+    .image13 {
+        width: 80%;
+        padding: 12px;
+    }
+    .labelpredict {
+        font-size: 32px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .companyinfo {
+        font-size: 14px;
+        white-space: nowrap;
+        margin: 10px 40px;
+    }
+    .detail {
+        flex-direction: column;
+    }
+    .tabledetail {
+        flex-direction: column;
+    }
+    .image13 {
+        width: 80%;
+        padding: 9px;
+    }
+    .labelpredict {
+        font-size: 32px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .companyinfo {
+        font-size: 12px;
+        margin: 10px 20px;
+    }
+    .detail {
+        flex-direction: column;
+    }
+    .image13 {
+        width: 80%;
+        padding: 6px;
+    }
+    .labelpredict {
+        font-size: 24px;
+    }
 }

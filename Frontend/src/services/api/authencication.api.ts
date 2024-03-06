@@ -35,8 +35,9 @@ export function useLoginForm() {
         console.log(response,'rélogin');
         
     } catch (error) {
+        setEmailError(true);
+        setPasswordError(true);
         console.error('Error:', error);
-        toast.error('Vui lòng nhập đầy đủ thông tin')
     }
 }
   

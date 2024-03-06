@@ -1,7 +1,7 @@
 .chartbox {
     display: flex;
     flex-direction: column;
-    margin-left: 64px
+    margin: auto;
 }
 
 .chart {
@@ -10,5 +10,28 @@
     width: 800px;
     background-color: white;
     gap: 10px;
+}
 
+@media screen and (max-width: 1200px) {
+    .chart {
+        width: 800px;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .chart {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .chart {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .chart {
+        width: 100%;
+    }
 }

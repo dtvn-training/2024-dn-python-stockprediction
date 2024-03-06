@@ -1,44 +1,48 @@
-.stockchange{
+.stockchange {
     display: flex;
     flex-direction: column;
     border-radius: 12px;
     width: fit-content;
-    background-color:rgba(116, 116, 117, 0.1) ;
+    background-color: rgba(116, 116, 117, 0.1);
     padding: 24px 24px 32px;
-    box-shadow: 0px 0px 5px ;
-    margin: auto;
-
+    box-shadow: 0px 0px 5px;
+    margin: 0 auto;
 }
-.changetitle{
+
+.changetitle {
     font-family: Inter, sans-serif;
     font-size: 1.125rem;
     line-height: 1.625rem;
     font-weight: 700;
     color: #3677a8;
 }
-.list_change{
+
+.list_change {
     display: flex;
     flex-direction: column;
-    gap:16px;
+    gap: 16px;
     margin-top: 24px;
 }
-.change{
+
+.change {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    gap:60px;
-
+    gap: 60px;
 }
-.change div{
+
+.change div {
     align-items: center;
 }
-.down{
+
+.down {
     color: red;
     font-family: Inter, sans-serif;
     font-size: 0.875rem;
     font-weight: 600;
 }
-.up{
+
+.up {
     color: rgb(9, 146, 9);
     font-family: Inter, sans-serif;
     font-size: 0.875rem;
