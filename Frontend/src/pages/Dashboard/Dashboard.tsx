@@ -214,6 +214,26 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       ),
     },
   ];
+  if (windowSize.width >576 && windowSize.width <= 992) {
+    columns.splice(1, 5);
+    columns.forEach((column, index) => {
+      if (index !== 0 && index !== columns.length - 1) { 
+        column.width = windowSize.width * 0.14; 
+      } else {
+        column.width = windowSize.width * 0.2; 
+      }
+    });
+  } else
+  if (windowSize.width <= 576) {
+    columns.splice(1, 8);
+    columns.forEach((column, index) => {
+      if (index === 0) { 
+        column.width = windowSize.width * 0.3; 
+      } else if (index === columns.length - 1) {
+        column.width = windowSize.width * 0.3; 
+      }
+    });
+  }
 
   const rows = stocks;
 
