@@ -18,7 +18,7 @@ from models import (
 from sqlalchemy import desc
 from flask_cors import CORS
 import matplotlib
-from config import SQL_STRING, STOCK_NOT_FOUND, UN_AUTHORIZED_ACCESS, INCORRECT_LOGIN, LOGOUT_SUCCESSFUL, VALIDATE_SIGNUP_FORM, REGISTER_SUCCESSFUL, COMMENT_SUCCESSFULL, UN_AUTHORIZED
+from config import SQL_STRING, STOCK_NOT_FOUND, UN_AUTHORIZED_ACCESS, INCORRECT_LOGIN, LOGOUT_SUCCESSFUL, VALIDATE_SIGNUP_FORM, REGISTER_SUCCESSFUL, COMMENT_SUCCESSFULL, UN_AUTHORIZED,FOLLOWED,UN_FOLLOWED
 matplotlib.use('Agg')
 import pandas as pd
 
@@ -189,24 +189,25 @@ def follow_data(stockCode):
     followed = StockFollow.query.filter_by(
         userid=user.userid, stockid=stock.stockid
     ).first()
+    
     if request.method == "GET":
         if followed:
-            return jsonify({"is_follow": True})
+            return jsonify({"is_follow": True}),200
         else:
-            return jsonify({"is_follow": False})
+            return jsonify({"is_follow": False}),200
 
     if request.method == "POST":
         if followed:
             db.session.delete(followed)
             db.session.commit()
-            return jsonify({"message": f"You've unfollowed {stockCode}."})
+            return jsonify({"message": f"{UN_FOLLOWED}{stockCode}.","is_follow": False}),200
         else:
             new_followed = StockFollow(
-                followid=str(uuid.uuid4()), userid=user.userid, stockCode=stockCode
+                followid=str(uuid.uuid4()), userid=user.userid, stockid=stock.stockid
             )
             db.session.add(new_followed)
             db.session.commit()
-            return jsonify({"message": f"You're now following {stockCode}."})
+            return jsonify({"message": f"{FOLLOWED}{stockCode}.","is_follow": True}),200
 
 
 @app.route('/token', methods=["POST"])
@@ -262,8 +263,6 @@ def signup():
 @app.route('/getAllStocks', methods=['GET'])
 def get_stock_lists():
     currentDate = "2024-03-04"
-    # currentDate = str(datetime.now().date())
-    print(currentDate,'currd')
     dataFilterByDate =  get_stock_by_date(currentDate)
     return (
         jsonify(dataFilterByDate)

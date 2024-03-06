@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import classes from "./CompanyInfo.module.css";
 import { Star } from "@mui/icons-material";
-import { getCompanyData, isfollowstock } from "./CompanyInfoReq";
+import { ToastContainer, toast } from "react-toastify";
+import { changefollowstatus, getCompanyData, isfollowstock } from "./CompanyInfoReq";
 
 interface CompanyInfoProps {
   symbol: string;
@@ -10,7 +11,7 @@ interface CompanyInfoProps {
 
 const CompanyInfo: React.FC<CompanyInfoProps> = ({ symbol, follow }) => {
   const [companyData, setCompanyData] = useState<any | null>(null);
-  const [isFollow, setIsFollow] = useState(follow);
+  const [isFollow, setIsFollow] = useState<any | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,7 +19,8 @@ const CompanyInfo: React.FC<CompanyInfoProps> = ({ symbol, follow }) => {
         const data = await getCompanyData(symbol);
         const isfollowdata = await isfollowstock(symbol);
         setCompanyData(data);
-        console.log(isfollowdata);
+        setIsFollow(isfollowdata)
+        
       } catch (error) {
         console.error("Error fetching company data:", error);
       }
@@ -26,13 +28,21 @@ const CompanyInfo: React.FC<CompanyInfoProps> = ({ symbol, follow }) => {
 
     fetchData();
   }, [symbol]);
-
-  const handlefollow = () => {
-    setIsFollow(!isFollow);
-    if (isFollow) {
-      alert(" followed");
-    } else {
-      alert("unfollowed");
+  const handlefollow = async () => {
+    try{
+      const isfollowdata= await changefollowstatus(symbol,isFollow)
+      setIsFollow(isfollowdata);
+      if(isFollow){
+        toast.success("unfollowed")
+      }
+      else{
+        toast.success("followed")
+      
+      }
+    }
+    catch(error){
+      console.error("Error change follow data:", error);
+      
     }
   };
   return (
@@ -43,9 +53,11 @@ const CompanyInfo: React.FC<CompanyInfoProps> = ({ symbol, follow }) => {
       <div className={classes.symbol}>
         {symbol}
         <div
-          className={`${classes.follow} ${isFollow ? classes.unfollow : ""}`}
+          className={`${isFollow !== null && isFollow ? classes.follow :classes.unfollow}`}
           onClick={handlefollow}
         >
+          
+          <span>{isFollow}</span>
           <Star />
         </div>
       </div>

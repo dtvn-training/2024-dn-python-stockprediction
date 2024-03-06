@@ -14,3 +14,5 @@ VALIDATE_SIGNUP_FORM={
 REGISTER_SUCCESSFUL="User registered successfully"
 COMMENT_SUCCESSFULL="Comment updated successfully"
 UN_AUTHORIZED="You are not authorized"
+FOLLOWED="You have followed "
+UN_FOLLOWED="You have unfollowed "
