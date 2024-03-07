@@ -40,3 +40,14 @@
     font-weight: 700;
     color: #3677a8;
 }
+@media screen and (max-width: 1200px) {
+
+    .tabledetail {
+        border: 1px solid;
+        border-radius: 20px;
+    }
+    .header{
+        border-radius:20px 20px  0px 0px;
+    }
+
+}

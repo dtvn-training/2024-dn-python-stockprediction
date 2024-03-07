@@ -34,7 +34,6 @@ export const Password_Login: FC<Props> = memo(function Password_Login(props: Pro
     // If everything is valid, proceed with login
 };
   return (
-
     <div className={`${resets.storybrainResets} ${classes.root}`}>
       <ToastContainer />
       <div className={classes.line20}>
@@ -49,7 +48,11 @@ export const Password_Login: FC<Props> = memo(function Password_Login(props: Pro
 
         <form className={classes.frame3} onSubmit={logmeIn}>
           <label className={classes.labelLogin}>Email</label>
-          <div className={`${classes.rectangle} ${classes.rectangleEmail} ${emailError ? classes.inputerror : ''}`}>
+          <div
+            className={`${classes.rectangle} ${classes.rectangleEmail} ${
+              emailError ? classes.inputerror : ""
+            }`}
+          >
             <EnvelopeLightSolid
               className={classes.envelopeLightSolid}
               swap={{
@@ -59,42 +62,54 @@ export const Password_Login: FC<Props> = memo(function Password_Login(props: Pro
             <input
               className={`${classes.input} ${classes.inputEmail} `}
               onChange={handleChange}
-              placeholder='Email'
-              name='email'
+              placeholder="Email"
+              name="email"
               value={loginForm.email}
-              type='email'
+              type="email"
             />
           </div>
           <label className={classes.labelLogin}>Mật khẩu</label>
-          <div className={`${classes.rectangle} ${classes.rectanglePassword} ${passwordError ? classes.inputerror : ''}`}>
-            <InterfaceEssentialLock_StyleFi className={classes.interfaceEssentialLock} />
+          <div
+            className={`${classes.rectangle} ${classes.rectanglePassword} ${
+              passwordError ? classes.inputerror : ""
+            }`}
+          >
+            <InterfaceEssentialLock_StyleFi
+              className={classes.interfaceEssentialLock}
+            />
             <input
               onChange={handleChange}
               type="password"
               name="password"
               value={loginForm.password}
               className={`${classes.input} ${classes.inputPassword} `}
-              placeholder='Mật khẩu'
+              placeholder="Mật khẩu"
             />
-            {passwordError && <span className={classes.errorMessage}>Email hoặc mật khẩu sai</span>}
+            {passwordError && (
+              <span className={classes.errorMessage}>
+                Email hoặc mật khẩu sai
+              </span>
+            )}
           </div>
           <div className={classes.next_BTN}>
-            <button className={classes.next_Icon}  >
-              <div className={classes.next}>
-                <div className={classes.AngNhap2}>Đăng nhập</div>
-                <div className={classes.icon3}>
-                  <ChevronRight />
-                </div>
+            <button className={classes.next_Icon}>
+              <div className={classes.AngNhap2}>Đăng nhập</div>
+              <div className={classes.icon3}>
+                <ChevronRight />
               </div>
             </button>
           </div>
         </form>
         <div className={classes.register}>
           <div className={classes.frame8}>
-            <Link to="/signup" className={classes.banChuaCoTaiKhoan}>Bạn chưa có tài khoản?</Link>
+            <Link to="/signup" className={classes.banChuaCoTaiKhoan}>
+              Bạn chưa có tài khoản?
+            </Link>
           </div>
           <div className={classes.frame9}>
-            <Link to="/signup" className={classes.AngKi}>Đăng kí</Link>
+            <Link to="/signup" className={classes.AngKi}>
+              Đăng kí
+            </Link>
           </div>
         </div>
       </div>

@@ -31,9 +31,7 @@ const Header: React.FC = () => {
         <div className={classes.rightheader}>
           <div className={classes.search}>
             <Button variant="outlined">
-              <Link to={"/login"}>
-                Đăng nhập
-              </Link>
+              <Link to={"/login"}>Đăng nhập</Link>
             </Button>
           </div>
         </div>
@@ -46,12 +44,12 @@ const Header: React.FC = () => {
           <Link to="/" className={classes.logo}></Link>
         </div>
         <div className={classes.rightheader}>
-        <UserCircle 
-          className={classes.userCircle} 
-          onClick={() => {
-            setOpenDropdown((openDropdown) => !openDropdown);
-          }} 
-        />
+          <UserCircle
+            className={classes.userCircle}
+            onClick={() => {
+              setOpenDropdown((openDropdown) => !openDropdown);
+            }}
+          />
           {openDropdown && <DropdownMenu />}
         </div>
       </div>
