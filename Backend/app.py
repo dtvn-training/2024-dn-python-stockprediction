@@ -2,10 +2,14 @@ from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, u
 from stock.changeprice import changeprice
 from stock.allstock import allstock, get_stock_by_date, get_top_stock
 from stock.predict import chart_stock
+from crawl.dailycrawl import data_insert,insertdb
 from datetime import datetime, timedelta, timezone
+import time
+import schedule
 import json
 import uuid
 from flask import Flask, request, jsonify
+import threading
 from models import (
     StockFollow,
     db,
@@ -376,13 +380,29 @@ def updateComment(commentid):
 def delete_comment(comment_id):
     emailUser = get_jwt_identity()
     user = Users.query.filter_by(email=emailUser).first()
-    # comment = Comments.query.filter_by(commentid=commentid).first()
     comment = Comments.query.get(comment_id)
-    # print(comment,'cmt del')
     if user.userid == comment.userid:
         db.session.delete(comment)
         db.session.commit() 
     return jsonify({"message": "Comment deleted successfully"}), 200
 
+banks=['ACB', 'BID', 'CTG','EIB', 'HDB', 'MBB', 'MSB','OCB','SHB','SSB','STB','TCB','TPB','VCB','VIB','VPB','NVB', 'BAB']
+
+def insertdb_daily(bank_list):
+    selected_stocks = StockList.query.filter(StockList.symbol.in_(bank_list)).first()
+    stockids=[]
+    for stock in selected_stocks:
+        stockids.append(stock.stockid)
+    data_inserts=data_insert(bank_list,stockids)
+    insertdb(data_inserts)
+
+def run_schedule():
+    schedule.every().day.at("09:00").do(insertdb_daily, bank_list=banks)
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+
 if __name__ == '__main__':
-    app.run()
+    threading.Thread(target=run_schedule,daemon=True).start
+    app.run( threaded=True)
+    

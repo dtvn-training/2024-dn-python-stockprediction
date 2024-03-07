@@ -1,28 +1,17 @@
 import requests
 from bs4 import BeautifulSoup
-import time
-import schedule
-import mysql.connector
-import json
-import uuid
 import pandas as pd
 from ast import literal_eval  
-
-banks_hose = ['ACB', 'BID', 'CTG','EIB', 'HDB', 'MBB', 'MSB','OCB','SHB','SSB','STB','TCB','TPB','VCB','VIB','VPB']
-banks_hnx = ['NVB', 'BAB']
-banks=['ACB', 'BID', 'CTG','EIB', 'HDB', 'MBB', 'MSB','OCB','SHB','SSB','STB','TCB','TPB','VCB','VIB','VPB','NVB', 'BAB']
-data = {}
+import mysql.connector
 host = 'localhost'
 user = 'root'
-password = 'Ncgncg1102'
+password = 'Ncgncg1102@'
 database = 'stock_prediction'
-
-
 def get_data_from_web(bank):
     print('bank', bank)
     url = f'https://simplize.vn/co-phieu/{bank}/lich-su-gia'
     response = requests.get(url)
-    data = {}
+    datas = {}
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
         tbody = soup.find('tbody', class_='simplize-table-tbody')
@@ -39,16 +28,13 @@ def get_data_from_web(bank):
             stockHistory['volume'] = h6_css_cvilom_today[5].text.strip().replace('-', '0')
             stockHistory['close_yesterday'] = h6_css_cvilom_yesterday[4].text.strip().replace('-', '0')
             stockHistory['volume_yesterday'] = h6_css_cvilom_yesterday[5].text.strip().replace('-', '0')
-            data[today] = stockHistory
-    return data
-def crawl(banks_hose,banks_hnx):
-    for  bank in banks_hose:
+            datas[today] = stockHistory
+    return datas
+def crawl(bankss):
+    data = {}
+    for  bank in bankss:
         data[bank] = {}
         data[bank] = get_data_from_web(bank)
-    for bank in banks_hnx:
-        data[bank] = {}
-        data[bank] = get_data_from_web(bank)
-    print(data)
     return data
 
 def convert_str_to_float(str_num):
@@ -61,32 +47,52 @@ def convert_dict_to_df(data_dict):
     df=df.sort_index(ascending=True)
     return df
 
-data=crawl(banks_hose,banks_hnx)
-data_historys=[]
-for symbol in banks:
-  data_historys.append(data[symbol])
-data_history_dfs=[]
-for data_history in data_historys:
-    data_history_dfs.append(convert_dict_to_df(data_history))
+def data_insert(banklist,stockids):
+    data=crawl(banklist)
+    data_historys=[]
+    for symbol in banklist:
+        data_historys.append(data[symbol])
 
-data_history_inserts = []
+    data_history_dfs=[]
+    for data_history in data_historys:
+        data_history_dfs.append(convert_dict_to_df(data_history))
+    i=0
+    data_inserts = []
+    for  dataframe in  data_history_dfs:
+        for index, row in dataframe.iterrows():
+            date = row.name.date()  
+            open_price = row['open']  
+            high_price = row['high'] 
+            low_price = row['low']  
+            close_price = row['close']  
+            volume = row['volume']  
+            record = (stockids[i],str(date), open_price, high_price, low_price, close_price, volume)
+            data_inserts.append(record)
+        i += 1
+    return data_inserts
+def insertdb(data_inserts):
+    try:
+        conn = mysql.connector.connect(
+            host=host,
+            user=user,
+            password=password,
+            database=database
+        )
 
-for  dataframe in  data_history_dfs:
-    for index, row in dataframe.iterrows():
-        print(index)
-        date = row.name.date()  
-        open_price = row['open']  
-        high_price = row['high'] 
-        low_price = row['low']  
-        close_price = row['close']  
-        volume = row['volume']  
-        record = ( str(date), open_price, high_price, low_price, close_price, volume)
-        data_history_inserts.append(record)
+        if conn.is_connected():
+            print("Connected to MySQL")
+            
+            cursor = conn.cursor()
+            insert_stock_hist_query = "INSERT INTO stockhistory (stockid, date, open, high, low, close, volume) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            cursor.executemany(insert_stock_hist_query, data_inserts)
+            conn.commit()
 
-print(data_history_inserts)
+            cursor.close()
+            conn.close()
 
-
-# schedule.every(1).minutes.do(crawl, banks_hose=banks_hose,banks_hnx=banks_hnx)
-# while True:
-#     schedule.run_pending()
-#     time.sleep(1)
+    except mysql.connector.Error as e:
+        print(f"Error: {e}")
+    finally:
+        if conn.is_connected():
+            cursor.close()
+            conn.close()
