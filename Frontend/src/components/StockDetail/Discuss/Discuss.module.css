@@ -1,9 +1,8 @@
 .discuss {
     display: flex;
-    position: relative;
     flex-direction: column;
     gap: 20px;
-    width: 40%;
+    width: 50%;
     border: 1px solid #00000017;
     border-radius: 5px;
     margin-bottom: 20px;
@@ -66,13 +65,13 @@
 
 @media screen and (max-width: 1200px) {
     .discuss {
-        width: 50%;
+        width: 80%;
     }
 }
 
 @media screen and (max-width: 992px) {
     .discuss {
-        width: 70%;
+        width: 90%;
     }
 }
 

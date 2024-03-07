@@ -1,39 +1,52 @@
-.icon {
-    width: 100%;
-    height: 100%;
+ .root {
+    width: 100vw;
+    min-height: 300vh;
+    background-color: #CCE5FF;
+} 
+.maincontainer{
+    width: 100vw;
+    padding: 10px 96px;
+    
 }
-
-.icon2 {
-    width: 100%;
-    height: 100%;
-}
-
-.icon3 {
-    width: 100%;
-    height: 100%;
-}
-
-.root {
-    width: 100%;
-    min-height: 900vh;
+.content{
+    border-radius: 15px;
     background-color: #fff;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 10px
+    gap: 10px;
+    padding: 0px 24px;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+
+    height: fit-content;
 }
 
-.icon4 {
-    width: 100%;
-    height: 100%;
-}
 
 .companyinfo {
     color: #000;
     font-size: 20px;
     font-weight: bold;
     font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
-    margin: 10px 100px;
     margin-top: 20px;
+    padding: 10px;
+    width: fit-content;
+} 
+.detail {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 35px 10px;
+    border: 1px solid #00000036;
+    border-radius: 15px;
+    margin: 24px 10px;
+    box-shadow: 5px 4px 2px rgba(0, 0, 0, 0.2);
+}
+.chart {
+    width: 800px;
+    height: auto;
 }
 
 .symbol {
@@ -41,34 +54,10 @@
     font-size: 16px;
     font-weight: bold;
     font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
-    left: 50px;
-    top: 129px;
     width: min-content;
     height: min-content;
     white-space: nowrap;
     flex-direction: column;
-}
-
-.container {
-    display: flex;
-    flex-direction: column;
-    margin: 0px auto;
-    padding: 0px;
-    height: fit-content;
-}
-
-.discussGroup {
-    display: block;
-    position: relative;
-}
-
-.detail {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    gap: 64px;
-    margin-top: 40px auto;
-    padding: 10px 10px;
 }
 
 .tabledetail {
@@ -79,11 +68,6 @@
     border-left: 1px solid #70a5cec4;
 }
 
-.image13 {
-    padding: 30px;
-    width: 100%;
-    height: auto;
-}
 
 .predictcontent {
     display: flex;
@@ -106,9 +90,17 @@
     flex-direction: column;
 }
 
-.discusscomment .wiritecomment,
-.discusscomment .discussGroup {
+.wiritecomment,
+.discussGroup {
     margin-left: 64px;
+}
+.discussGroup{
+    display: flex;
+    flex-direction: column;
+    gap:24px;
+    margin-top: 20px;
+    max-height: 862px; 
+    overflow-y: auto;
 }
 
 .discusscomment .text {
@@ -122,35 +114,29 @@
     padding: 20px;
     width: fit-content;
     border-radius: 10px;
-}
-
-.wiritecomment {
-    display: block;
-}
-
-.commentbox>div {
-    display: block;
-}
-
-._writecomment_rctcg_19 {
-    display: block;
+    padding-bottom: 16px;
 }
 
 @media screen and (max-width: 1200px) {
+    .maincontainer{
+        padding: 10px 48px;
+    }
     .companyinfo {
         font-size: 18px;
-        margin: 10px 80px;
     }
     .detail {
+        display: flex;
         flex-direction: column;
-        width: 100%;
+        gap: 50px;
+    }
+    .chart{
+        width: 90%;
     }
     .tabledetail {
         border-left: unset;
         flex-direction: row;
-    }
-    .image13 {
-        padding: 20px;
+        padding-right: 70px;
+
     }
     .labelpredict {
         font-size: 40px;
@@ -162,15 +148,13 @@
     .discusscomment .discussGroup {
         margin-left: 52px;
     }
+
 }
 
 @media screen and (max-width: 992px) {
     .companyinfo {
         font-size: 16px;
         margin: 10px 60px;
-    }
-    .image13 {
-        padding: 12px;
     }
     .labelpredict {
         font-size: 32px;
@@ -182,6 +166,9 @@
 }
 
 @media screen and (max-width: 768px) {
+    .maincontainer{
+        padding: 10px 10px;
+    }
     .companyinfo {
         font-size: 14px;
         white-space: nowrap;
@@ -201,15 +188,17 @@
 
 @media screen and (max-width: 576px) {
     .companyinfo {
-        font-size: 12px;
         margin: 10px 20px;
     }
     .image13 {
         padding: 6px;
     }
-    .labelpredict {
-        font-size: 24px;
+    .detail{
+        margin: 0px;
+        border: 1px solid #00000036;;
+        box-shadow: none;
     }
+    
     .tabledetail {
         flex-direction: column;
     }
@@ -217,4 +206,25 @@
     .discusscomment .discussGroup {
         margin-left: 16px;
     }
+    .discusscomment .text{
+        font-size: 32px;
+    }
+    .maincontainer{
+        padding: 0px;
+    }
+}
+@media screen and (max-width: 450px) {
+
+.content{
+    padding: 4px;
+}
+.tabledetail {
+    padding-right: 0px;
+
+}
+.companyinfo {
+    font-size: 16px;
+    width: 80%;
+} 
+
 }
