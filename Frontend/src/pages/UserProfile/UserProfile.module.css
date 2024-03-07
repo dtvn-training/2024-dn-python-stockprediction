@@ -31,6 +31,7 @@
     align-items: flex-start;
     background-color: #fff;
     overflow: hidden;
+    background-image: url("../../../public/assets/login-background.avif");
 }
 
 .userprofile {
@@ -66,7 +67,6 @@
     width: 188.1081px;
     height: 48px;
     background-image:
-        /* webpackIgnore: true */
         url('/assets/logo.jpg');
     background-position: center;
     background-repeat: no-repeat;
@@ -74,12 +74,13 @@
 }
 
 .registerForm {
+    width: fit-content;
     position: relative;
     display: block;
     margin: 140px auto;
     padding: 8px 24px 24px 24px;
     border-radius: 10px;
-    background-color: #ececec;
+    background-color: #f1f7fe;
 }
 
 .frame2 {
@@ -89,7 +90,7 @@
 }
 
 .profile {
-    color: #000;
+    color: #3677a8;
     font-size: 28px;
     font-weight: bold;
     font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
@@ -105,7 +106,7 @@
     width: 443px;
     height: 64px;
     border-radius: 10px;
-    background-color: #f5f5f7;
+    background-color: #fff;
 }
 
 .rectangleName {
@@ -217,7 +218,7 @@
     font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
     border-color: #000;
     border-radius: 10px;
-    background-color: #f5f5f7;
+    background-color: #fff;
     white-space: nowrap;
     flex-direction: column;
 }
@@ -226,8 +227,6 @@
     height: 48px;
 }
 
-
-/* .inputPass {} */
 
 .next_BTN {
     margin: 20px 0;

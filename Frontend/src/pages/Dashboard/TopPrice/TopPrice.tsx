@@ -33,9 +33,7 @@ const TopStock = () => {
       {TopIncrease && (
         <div className={classes.topstock}>
           <div
-            className={
-              showFirstDiv ? classes.slideenter : classes.slideleave
-            }
+            className={showFirstDiv ? classes.slideenter : classes.slideleave}
           >
             {showFirstDiv ? (
               <div className={classes.topincrease}>
@@ -58,17 +56,23 @@ const TopStock = () => {
                   ) => {
                     const percentValue = parseFloat(stock.percent);
                     return (
-                      <div key={index}>
-                        <div className={classes.ItemStock}>
-                          <span className={classes.symbol}>{stock.symbol}</span>
-                          <span className={classes.percent}>
-                            {percentValue >= 0
-                              ? `+${percentValue.toFixed(2)}%`
-                              : `${percentValue.toFixed(2)}%`}
-                          </span>
-                          <span className={classes.volume}>{stock.volume}</span>
+                      <Link to={`/stock/${stock.symbol}`}>
+                        <div key={index}>
+                          <div className={classes.ItemStock}>
+                            <span className={classes.symbol}>
+                              {stock.symbol}
+                            </span>
+                            <span className={classes.percent}>
+                              {percentValue >= 0
+                                ? `+${percentValue.toFixed(2)}%`
+                                : `${percentValue.toFixed(2)}%`}
+                            </span>
+                            <span className={classes.volume}>
+                              {stock.volume}
+                            </span>
+                          </div>
                         </div>
-                      </div>
+                      </Link>
                     );
                   }
                 )}
@@ -94,17 +98,23 @@ const TopStock = () => {
                   ) => {
                     const percentValue = parseFloat(stock.percent);
                     return (
-                      <div key={index}>
-                        <div className={classes.ItemStock}>
-                          <span className={classes.symbol}>{stock.symbol}</span>
-                          <span className={classes.percent}>
-                            {percentValue >= 0
-                              ? `+${percentValue.toFixed(2)}%`
-                              : `${percentValue.toFixed(2)}%`}
-                          </span>
-                          <span className={classes.volume}>{stock.volume}</span>
+                      <Link to={`/stock/${stock.symbol}`}>
+                        <div key={index}>
+                          <div className={classes.ItemStock}>
+                            <span className={classes.symbol}>
+                              {stock.symbol}
+                            </span>
+                            <span className={classes.percent}>
+                              {percentValue >= 0
+                                ? `+${percentValue.toFixed(2)}%`
+                                : `${percentValue.toFixed(2)}%`}
+                            </span>
+                            <span className={classes.volume}>
+                              {stock.volume}
+                            </span>
+                          </div>
                         </div>
-                      </div>
+                      </Link>
                     );
                   }
                 )}
