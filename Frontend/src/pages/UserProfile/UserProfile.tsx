@@ -174,9 +174,9 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
                 {passwordError && <span className={classes.errorMessage}>Mật khẩu ít nhất 8 ký tự, có ít nhất một kí tự hoa, số và ký tự đặc biệt</span>}
               </div>
               {isEditing ? (
-                <Button className={classes.outlined} variant="outlined" onClick={handleUpdate}>Update</Button>
+                <Button className={classes.outlined} variant="outlined" onClick={handleUpdate}>Xác nhận</Button>
               ) : (
-                <Button className={classes.outlined} variant="outlined" onClick={() => setIsEditing(true)}>Edit</Button>
+                <Button className={classes.outlined} variant="outlined" onClick={() => setIsEditing(true)}>Cập nhật thông tin</Button>
               )}
               {/* <Button className={classes.outlined} variant="outlined">Update</Button> */}
             </div>

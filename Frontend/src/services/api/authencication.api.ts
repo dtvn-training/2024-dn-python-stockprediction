@@ -32,7 +32,6 @@ export function useLoginForm() {
         window.location.href = "/";
         localStorage.setItem("isLoggedIn", "true");
         toast.success("đăng nhập thành công")
-        console.log(response,'rélogin');
         
     } catch (error) {
         setEmailError(true);

@@ -26,7 +26,7 @@ export const SignUp: FC<Props> = memo(function SignUp(props: Props = {}) {
       <div className={classes.line20}>
         <Line20Icon className={classes.icon3} />
       </div>
-      <div className={classes.image10}></div>
+      <Link className={classes.image10} to={"/"}></Link>
 
       <div className={classes.registerForm}>
         <div className={classes.frame2}>
