@@ -91,3 +91,7 @@
         width: 300px
     }
 }
+
+.submitComment:hover{
+    background-color: black!important;
+}

@@ -338,7 +338,11 @@ def get_comment_lists(symbol):
         total_seconds = time_difference.total_seconds()
         hours = int(total_seconds // 3600)
         minutes = int((total_seconds % 3600) // 60)
-        time = f"{hours} giờ, {minutes} phút"
+        if(hours>24):
+            days = int(hours//24)
+            time = f"{days} ngày"
+        else:
+            time = f"{hours} giờ, {minutes} phút"
         comment = {
             "commentid": commentObject.commentid,
             "name": str(user.fullname),

@@ -119,8 +119,8 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
   return (
     <div className={`${resets.storybrainResets} ${classes.root}`}>
       <ToastContainer />
+      <Header/>
       <div className={classes.userprofile}>
-        <Header/>
         <div className={classes.main}>
           <div className={classes.line20}>
             <Line20Icon className={classes.icon3} />
