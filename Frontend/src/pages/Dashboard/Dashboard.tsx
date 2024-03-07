@@ -10,12 +10,15 @@ import { Button } from "@mui/material";
 import resets from "../../components/_resets.module.css";
 import classes from "./Dashboard.module.css";
 import Header from "../../components/Header/Header";
-import { getStockbyDate } from "../../services/api/stock.api";
+import { getStockbyDate, getFollowStock } from "../../services/api/stock.api";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import Checkbox from '@mui/material/Checkbox';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import dayjs from 'dayjs';
 
 
@@ -26,39 +29,61 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
   const [stocks, setStocks] = useState([]);
   const currentDate  = dayjs();;
   const [selectedDate, setSelectedDate] = useState<Date>(currentDate);  
-
+  const [isLogedIn, setIsLogedIn] = useState(false)
+  const [isFollow,setIsFollow] =useState([false])
+  const [tokenTimeout, setTokenTimeout] = useState<NodeJS.Timeout | null>(null);
+  let token = localStorage.getItem("token")
   useEffect(() => {
-    fetchStockData(selectedDate);
-  }, [selectedDate]);
+    if (token) {
+      setIsLogedIn(true);
+    }
+  }, []);
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
+  useEffect(() => {
+    const fetchStockData = (date: Date) => {
+      if (!isFollow) {
+        console.log(isFollow, "isfollow getFollowStock");
+        getFollowStock(date)
+          .then((data) => {
+            setStocks(data);
+          })
+          .catch((error) => {
+            console.log("Error fetching stocks:", error);
+          });
+      } else {
+        console.log(isFollow, "isfollow getStockbyDate");
+        getStockbyDate(date)
+          .then((data) => {
+            setStocks(data);
+          })
+          .catch((error) => {
+            console.log("Error fetching stocks:", error);
+          });
+      }
+    };
   
-  const fetchStockData = (date: Date) => {
-    getStockbyDate(date)
-      .then((data) => {
-        setStocks(data);        
-      })
-      .catch((error) => {
-        console.log("Error fetching stocks:", error);
-      });
-
+    fetchStockData(selectedDate);
+  
     const handleResize = () => {
       setWindowSize({
         width: window.innerWidth,
         height: window.innerHeight,
       });
     };
-
+  
     window.addEventListener("resize", handleResize);
-
+  
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  };
+  }, [selectedDate, isFollow]); // Add windowSize to the dependency array
+  
+  
 
-  const [tokenTimeout, setTokenTimeout] = useState<NodeJS.Timeout | null>(null);
+  //handle toast
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("isLoggedIn");
     if (isLoggedIn === "true") {
@@ -77,9 +102,14 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       }
     };
   }, []);
+
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date || new Date()); 
   };
+
+  const handleShowFollow =() => {
+    setIsFollow((prevIsFollow) => !prevIsFollow);    
+  }
 
   const columns: GridColDef[] = [
     {
@@ -199,6 +229,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       sortable: false,
       width: windowSize.width*0.10,
       renderCell: (params) => (
+        isLogedIn&&
         <Button variant="outlined">
           <Link to={`/stock/${params.row.symbol}`} style={{ color: "black" }}>
             Chi tiết
@@ -216,6 +247,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       <div className={classes.dashboard}>
         <Header />
         <div className={classes.main}>
+        {isLogedIn &&<FormGroup aria-label="position" row>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker 
               value={selectedDate}
@@ -223,6 +255,16 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
               label="Chọn ngày"
             />
           </LocalizationProvider>
+          <FormControlLabel
+          value={isFollow}
+          control={<Checkbox 
+            onChange={handleShowFollow}
+            />}
+          label="Đang theo dõi"
+          labelPlacement="start"
+          />
+
+        </FormGroup>}
           <DataGrid
             rows={rows}
             columns={columns}

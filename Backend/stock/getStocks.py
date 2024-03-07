@@ -46,14 +46,15 @@ def get_stock_history(date):
     
     return dashboardData
 
-def get_follow_stock(userID,date):
+def get_follow_stock_by_date(userID,date):
 
-    followList = StockFollow.query.filter_by(userID=userid).all()
+    followList = StockFollow.query.filter_by(userid=userID).all()
 
     listStock=[]
     for stockFollow in followList:
-        stock = StockList.query.filter_by(stockFollow=stockid)
-        listStock.append(stockFollow)
+        print(stockFollow.stockid,'stf' )
+        stock = StockList.query.filter(StockList.stockid == stockFollow.stockid).first()
+        listStock.append(stock)
     followData = get_history_stock(listStock,date)
 
     return followData
