@@ -56,6 +56,34 @@
     font-size: 16px;
 }
 
+.commentmargin {
+    margin-top: 100px;
+}
+
 .commentinfo .username {
     color: rgb(16, 96, 161);
+}
+
+@media screen and (max-width: 1200px) {
+    .discuss {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .discuss {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .discuss {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .discuss {
+        width: 100%;
+    }
 }

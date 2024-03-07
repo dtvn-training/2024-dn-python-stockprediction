@@ -74,7 +74,6 @@ const Predict: React.FC<PredictInfoProps> = ({ symbol }) => {
           <img
             src={`data:image/png;base64,${PredictImage}`}
             alt="SMA Chart"
-            style={{ width: "600px", height: "auto" }}
           />
         )}
       </div>

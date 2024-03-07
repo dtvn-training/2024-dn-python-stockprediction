@@ -59,6 +59,7 @@
 
 .discussGroup {
     display: block;
+    position: relative;
 }
 
 .detail {
@@ -108,7 +109,6 @@
 .discusscomment .wiritecomment,
 .discusscomment .discussGroup {
     margin-left: 64px;
-    height: 37px;
 }
 
 .discusscomment .text {
@@ -119,7 +119,7 @@
 
 .wiritecomment {
     background-color: rgb(201, 234, 240);
-    padding: 10px;
+    padding: 20px;
     width: fit-content;
     border-radius: 10px;
 }
@@ -150,11 +150,17 @@
         flex-direction: row;
     }
     .image13 {
-        width: 80%;
         padding: 20px;
     }
     .labelpredict {
         font-size: 40px;
+    }
+    .container {
+        margin: 0px 0px;
+    }
+    .discusscomment .wiritecomment,
+    .discusscomment .discussGroup {
+        margin-left: 52px;
     }
 }
 
@@ -163,15 +169,15 @@
         font-size: 16px;
         margin: 10px 60px;
     }
-    .detail {
-        flex-direction: column;
-    }
     .image13 {
-        width: 80%;
         padding: 12px;
     }
     .labelpredict {
         font-size: 32px;
+    }
+    .discusscomment .wiritecomment,
+    .discusscomment .discussGroup {
+        margin-left: 40px;
     }
 }
 
@@ -181,18 +187,15 @@
         white-space: nowrap;
         margin: 10px 40px;
     }
-    .detail {
-        flex-direction: column;
-    }
-    .tabledetail {
-        flex-direction: column;
-    }
     .image13 {
-        width: 80%;
         padding: 9px;
     }
     .labelpredict {
         font-size: 32px;
+    }
+    .discusscomment .wiritecomment,
+    .discusscomment .discussGroup {
+        margin-left: 28px;
     }
 }
 
@@ -201,14 +204,17 @@
         font-size: 12px;
         margin: 10px 20px;
     }
-    .detail {
-        flex-direction: column;
-    }
     .image13 {
-        width: 80%;
         padding: 6px;
     }
     .labelpredict {
         font-size: 24px;
+    }
+    .tabledetail {
+        flex-direction: column;
+    }
+    .discusscomment .wiritecomment,
+    .discusscomment .discussGroup {
+        margin-left: 16px;
     }
 }

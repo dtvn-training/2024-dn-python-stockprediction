@@ -101,8 +101,6 @@ export const Stock_page_for_users: FC<Props> = memo(
                     tokenUser={commentItem.userToken}
                     onUpdate={handleCommentUpdate}
                   />
-                  
-                  
                 </React.Fragment>
               ))
               }

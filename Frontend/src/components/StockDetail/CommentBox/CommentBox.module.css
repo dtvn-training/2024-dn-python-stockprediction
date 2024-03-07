@@ -1,16 +1,14 @@
-.wiritecomment {
-    background-color: rgba(255, 255, 255.0.1);
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.writecomment {
     display: flex;
     flex-direction: column;
     gap: 50px;
+    height: fit-content;
+    width: 100%;
 }
 
 .writecommentlabel {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
-    margin-bottom: 10px;
     display: block;
     cursor: pointer;
 }
@@ -58,13 +56,38 @@
 }
 
 .commentbox textarea {
-    width: 500px;
+    width: 600px;
     box-sizing: border-box;
     padding: 10px;
+    margin-top: 10px;
     margin-bottom: 10px;
     color: #000;
 }
 
 .feature span {
     color: rgb(16, 96, 161);
+}
+
+@media screen and (max-width: 1200px) {
+    .commentbox textarea {
+        width: 600px
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .commentbox textarea {
+        width: 500px
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .commentbox textarea {
+        width: 400px
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .commentbox textarea {
+        width: 300px
+    }
 }
