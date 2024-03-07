@@ -103,8 +103,8 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       },
     },
     {
-      field: "ngay",
-      headerName: "ngay",
+      field: "Ngày",
+      headerName: "Ngày",
       width: windowSize.width*0.08,
       valueGetter: (params: GridValueGetterParams) =>
         `${params.row.date || ""}`,

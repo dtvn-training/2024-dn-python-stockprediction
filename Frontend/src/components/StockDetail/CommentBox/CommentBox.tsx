@@ -39,6 +39,7 @@ const CommentBox = ({ onUpdateComments }) => {
             if (response.ok) {
               toast.success("Bình luận thành công!");
               setComment("");
+              setIsCommenting(!isCommenting);
               onUpdateComments();
             } else {
               toast.error("Lỗi bình luận.");

@@ -3,13 +3,10 @@
     flex-direction: column;
     color: #000;
     width: 320px;
-    background:#fff;
+    background: #fff;
     border-radius: 20px;
-    margin: auto;
-    
+    margin: 0 auto;
 }
-    
-
 
 .open,
 .high,
@@ -21,8 +18,8 @@
     border-top: 1px dashed #00000054;
 }
 
-.info{
-    color:#c96223;
+.info {
+    color: #c96223;
 }
 
 .header {
@@ -34,7 +31,9 @@
     border-top: 1px solid #00000054;
     background: rgba(116, 116, 117, 0.2);
 }
-.datetime,.header span{
+
+.datetime,
+.header span {
     font-family: Inter, sans-serif;
     font-size: 1.125rem;
     line-height: 1.625rem;

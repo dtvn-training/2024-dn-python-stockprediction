@@ -13,7 +13,7 @@ import { useParams } from "react-router-dom";
 import { getAllComments } from "../../services/api/comment.api";
 import React, { useEffect, useState } from "react";
 import StockChange from "../../components/StockDetail/PriceChange/PriceChange";
-import AnimationChange from "../../components/StockDetail/AnimationChange/animationchange";
+import AnimationChange from "../../components/StockDetail/AnimationChange/AnimationChange";
 
 
 interface Props {
@@ -101,8 +101,6 @@ export const Stock_page_for_users: FC<Props> = memo(
                     tokenUser={commentItem.userToken}
                     onUpdate={handleCommentUpdate}
                   />
-                  
-                  
                 </React.Fragment>
               ))
               }

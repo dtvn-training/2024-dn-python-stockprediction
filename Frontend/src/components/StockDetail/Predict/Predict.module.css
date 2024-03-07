@@ -1,15 +1,11 @@
 .predict {
-    margin-left: 64px;
     display: flex;
     flex-direction: row;
     gap: 100px;
-    
-
 }
 
 .predict .title span {
     font-size: 30px;
-
 }
 
 .predict .contentpredict {
@@ -18,15 +14,12 @@
     flex-direction: column;
     gap: 20px;
     width: 100%;
-    border: 1px solid  #00000031;
+    border: 1px solid #00000031;
     border-radius: 5px;
-    padding:20px 60px; 
-    
-
+    padding: 20px 60px;
 }
 
 .updatecontent {
-    margin-top: 50px;
     display: flex;
     flex-direction: row;
     gap: 50px;
@@ -37,9 +30,9 @@
 }
 
 .content {
-    width: 80%;
+    width: 100%;
     min-height: 250px;
-    margin-top: 30px;
+    margin-top: 20px;
     border: 1px solid #0000000e;
     border-radius: 5px;
     padding: 20px;
@@ -48,27 +41,25 @@
 .contentpredict .contentbox {
     margin-top: 30px;
     white-space: normal;
-    width: 700px;
     height: auto;
+    width: 100%;
     color: #000;
-    min-height: 250px;
     font-size: 16px;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
     border: 1px solid #0000000e;
     padding: 20px;
-
 }
 
 .chartpredict {
     display: flex;
     flex-direction: column;
+    width: 50%;
     color: #000;
     gap: 20px;
     border: 1px solid #00000031;
     padding: 20px;
-    border-radius: 10px ;
-    box-shadow: 0px 0px 5px ;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px;
 }
 
 .chartpredict ul li {
@@ -92,4 +83,54 @@
     border-radius: 10px;
     font-size: 16px;
     font-weight: 500;
+}
+
+.img {
+    width: 100%;
+    height: auto;
+}
+
+@media screen and (max-width: 1200px) {
+    .predict {
+        flex-direction: column;
+    }
+    .chartpredict {
+        width: 80%;
+        margin: auto;
+    }
+    .predict .contentpredict {
+        width: 80%;
+        padding: 5px 5px;
+        margin: auto;
+    }
+    .predict .title span {
+        font-size: 26px;
+    }
+    img {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .predict .title span {
+        font-size: 22px;
+    }
+    .update,
+    .delete,
+    .save,
+    .cancel {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .predict .title span {
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .predict .title span {
+        font-size: 16px;
+    }
 }
