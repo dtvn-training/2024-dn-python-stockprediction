@@ -21,21 +21,19 @@ const Header: React.FC = () => {
     }
   }, []);
 
-  const handleLoginClick = () => {
-    navigate("/login");
-  };
-
   // Render the header if isLoggedIn is false
   if (!isLoggedIn) {
     return (
       <div className={classes.header}>
         <div className={classes.leftheader}>
-          <div className={classes.logo}></div>
+          <Link className={classes.logo} to={"/"}></Link>
         </div>
         <div className={classes.rightheader}>
           <div className={classes.search}>
-            <Button variant="outlined" onClick={handleLoginClick}>
-              Đăng nhập
+            <Button variant="outlined">
+              <Link to={"/login"}>
+                Đăng nhập
+              </Link>
             </Button>
           </div>
         </div>
@@ -54,14 +52,12 @@ const Header: React.FC = () => {
             setOpenDropdown((openDropdown) => !openDropdown);
           }} 
         />
-
           {openDropdown && <DropdownMenu />}
         </div>
       </div>
     );
   }
 
-  // Render null if isLoggedIn is true
   return null;
 };
 

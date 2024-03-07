@@ -1,6 +1,6 @@
 from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
 from stock.changeprice import changeprice
-from stock.allstock import allstock, get_stock_by_date, get_top_stock
+from stock.getStocks import get_stock_history,get_follow_stock_by_date, get_top_stock
 from stock.predict import chart_stock
 from datetime import datetime, timedelta, timezone
 import json
@@ -263,14 +263,14 @@ def signup():
 @app.route('/getAllStocks', methods=['GET'])
 def get_stock_lists():
     currentDate = "2024-03-04"
-    dataFilterByDate =  get_stock_by_date(currentDate)
+    dataFilterByDate =  get_stock_history(currentDate)
     return (
         jsonify(dataFilterByDate)
     )
 
 @app.route('/getAllStocks/<date>', methods=['GET'])
 def get_stock_date(date):
-    dataFilterByDate =  get_stock_by_date(date)
+    dataFilterByDate =  get_stock_history(date)
     return (
         jsonify(dataFilterByDate)
     )
@@ -281,6 +281,18 @@ def get_top_stock_lists():
     return (
         jsonify({"top_increase":topincrease,"top_decrease":topdecrease})
     )
+
+@app.route('/getAllStocks/follow/<date>', methods=['GET'])
+@jwt_required()
+def get_follow_stock(date):
+    email_user = get_jwt_identity()
+    user = Users.query.filter_by(email=email_user).first()
+    userID = user.userid
+    followStockList =  get_follow_stock_by_date(userID,date)
+    return (
+        jsonify(followStockList)
+    )
+
 
 @app.route('/userprofile', methods=['GET'])
 @jwt_required()
@@ -296,15 +308,20 @@ def user_profile():
 
 
 @app.route('/userprofile', methods=['POST'])
+@jwt_required()
 def update_user_profile():
-    fullname = request.json.get('fullname') 
-    password = request.json.get('password')
+    email_user = get_jwt_identity()
     email = request.json.get('email')
-    user = Users.query.filter_by(email=email).first()
-    user.fullname = fullname
-    user.password = password
-    db.session.commit()  
-    return jsonify({"message": "Updated profile successfully."}), 200
+    if(email_user==email):
+        fullname = request.json.get('fullname') 
+        password = request.json.get('password')
+        user = Users.query.filter_by(email=email).first()
+        user.fullname = fullname
+        user.password = password
+        db.session.commit()  
+        return jsonify({"message": "Cập nhật thông tin thành công."}), 200
+    else:
+        return jsonify({"error": "Cập nhật thông tin thất bại"}), 401
 
 @app.route('/comment/showAll/<symbol>', methods=['GET'])
 def get_comment_lists(symbol):
@@ -334,7 +351,6 @@ def get_comment_lists(symbol):
     return (
         jsonify(commentStock)
     )
-
 
 @app.route('/comment/create', methods=["POST"])
 @jwt_required()
