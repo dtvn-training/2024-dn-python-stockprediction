@@ -20,7 +20,6 @@
 }
 
 .updatecontent {
-    margin-top: 50px;
     display: flex;
     flex-direction: row;
     gap: 50px;
@@ -31,9 +30,9 @@
 }
 
 .content {
-    width: 80%;
+    width: 100%;
     min-height: 250px;
-    margin-top: 30px;
+    margin-top: 20px;
     border: 1px solid #0000000e;
     border-radius: 5px;
     padding: 20px;
@@ -42,10 +41,9 @@
 .contentpredict .contentbox {
     margin-top: 30px;
     white-space: normal;
-    width: 100%;
     height: auto;
+    width: 100%;
     color: #000;
-    min-height: 250px;
     font-size: 16px;
     font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
     border: 1px solid #0000000e;
@@ -55,6 +53,7 @@
 .chartpredict {
     display: flex;
     flex-direction: column;
+    width: 50%;
     color: #000;
     gap: 20px;
     border: 1px solid #00000031;
@@ -95,20 +94,26 @@
     .predict {
         flex-direction: column;
     }
+    .chartpredict {
+        width: 80%;
+        margin: auto;
+    }
+    .predict .contentpredict {
+        width: 80%;
+        padding: 5px 5px;
+        margin: auto;
+    }
     .predict .title span {
         font-size: 26px;
     }
     img {
-        width: 700px;
+        width: 100%;
     }
 }
 
 @media screen and (max-width: 992px) {
     .predict .title span {
         font-size: 22px;
-    }
-    img {
-        width: 500px;
     }
     .update,
     .delete,
@@ -122,16 +127,10 @@
     .predict .title span {
         font-size: 18px;
     }
-    img {
-        width: 400px;
-    }
 }
 
 @media screen and (max-width: 576px) {
     .predict .title span {
         font-size: 16px;
-    }
-    img {
-        width: 300px;
     }
 }
