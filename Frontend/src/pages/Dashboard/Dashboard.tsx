@@ -13,27 +13,26 @@ import Header from "../../components/Header/Header";
 import { getStockbyDate, getFollowStock } from "../../services/api/stock.api";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import Checkbox from '@mui/material/Checkbox';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import dayjs from 'dayjs';
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import Checkbox from "@mui/material/Checkbox";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import dayjs from "dayjs";
 import TopPrice from "./TopPrice/TopPrice";
-
 
 interface Props {
   className?: string;
 }
 export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
   const [stocks, setStocks] = useState([]);
-  const currentDate  = dayjs();;
-  const [selectedDate, setSelectedDate] = useState<Date>(currentDate);  
-  const [isLogedIn, setIsLogedIn] = useState(false)
-  const [isFollow,setIsFollow] =useState([false])
+  const currentDate = dayjs();
+  const [selectedDate, setSelectedDate] = useState<Date>(currentDate);
+  const [isLogedIn, setIsLogedIn] = useState(false);
+  const [isFollow, setIsFollow] = useState([false]);
   const [tokenTimeout, setTokenTimeout] = useState<NodeJS.Timeout | null>(null);
-  let token = localStorage.getItem("token")
+  let token = localStorage.getItem("token");
   useEffect(() => {
     if (token) {
       setIsLogedIn(true);
@@ -65,24 +64,22 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
           });
       }
     };
-  
+
     fetchStockData(selectedDate);
-  
+
     const handleResize = () => {
       setWindowSize({
         width: window.innerWidth,
         height: window.innerHeight,
       });
     };
-  
+
     window.addEventListener("resize", handleResize);
-  
+
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, [selectedDate, isFollow]); // Add windowSize to the dependency array
-  
-  
 
   //handle toast
   useEffect(() => {
@@ -92,7 +89,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
 
       const timeout = setTimeout(() => {
         localStorage.removeItem("isLoggedIn");
-      }, 20 * 1000); 
+      }, 20 * 1000);
 
       setTokenTimeout(timeout);
     }
@@ -105,25 +102,25 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
   }, []);
 
   const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date || new Date()); 
+    setSelectedDate(date || new Date());
   };
 
-  const handleShowFollow =() => {
-    setIsFollow((prevIsFollow) => !prevIsFollow);    
-  }
+  const handleShowFollow = () => {
+    setIsFollow((prevIsFollow) => !prevIsFollow);
+  };
 
   const columns: GridColDef[] = [
     {
       field: "Mã chứng khoán",
       headerName: "Mã CK",
-      width: windowSize.width*0.1,
+      width: windowSize.width * 0.1,
       valueGetter: (params: GridValueGetterParams) =>
         `${params.row.symbol || ""}`,
     },
     {
       field: "Giá trần",
       headerName: "Giá trần",
-      width: windowSize.width*0.08,
+      width: windowSize.width * 0.08,
       valueGetter: (params: GridValueGetterParams) => {
         if (typeof params.row.high === "number") {
           return params.row.high.toFixed(0);
@@ -135,7 +132,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
     {
       field: "Giá đáy",
       headerName: "Giá đáy",
-      width: windowSize.width*0.08,
+      width: windowSize.width * 0.08,
       valueGetter: (params: GridValueGetterParams) => {
         if (typeof params.row.low === "number") {
           return params.row.low.toFixed(0);
@@ -147,7 +144,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
     {
       field: "Giá mở cửa",
       headerName: "Giá mở cửa",
-      width: windowSize.width*0.08,
+      width: windowSize.width * 0.08,
       valueGetter: (params: GridValueGetterParams) => {
         if (typeof params.row.open === "number") {
           return params.row.open.toFixed(0);
@@ -159,7 +156,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
     {
       field: "Giá đóng cửa hôm qua",
       headerName: "Giá đóng cửa hôm qua",
-      width: windowSize.width*0.08,
+      width: windowSize.width * 0.08,
       valueGetter: (params: GridValueGetterParams) => {
         if (typeof params.row.previous_close_price === "number") {
           return params.row.previous_close_price.toFixed(0);
@@ -171,8 +168,8 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
     {
       field: "Tăng giảm",
       headerName: "+/-",
-      width: windowSize.width*0.06,
-      align:"right",
+      width: windowSize.width * 0.06,
+      align: "right",
       renderCell: (params: GridValueGetterParams) => {
         const value =
           typeof params.row.diffirence === "number" ? params.row.diffirence : 0;
@@ -192,8 +189,8 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
     {
       field: "Tỉ lệ %",
       headerName: "%",
-      width: windowSize.width*0.05,
-      align:"right",
+      width: windowSize.width * 0.05,
+      align: "right",
       renderCell: (params: GridValueGetterParams) => {
         const value =
           typeof params.row.percent === "number" ? params.row.percent : 0;
@@ -217,7 +214,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
     {
       field: "Tổng khối lượng",
       headerName: "Tổng khối lượng",
-      width: windowSize.width*0.08,
+      width: windowSize.width * 0.08,
       valueGetter: (params: GridValueGetterParams) => {
         if (typeof params.row.volume === "number") {
           return params.row.volume.toFixed(0);
@@ -225,41 +222,40 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
           return "0";
         }
       },
-      align:"right",
-      cellClassName: 'vollume',
+      align: "right",
+      cellClassName: "vollume",
     },
     {
       field: "Hành động",
       headerName: "Hành động",
       sortable: false,
-      width: windowSize.width*0.10,
-      renderCell: (params) => (
-        isLogedIn&&
-        <Button variant="outlined">
-          <Link to={`/stock/${params.row.symbol}`} style={{ color: "black" }}>
-            Chi tiết
-          </Link>
-        </Button>
-      ),
+      width: windowSize.width * 0.1,
+      renderCell: (params) =>
+        isLogedIn && (
+          <Button variant="outlined">
+            <Link to={`/stock/${params.row.symbol}`} style={{ color: "black" }}>
+              Chi tiết
+            </Link>
+          </Button>
+        ),
     },
   ];
-  if (windowSize.width >576 && windowSize.width <= 992) {
-    columns.splice(1, 5);
+  if (windowSize.width > 756 && windowSize.width <= 1200) {
+    columns.splice(1, 3);
     columns.forEach((column, index) => {
-      if (index !== 0 && index !== columns.length - 1) { 
-        column.width = windowSize.width * 0.14; 
+      if (index !== 0 && index !== columns.length - 1) {
+        column.width = windowSize.width * 0.14;
       } else {
-        column.width = windowSize.width * 0.2; 
+        column.width = windowSize.width * 0.2;
       }
     });
-  } else
-  if (windowSize.width <= 576) {
+  } else if (windowSize.width <= 576) {
     columns.splice(1, 8);
     columns.forEach((column, index) => {
-      if (index === 0) { 
-        column.width = windowSize.width * 0.3; 
+      if (index === 0) {
+        column.width = windowSize.width * 0.3;
       } else if (index === columns.length - 1) {
-        column.width = windowSize.width * 0.3; 
+        column.width = windowSize.width * 0.3;
       }
     });
   }
@@ -268,43 +264,49 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
 
   return (
     <div className={`${resets.storybrainResets} ${classes.root}`}>
-      <ToastContainer />
-      <div className={classes.dashboard}>
-        <Header />
-        <div className={classes.topblock}>
-          <TopPrice/>
-        </div>
-        <div className={classes.main}>
-          {isLogedIn &&<FormGroup aria-label="position" row className={classes.datetimebox}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker 
-                  value={selectedDate}
-                  onChange={handleDateChange}
-                  label="Chọn ngày"
-                />
-              </LocalizationProvider>
+      <div className={classes.container}>
+        <ToastContainer />
+        <div className={classes.dashboard}>
+          <Header />
+          <div className={classes.topblock}>
+            <TopPrice />
+          </div>
+          <div className={classes.main}>
+            {isLogedIn && (
+              <FormGroup
+                aria-label="position"
+                row
+                className={classes.datetimebox}
+              >
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    label="Chọn ngày"
+                  />
+                </LocalizationProvider>
                 <FormControlLabel
-                value={isFollow}
-                control={<Checkbox 
-                  onChange={handleShowFollow}
-                  />}
-                label="Đang theo dõi"
-                labelPlacement="start"
+                  value={isFollow}
+                  control={<Checkbox onChange={handleShowFollow} />}
+                  label="Đang theo dõi"
+                  labelPlacement="start"
                 />
-          </FormGroup>}
-          <div className={classes.tableclose}>
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              style={{width:windowSize.width*0.85, margin:"0 auto"}}
-              initialState={{
-                pagination: {
-                  paginationModel: { page: 0, pageSize: 10 },
-                },
-              }}
-              pageSizeOptions={[5, 10]}
-              slots={{ toolbar: GridToolbar }}
-            />
+              </FormGroup>
+            )}
+            <div className={classes.tableclose}>
+              <DataGrid
+                rows={rows}
+                columns={columns}
+                style={{ width: windowSize.width * 0.70, margin: "0 auto" }}
+                initialState={{
+                  pagination: {
+                    paginationModel: { page: 0, pageSize: 10 },
+                  },
+                }}
+                pageSizeOptions={[5, 10]}
+                slots={{ toolbar: GridToolbar }}
+              />
+            </div>
           </div>
         </div>
       </div>

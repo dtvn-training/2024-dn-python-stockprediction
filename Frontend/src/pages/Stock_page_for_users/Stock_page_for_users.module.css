@@ -1,6 +1,6 @@
  .root {
     width: 100vw;
-    min-height: 300vh;
+    min-height: 200vh;
     background-color: #f1f7fe;
     background-image: url('../../../public/assets/login-background.avif');
 } 

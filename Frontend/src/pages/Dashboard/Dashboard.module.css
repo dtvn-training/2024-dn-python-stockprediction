@@ -7,30 +7,38 @@
 }
 
 .root {
-    display: block;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    align-items: flex-start;
+
+    width: 100vw;
+    min-height: 120vh;
+    background-color: #f1f7fe;
+    background-image: url('../../../public/assets/login-background.avif');
+    width: 100vw;
+    padding: 20px 80px;
+
+
+}
+
+.container {
+    border-radius:   15px;
     background-color: #fff;
-    overflow: hidden;
-    background-image: url("../../../public/assets/stocklast.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-      
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: #00000043 0 5px 5px;
+
 }
 
 .dashboard {
     display: block;
     width: 100%;
+    min-height: 100vh;
 }
 
 .main {
     display: flex;
-    margin:30px 120px;
+    margin: 30px 24px;
     flex-direction: column;
-    gap:10px;
+    gap: 10px;
 }
 
 .contentbox {
@@ -40,6 +48,7 @@
     justify-content: space-between;
     align-items: center;
 }
+
 
 .nhanDinhChung {
     color: #000;
@@ -118,10 +127,28 @@
     width: 100%;
     height: 100%;
 }
-.topblock{
+
+.topblock {
     min-height: 100px;
 }
 
-.vollume{
+.vollume {
     padding-right: 10px;
 }
+
+@media screen and (max-width: 1200px) {
+    .root {
+        padding: 0px 24px;
+    
+    }
+}
+
+@media screen and (max-width: 992px) {}
+
+@media screen and (max-width: 768px) {}
+
+@media screen and (max-width: 576px) {
+
+}
+
+@media screen and (max-width: 450px) {}
