@@ -25,11 +25,11 @@ const StockChange: React.FC<StockProps> = ({ symbol }) => {
   return (
     <div className={classes.stockchange}>
       <div className={classes.changetitle}>
-        <span>Price fluctuations</span>
+        <span>Biến động giá</span>
       </div>
       <div className={classes.list_change}>
         <div className={classes.change}>
-          <span>7D Price Change</span>
+          <span>7 ngày</span>
           {PriceChange ? (
             <div>
               {parseFloat(PriceChange.change_7d) < 0 ? (
@@ -49,7 +49,7 @@ const StockChange: React.FC<StockProps> = ({ symbol }) => {
           )}
         </div>
         <div className={classes.change}>
-          <span>20D Price Change</span>
+          <span>20 ngày</span>
           {PriceChange ? (
             <div>
               {PriceChange.change_20d < 0 ? (
@@ -69,7 +69,7 @@ const StockChange: React.FC<StockProps> = ({ symbol }) => {
           )}
         </div>
         <div className={classes.change}>
-          <span>1M Price Change</span>
+          <span>1 tháng</span>
           {PriceChange ? (
             <div>
               {parseFloat(PriceChange.change_1m) < 0 ? (
@@ -89,7 +89,7 @@ const StockChange: React.FC<StockProps> = ({ symbol }) => {
           )}
         </div>
         <div className={classes.change}>
-          <span>3M Price Change</span>
+          <span>3 tháng</span>
           {PriceChange ? (
             <div>
               {parseFloat(PriceChange.change_3m) < 0 ? (
@@ -109,7 +109,7 @@ const StockChange: React.FC<StockProps> = ({ symbol }) => {
           )}
         </div>
         <div className={classes.change}>
-          <span>1Y Price Change</span>
+          <span>1 năm</span>
           {PriceChange ? (
             <div>
               {parseFloat(PriceChange.change_1y) < 0 ? (

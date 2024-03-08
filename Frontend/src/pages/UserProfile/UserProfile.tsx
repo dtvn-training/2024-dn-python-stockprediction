@@ -134,7 +134,7 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
         toast.error('Failed to fetch user profile. Please try again.');
       });
     }
-  }, [userToken]); // Chỉ gọi fetch khi userToken thay đổi
+  }, [userToken]); 
   
   return (
     <div className={`${resets.storybrainResets} ${classes.root}`}>
@@ -208,10 +208,10 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
                     onChange={handleConfirmPasswordChange}
                   />
                   {confirmPasswordError && <span className={classes.errorMessage}>Mật khẩu xác nhận không trùng khớp</span>}
-                  </div><Button className={classes.outlined} variant="outlined" onClick={handleUpdate}>Update</Button>
+                  </div><Button className={classes.outlined} variant="outlined" onClick={handleUpdate}>Xác nhận</Button>
                 </>
               ) : (
-                <Button className={classes.outlined} variant="outlined" onClick={() => setIsEditing(true)}>Edit</Button>
+                <Button className={classes.outlined} variant="outlined" onClick={() => setIsEditing(true)}>Cập nhật thông tin</Button>
               )}
               {/* <Button className={classes.outlined} variant="outlined">Update</Button> */}
             </div>

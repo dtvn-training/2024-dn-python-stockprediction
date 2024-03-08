@@ -113,7 +113,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
     {
       field: "Mã chứng khoán",
       headerName: "Mã CK",
-      width: windowSize.width * 0.1,
+      width: windowSize.width * 0.09,
       valueGetter: (params: GridValueGetterParams) =>
         `${params.row.symbol || ""}`,
     },
@@ -229,7 +229,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
       field: "Hành động",
       headerName: "Hành động",
       sortable: false,
-      width: windowSize.width * 0.1,
+      width: windowSize.width * 0.09,
       renderCell: (params) =>
         isLogedIn && (
           <Button variant="outlined">
@@ -240,26 +240,55 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
         ),
     },
   ];
-  if (windowSize.width > 756 && windowSize.width <= 1200) {
-    columns.splice(1, 3);
-    columns.forEach((column, index) => {
-      if (index !== 0 && index !== columns.length - 1) {
-        column.width = windowSize.width * 0.14;
-      } else {
-        column.width = windowSize.width * 0.2;
-      }
-    });
-  } else if (windowSize.width <= 576) {
-    columns.splice(1, 8);
-    columns.forEach((column, index) => {
-      if (index === 0) {
+  // if (windowSize.width > 576 && windowSize.width <= 1200) {
+  //   columns.splice(1, 6);
+  //   columns.forEach((column, index) => {
+  //     if (index !== 0 && index !== columns.length - 1) {
+  //       column.width = windowSize.width * 0.2;
+  //     } else {
+  //       column.width = windowSize.width * 0.2;
+  //     }
+  //   });
+  // } else if (windowSize.width <= 576) {
+  //   columns.splice(1, 7);
+  //   columns.forEach((column, index) => {
+  //     if (index === 0) {
+  //       column.width = windowSize.width * 0.3;
+  //     } else if (index === columns.length - 1) {
+  //       column.width = windowSize.width * 0.3;
+  //     }
+  //   });
+  // }
+  switch (true) {
+    case windowSize.width <= 576:
+      columns.splice(1, 7);
+      columns.forEach((column) => {
         column.width = windowSize.width * 0.3;
-      } else if (index === columns.length - 1) {
-        column.width = windowSize.width * 0.3;
-      }
-    });
+      });
+      break;
+    case windowSize.width <= 992:
+      columns.splice(1, 4);
+      columns.forEach((column, index) => {
+        if (index !== 0 && index !== columns.length - 1) {
+          column.width = windowSize.width * 0.1;
+        } else {
+          column.width = windowSize.width * 0.195;
+        }
+      });
+      break;
+    case windowSize.width <= 1200:
+      columns.splice(1, 2);
+      columns.forEach((column, index) => {
+        if (index !== 0 && index !== columns.length - 1) {
+          column.width = windowSize.width * 0.085;
+        } else {
+          column.width = windowSize.width * 0.13;
+        }
+      });
+      break;
+    default:
+      break;
   }
-
   const rows = stocks;
 
   return (
