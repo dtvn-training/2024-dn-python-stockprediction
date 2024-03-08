@@ -74,7 +74,7 @@ const CommentBox = ({ onUpdateComments }) => {
             >
             </textarea>
             
-            <Button onClick={handleCommentSubmit}>Gửi bình luận</Button>
+            <Button onClick={handleCommentSubmit} className={classes.submitComment}>Gửi bình luận</Button>
           </div>
         )}
       </animated.div>

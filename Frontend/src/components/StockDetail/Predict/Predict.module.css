@@ -48,6 +48,7 @@
     font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
     border: 1px solid #0000000e;
     padding: 20px;
+    min-height: 250px;
 }
 
 .chartpredict {
@@ -100,7 +101,7 @@
     }
     .predict .contentpredict {
         width: 80%;
-        padding: 5px 5px;
+        padding: 10px 10px;
         margin: auto;
     }
     .predict .title span {
@@ -132,5 +133,30 @@
 @media screen and (max-width: 576px) {
     .predict .title span {
         font-size: 16px;
+    }
+    .chartpredict{
+        width: 100%;
+        margin: 0px;
+    }
+    .predict .contentpredict {
+        width: 100%;
+        padding: 10px 10px;
+        margin: auto;
+    }
+}
+@media screen and (max-width: 450px) {
+
+    .chartpredict{
+        width: 100%;
+        margin: 0px;
+        box-shadow: none;
+    }
+    .predict .contentpredict {
+        width: 100%;
+        padding: 10px 10px;
+        margin: auto;
+    }
+    .predict{
+        gap: 20px;
     }
 }

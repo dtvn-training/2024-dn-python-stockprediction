@@ -171,7 +171,8 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
     {
       field: "Tăng giảm",
       headerName: "+/-",
-      width: windowSize.width*0.07,
+      width: windowSize.width*0.06,
+      align:"right",
       renderCell: (params: GridValueGetterParams) => {
         const value =
           typeof params.row.diffirence === "number" ? params.row.diffirence : 0;
@@ -191,7 +192,8 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
     {
       field: "Tỉ lệ %",
       headerName: "%",
-      width: windowSize.width*0.07,
+      width: windowSize.width*0.05,
+      align:"right",
       renderCell: (params: GridValueGetterParams) => {
         const value =
           typeof params.row.percent === "number" ? params.row.percent : 0;
@@ -215,7 +217,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
     {
       field: "Tổng khối lượng",
       headerName: "Tổng khối lượng",
-      width: windowSize.width*0.10,
+      width: windowSize.width*0.08,
       valueGetter: (params: GridValueGetterParams) => {
         if (typeof params.row.volume === "number") {
           return params.row.volume.toFixed(0);
@@ -223,6 +225,8 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
           return "0";
         }
       },
+      align:"right",
+      cellClassName: 'vollume',
     },
     {
       field: "Hành động",
@@ -271,39 +275,36 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
           <TopPrice/>
         </div>
         <div className={classes.main}>
-        {isLogedIn &&<FormGroup aria-label="position" row>
-          <div className={classes.datetimebox}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker 
-              value={selectedDate}
-              onChange={handleDateChange}
-              label="Chọn ngày"
-            />
-          </LocalizationProvider>
-          <FormControlLabel
-          value={isFollow}
-          control={<Checkbox 
-            onChange={handleShowFollow}
-            />}
-          label="Đang theo dõi"
-          labelPlacement="start"
-          />
-
-        </FormGroup>}
-          </div>
+          {isLogedIn &&<FormGroup aria-label="position" row className={classes.datetimebox}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker 
+                  value={selectedDate}
+                  onChange={handleDateChange}
+                  label="Chọn ngày"
+                />
+              </LocalizationProvider>
+                <FormControlLabel
+                value={isFollow}
+                control={<Checkbox 
+                  onChange={handleShowFollow}
+                  />}
+                label="Đang theo dõi"
+                labelPlacement="start"
+                />
+          </FormGroup>}
           <div className={classes.tableclose}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            style={{width:windowSize.width*0.85, margin:"0 auto"}}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 10 },
-              },
-            }}
-            pageSizeOptions={[5, 10]}
-            slots={{ toolbar: GridToolbar }}
-          />
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              style={{width:windowSize.width*0.85, margin:"0 auto"}}
+              initialState={{
+                pagination: {
+                  paginationModel: { page: 0, pageSize: 10 },
+                },
+              }}
+              pageSizeOptions={[5, 10]}
+              slots={{ toolbar: GridToolbar }}
+            />
           </div>
         </div>
       </div>

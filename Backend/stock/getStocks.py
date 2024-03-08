@@ -94,4 +94,3 @@ def get_top_stock(date):
     top_3_lowest_percent = dashboardData_sorted[-4:]
     
     return top_3_highest_percent,top_3_lowest_percent
-

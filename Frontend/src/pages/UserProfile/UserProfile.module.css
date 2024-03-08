@@ -76,10 +76,12 @@
 .registerForm {
     position: relative;
     display: block;
-    margin: 140px auto;
+    margin: 0px auto;
+    margin-top: 80px;
     padding: 8px 24px 24px 24px;
     border-radius: 10px;
     background-color: #ececec;
+    width: fit-content;
 }
 
 .frame2 {
