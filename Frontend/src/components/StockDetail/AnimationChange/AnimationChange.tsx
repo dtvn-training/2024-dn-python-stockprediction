@@ -16,6 +16,13 @@ const AnimationChange = () => {
     };
     fetchData();
   }, []);
+  const [isLogedIn, setIsLogedIn] = useState(false)
+  let token = localStorage.getItem("token")
+  useEffect(() => {
+    if (token) {
+      setIsLogedIn(true);
+    }
+  }, []);
 
   return (
     <div className={classes.animationchange}>
@@ -28,7 +35,7 @@ const AnimationChange = () => {
                 percentValue >= 0 ? classes.positive : classes.negative;
               return (
                 <li key={index}>
-                  <Link to={`/stock/${stock.symbol}`}>
+                  <Link to={isLogedIn ? `/stock/${stock.symbol}` : "#"}>
                     <div
                       className={`${classes.Itemchangeprice} ${percentClassName}`}
                     >

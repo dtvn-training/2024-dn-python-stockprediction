@@ -1,4 +1,4 @@
-SQL_STRING = "mysql://root:Ncgncg1102@127.0.0.1:3306/stock_prediction"
+SQL_STRING = "mysql://root:1234@127.0.0.1:3306/stock_prediction"
 
 #  message
 STOCK_NOT_FOUND="Stock not found"

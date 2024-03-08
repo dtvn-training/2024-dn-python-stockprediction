@@ -67,7 +67,8 @@ const CommentBox = ({ onUpdateComments }) => {
       <animated.div style={slideInAnimation} className={classes.commentGroup}>
         {isCommenting && (
           <div className={`${classes.commentbox} ${classes.editorContainer}`}> 
-             <textarea
+             <textarea 
+              className={classes.commenttext}
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               placeholder="Nhập bình luận của bạn"
