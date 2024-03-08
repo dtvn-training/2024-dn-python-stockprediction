@@ -19,10 +19,12 @@ interface Props {
 export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
   const [fullnameError, setFullnameError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   const [user, setUser] = useState({
     fullname: '',
     email: '',
-    password: ''
+    password: '',
+    confirmpassword:''
   });
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -40,6 +42,14 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
       fullname: value
     }));
   };
+  const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setPasswordError(false)
+    setUser(prevUser => ({
+      ...prevUser,
+      confirmpassword: value
+    }));
+  };
   const userToken = localStorage.getItem('token');
   console.log(userToken,'token');
   const [isEditing, setIsEditing] = useState(false);
@@ -55,6 +65,12 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
       return; 
     } else {
       setPasswordError(false)
+    } 
+    if (!isConfirmPassword(user.password, user.confirmpassword)) {
+      setConfirmPasswordError(true);
+      return; 
+    } else {
+      setConfirmPasswordError(false)
     } 
     setIsEditing(false);
     fetch('http://localhost:5000/userprofile', {
@@ -90,6 +106,10 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
     return /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password);
   }
 
+  function isConfirmPassword(password: string, confirmPassword: string) {
+    return password === confirmPassword;
+  }
+
   useEffect(() => {
     if (userToken) {
       fetch('http://localhost:5000/userprofile', {
@@ -119,8 +139,8 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
   return (
     <div className={`${resets.storybrainResets} ${classes.root}`}>
       <ToastContainer />
-      <Header/>
       <div className={classes.userprofile}>
+        <Header/>
         <div className={classes.main}>
           <div className={classes.line20}>
             <Line20Icon className={classes.icon3} />
@@ -174,9 +194,24 @@ export const UserProfile: FC<Props> = memo(function UserProfile(props = {}) {
                 {passwordError && <span className={classes.errorMessage}>Mật khẩu ít nhất 8 ký tự, có ít nhất một kí tự hoa, số và ký tự đặc biệt</span>}
               </div>
               {isEditing ? (
-                <Button className={classes.outlined} variant="outlined" onClick={handleUpdate}>Xác nhận</Button>
+                <>
+                  <label className={classes.labelRegister}>Xác nhận mật khẩu</label>
+                  <div className={`${classes.rectangle} ${classes.rectanglePassword} ${confirmPasswordError ? classes.inputerror : ''}`}>
+                  <InterfaceEssentialLock_StyleFi className={classes.interfaceEssentialLock} />
+                  <input 
+                    id="confirmPasswordInput" 
+                    className={`${classes.input} ${classes.inputPassword}`} 
+                    placeholder=""
+                    defaultValue={user.confirmpassword}
+                    type='password' 
+                    readOnly={!isEditing}
+                    onChange={handleConfirmPasswordChange}
+                  />
+                  {confirmPasswordError && <span className={classes.errorMessage}>Mật khẩu xác nhận không trùng khớp</span>}
+                  </div><Button className={classes.outlined} variant="outlined" onClick={handleUpdate}>Update</Button>
+                </>
               ) : (
-                <Button className={classes.outlined} variant="outlined" onClick={() => setIsEditing(true)}>Cập nhật thông tin</Button>
+                <Button className={classes.outlined} variant="outlined" onClick={() => setIsEditing(true)}>Edit</Button>
               )}
               {/* <Button className={classes.outlined} variant="outlined">Update</Button> */}
             </div>

@@ -66,8 +66,7 @@
     top: 18px;
     width: 188.1081px;
     height: 48px;
-    background-image:
-        url('/assets/logo.jpg');
+    background-image: url('/assets/logo.jpg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -102,6 +101,7 @@
 }
 
 .rectangle {
+    display: flex;
     margin: 8px 0 16px;
     padding: 8px;
     width: 443px;
@@ -212,6 +212,7 @@
 .input {
     padding-left: 40px;
     outline: none;
+    width: 100%;
     color: #8b8fa8;
     width: 100%;
     font-size: 20px;
@@ -227,7 +228,6 @@
 .inputName {
     height: 48px;
 }
-
 
 .next_BTN {
     margin: 20px 0;
