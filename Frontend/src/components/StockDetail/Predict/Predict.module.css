@@ -1,7 +1,7 @@
 .predict {
     display: flex;
     flex-direction: row;
-    gap: 100px;
+    gap: 50px;
 }
 
 .predict .title span {

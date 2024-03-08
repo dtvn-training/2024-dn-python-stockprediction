@@ -2,6 +2,7 @@
     width: 100vw;
     min-height: 300vh;
     background-color: #f1f7fe;
+    background-image: url('../../../public/assets/login-background.avif');
 } 
 .maincontainer{
     width: 100vw;
@@ -21,7 +22,7 @@
 .container {
     display: flex;
     flex-direction: column;
-
+    margin-top: -16px;
     height: fit-content;
 }
 
@@ -111,11 +112,12 @@
 }
 
 .wiritecomment {
-    background-color: rgb(201, 234, 240);
+    background-image: linear-gradient(to bottom, #fff, #f8eedb);
     padding: 20px;
     width: fit-content;
     border-radius: 10px;
     padding-bottom: 16px;
+    border: 1px solid #0000001c;
 }
 
 @media screen and (max-width: 1200px) {
