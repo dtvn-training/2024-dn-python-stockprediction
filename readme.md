@@ -101,6 +101,11 @@ This Stock Prediction website enables users to experience and share opinions on 
 **Database:**
 - **MySQL**
 
+### Diagrams
+
+#### Use Case Diagram
+![Use Case Diagram: User](https://github.com/dtvn-training/2024-dn-python-stockprediction/blob/developer/Frontend/public/assets/User.png)
+![Use Case Diagram: Admin](https://github.com/dtvn-training/2024-dn-python-stockprediction/blob/developer/Frontend/public/assets/Admin.png)
 #### Database Diagram
 ![Database Diagram](https://github.com/dtvn-training/2024-dn-python-stockprediction/blob/developer/Frontend/public/assets/DB.png)
 
