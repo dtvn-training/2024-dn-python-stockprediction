@@ -1,10 +1,10 @@
-import * as React from 'react';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Paper from '@mui/material/Paper';
-import MenuItem from '@mui/material/MenuItem';
-import MenuList from '@mui/material/MenuList';
-import Stack from '@mui/material/Stack';
-import { Link, useNavigate } from 'react-router-dom';
+import * as React from "react";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Paper from "@mui/material/Paper";
+import MenuItem from "@mui/material/MenuItem";
+import MenuList from "@mui/material/MenuList";
+import Stack from "@mui/material/Stack";
+import { Link, useNavigate } from "react-router-dom";
 import classes from "./DropdownMenu.module.css";
 export default function DropdownMenu() {
   const [open, setOpen] = React.useState(false);
@@ -15,7 +15,6 @@ export default function DropdownMenu() {
     navigate("/");
     localStorage.removeItem("token");
     window.location.reload();
-    
   };
 
   const handleClose = (event: Event | React.SyntheticEvent) => {

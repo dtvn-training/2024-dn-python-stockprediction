@@ -12,7 +12,8 @@ class Users(db.Model):
     email = db.Column(db.String(50), unique=True, nullable=False)
     fullname = db.Column(db.String(30), nullable=False)
     type = db.Column(db.String(15), nullable=False)
-    created_at = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp())
+    created_at = db.Column(
+        db.TIMESTAMP, server_default=db.func.current_timestamp())
     updated_at = db.Column(
         db.DATETIME,
         server_default=db.func.current_timestamp(),
@@ -43,7 +44,8 @@ class StockList(db.Model):
     company_name = db.Column(db.String(255, collation="utf8mb4_unicode_ci"))
     company_detail = db.Column(db.String(200))
     previous_close_price = db.Column(db.Float, nullable=False)
-    predictions = db.relationship("StockPrediction", back_populates="stock", lazy=True)
+    predictions = db.relationship(
+        "StockPrediction", back_populates="stock", lazy=True)
 
 
 class StockPrediction(db.Model):
@@ -52,7 +54,8 @@ class StockPrediction(db.Model):
     stockid = db.Column(
         db.String(50), db.ForeignKey("stocklist.stockid"), nullable=False
     )
-    userid = db.Column(db.String(50), db.ForeignKey("users.userid"), nullable=False)
+    userid = db.Column(db.String(50), db.ForeignKey(
+        "users.userid"), nullable=False)
     date = db.Column(db.DateTime, nullable=False)
     text_prediction = db.Column(db.String(300), nullable=False)
     stock = db.relationship(
@@ -67,12 +70,14 @@ class Comments(db.Model):
     __tablename__ = "comments"
 
     commentid = db.Column(db.String(50), primary_key=True, nullable=False)
-    userid = db.Column(db.String(50), db.ForeignKey("users.userid"), nullable=False)
+    userid = db.Column(db.String(50), db.ForeignKey(
+        "users.userid"), nullable=False)
     stockid = db.Column(
         db.String(50), db.ForeignKey("stocklist.stockid"), nullable=False
     )
     comment_text = db.Column(db.String(200))
-    created_at = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp())
+    created_at = db.Column(
+        db.TIMESTAMP, server_default=db.func.current_timestamp())
     updated_at = db.Column(
         db.DateTime,
         server_default=db.func.current_timestamp(),
@@ -89,7 +94,8 @@ class StockFollow(db.Model):
     __tablename__ = "stockfollow"
 
     followid = db.Column(db.String(50), primary_key=True, nullable=False)
-    userid = db.Column(db.String(50), db.ForeignKey("users.userid"), nullable=False)
+    userid = db.Column(db.String(50), db.ForeignKey(
+        "users.userid"), nullable=False)
     stockid = db.Column(
         db.String(50), db.ForeignKey("stocklist.stockid"), nullable=False
     )

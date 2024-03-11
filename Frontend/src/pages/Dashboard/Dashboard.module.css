@@ -19,7 +19,7 @@
 }
 
 .container {
-    border-radius:   15px;
+    border-radius: 15px;
     background-color: #fff;
     display: flex;
     flex-direction: column;
@@ -139,7 +139,7 @@
 @media screen and (max-width: 1200px) {
     .root {
         padding: 0px 24px;
-    
+
     }
 }
 
@@ -147,8 +147,6 @@
 
 @media screen and (max-width: 768px) {}
 
-@media screen and (max-width: 576px) {
-
-}
+@media screen and (max-width: 576px) {}
 
 @media screen and (max-width: 450px) {}

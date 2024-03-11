@@ -27,8 +27,8 @@ const TopStock = () => {
 
     return () => clearInterval(intervalId);
   }, []);
-  const [isLogedIn, setIsLogedIn] = useState(false)
-  let token = localStorage.getItem("token")
+  const [isLogedIn, setIsLogedIn] = useState(false);
+  let token = localStorage.getItem("token");
   useEffect(() => {
     if (token) {
       setIsLogedIn(true);

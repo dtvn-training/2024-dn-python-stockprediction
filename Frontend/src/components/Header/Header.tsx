@@ -4,14 +4,12 @@ import { UserCircle } from "./UserCircle/UserCircle";
 import classes from "./Header.module.css";
 import DropdownMenu from "./DropdownMenu/DropdownMenu";
 import { Link } from "react-router-dom";
-import Divider from '@mui/material/Divider';
+import Divider from "@mui/material/Divider";
 
 const Header: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<boolean>(false);
 
-
-  // Check for token in localStorage on component mount
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -19,7 +17,6 @@ const Header: React.FC = () => {
     }
   }, []);
 
-  // Render the header if isLoggedIn is false
   if (!isLoggedIn) {
     return (
       <div className={classes.headercontainer}>
@@ -36,7 +33,6 @@ const Header: React.FC = () => {
           </div>
         </div>
         <Divider></Divider>
-        
       </div>
     );
   } else {
@@ -60,8 +56,6 @@ const Header: React.FC = () => {
       </div>
     );
   }
-
-  return null;
 };
 
 export default Header;

@@ -95,18 +95,22 @@
     .predict {
         flex-direction: column;
     }
+
     .chartpredict {
         width: 80%;
         margin: auto;
     }
+
     .predict .contentpredict {
         width: 80%;
         padding: 10px 10px;
         margin: auto;
     }
+
     .predict .title span {
         font-size: 26px;
     }
+
     img {
         width: 100%;
     }
@@ -116,6 +120,7 @@
     .predict .title span {
         font-size: 22px;
     }
+
     .update,
     .delete,
     .save,
@@ -134,29 +139,34 @@
     .predict .title span {
         font-size: 16px;
     }
-    .chartpredict{
+
+    .chartpredict {
         width: 100%;
         margin: 0px;
     }
+
     .predict .contentpredict {
         width: 100%;
         padding: 10px 10px;
         margin: auto;
     }
 }
+
 @media screen and (max-width: 450px) {
 
-    .chartpredict{
+    .chartpredict {
         width: 100%;
         margin: 0px;
         box-shadow: none;
     }
+
     .predict .contentpredict {
         width: 100%;
         padding: 10px 10px;
         margin: auto;
     }
-    .predict{
+
+    .predict {
         gap: 20px;
     }
 }

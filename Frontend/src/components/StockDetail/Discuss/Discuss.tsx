@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import classes from "./Discuss.module.css";
 import { Button } from "@mui/material";
 import { toast } from "react-toastify";
-import {API_BASE_URL} from '../../../services/api/baseURL'
+import { API_BASE_URL } from "../../../services/api/baseURL";
 
 interface CommentProps {
   id: string;
@@ -46,14 +46,18 @@ const Discuss: React.FC<CommentProps> = ({
           "Content-Type": "application/json",
           Authorization: `Bearer ${userToken}`,
         },
-        body: JSON.stringify({ id: id, commenttext: editedComment, token: userToken }),
+        body: JSON.stringify({
+          id: id,
+          commenttext: editedComment,
+          token: userToken,
+        }),
       })
         .then((response) => {
           if (response.ok) {
             toast.success("Bình luận thành công!");
             setEditedComment("");
-            setIsEditing(false); 
-            onUpdate(); 
+            setIsEditing(false);
+            onUpdate();
           } else {
             toast.error("Lỗi bình luận.");
           }

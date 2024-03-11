@@ -1,11 +1,4 @@
-import datetime
-from flask import jsonify
-from matplotlib import pyplot as plt
-import numpy as np
 import pandas as pd
-from stock.labeling.label import predict, combine_labels
-from io import BytesIO
-import base64
 
 
 def changeinfo(df):

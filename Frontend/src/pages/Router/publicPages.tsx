@@ -7,21 +7,17 @@ const publicPages: routerType[] = [
   {
     path: "/login",
     element: <Password_Login />,
-    title: "Login"
+    title: "Login",
   },
   {
     path: "/signup",
     element: <SignUp />,
-    title: "/signup"
+    title: "/signup",
   },
   {
     path: "/",
     element: <Dashboard />,
-    title: "Dashboard"
+    title: "Dashboard",
   },
 ];
-export default publicPages
-
-
-
-
+export default publicPages;

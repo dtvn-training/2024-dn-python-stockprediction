@@ -326,7 +326,7 @@ export const Dashboard: FC<Props> = memo(function Dashboard(props = {}) {
               <DataGrid
                 rows={rows}
                 columns={columns}
-                style={{ width: windowSize.width * 0.70, margin: "0 auto" }}
+                style={{ width: windowSize.width * 0.7, margin: "0 auto" }}
                 initialState={{
                   pagination: {
                     paginationModel: { page: 0, pageSize: 10 },

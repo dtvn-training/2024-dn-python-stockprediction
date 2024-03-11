@@ -11,13 +11,13 @@ const AnimationChange = () => {
         const data = await getAllStocks();
         setAlldataStock(data);
       } catch (error) {
-        console.error("Error fetching all stock data:", error);
+        console.error(error);
       }
     };
     fetchData();
   }, []);
-  const [isLogedIn, setIsLogedIn] = useState(false)
-  let token = localStorage.getItem("token")
+  const [isLogedIn, setIsLogedIn] = useState(false);
+  let token = localStorage.getItem("token");
   useEffect(() => {
     if (token) {
       setIsLogedIn(true);

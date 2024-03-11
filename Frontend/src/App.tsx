@@ -13,8 +13,8 @@ interface Props {
   className?: string;
 }
 export const App: FC<Props> = memo(function App(props = {}) {
-  const [isLogedIn, setIsLogedIn] = useState(false)
-  let token = localStorage.getItem("token")
+  const [isLogedIn, setIsLogedIn] = useState(false);
+  let token = localStorage.getItem("token");
   useEffect(() => {
     if (token) {
       setIsLogedIn(true);
@@ -25,10 +25,12 @@ export const App: FC<Props> = memo(function App(props = {}) {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Dashboard />} />
-          {isLogedIn&&<Route path="/stock/:stocks" element={<Stock_page_for_users />} />}
+          {isLogedIn && (
+            <Route path="/stock/:stocks" element={<Stock_page_for_users />} />
+          )}
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Password_Login />} />
-          {isLogedIn&&<Route path="/userprofile" element={<UserProfile />} />}
+          {isLogedIn && <Route path="/userprofile" element={<UserProfile />} />}
         </Routes>
       </BrowserRouter>
     </div>

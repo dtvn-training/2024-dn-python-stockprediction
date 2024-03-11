@@ -1,8 +1,5 @@
-// CommentBox.js
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import classes from "./CommentBox.module.css";
 import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -35,7 +32,7 @@ const CommentBox = ({ onUpdateComments }) => {
           },
           body: JSON.stringify({ comment: comment, symbol: symbol }),
         })
-          .then(response => {            
+          .then((response) => {
             if (response.ok) {
               toast.success("Bình luận thành công!");
               setComment("");
@@ -58,7 +55,6 @@ const CommentBox = ({ onUpdateComments }) => {
   };
 
   return (
-
     <div className={classes.writecomment}>
       <span className={classes.writecommentlabel} onClick={handleCommentToggle}>
         Thêm bình luận
@@ -66,21 +62,24 @@ const CommentBox = ({ onUpdateComments }) => {
       <ToastContainer />
       <animated.div style={slideInAnimation} className={classes.commentGroup}>
         {isCommenting && (
-          <div className={`${classes.commentbox} ${classes.editorContainer}`}> 
-             <textarea 
+          <div className={`${classes.commentbox} ${classes.editorContainer}`}>
+            <textarea
               className={classes.commenttext}
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               placeholder="Nhập bình luận của bạn"
+            ></textarea>
+
+            <Button
+              onClick={handleCommentSubmit}
+              className={classes.submitComment}
             >
-            </textarea>
-            
-            <Button onClick={handleCommentSubmit} className={classes.submitComment}>Gửi bình luận</Button>
+              Gửi bình luận
+            </Button>
           </div>
         )}
       </animated.div>
     </div>
-    
   );
 };
 

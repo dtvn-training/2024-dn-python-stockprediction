@@ -12,21 +12,3 @@ export const getAllComments = async (symbol: any): Promise<any> => {
         throw error;
     }
   };
-
-// const handleCommentEdit = async (commentid: string, commentContent: string ) => {
-//     try {
-//         const userToken = localStorage.getItem('token');
-//         console.log(commentid,'symbol api');
-//         const response = await axios.get(`${API_BASE_URL}/comment/update${commentid}`);
-//         return response.data;
-//     } catch (error) {
-//         console.error('Error fetching company data:', error);
-//         throw error;
-//     }
-// }    
-
-
-
-    
-
-// export default {getAllComments, handleCommentEdit}

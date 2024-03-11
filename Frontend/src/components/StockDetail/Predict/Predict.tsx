@@ -71,10 +71,7 @@ const Predict: React.FC<PredictInfoProps> = ({ symbol }) => {
           <span>Biểu đồ dự đoán</span>
         </div>
         {PredictImage && (
-          <img
-            src={`data:image/png;base64,${PredictImage}`}
-            alt="SMA Chart"
-          />
+          <img src={`data:image/png;base64,${PredictImage}`} alt="SMA Chart" />
         )}
       </div>
       <div className={classes.contentpredict}>

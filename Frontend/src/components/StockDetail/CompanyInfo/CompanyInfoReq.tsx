@@ -14,50 +14,49 @@ export const getCompanyData = async (symbol: string): Promise<any> => {
 export const isfollowstock = async (symbol: string): Promise<any> => {
   const userToken = localStorage.getItem("token");
   if (userToken) {
-    try{
-    const response = await fetch(`${API_BASE_URL}/user/follow/${symbol}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userToken}`,
-      },
-    });
-    if (response.ok) {
-      const data = await response.json();
-      return data.is_follow;
-    } else {
-      toast.error("follow feature response false");
-    }
-
-  }catch (error) {
-      
+    try {
+      const response = await fetch(`${API_BASE_URL}/user/follow/${symbol}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        return data.is_follow;
+      } else {
+        toast.error("follow feature response false");
+      }
+    } catch (error) {
       toast.error("Error getting follow status:");
     }
-}
+  }
 };
 
-export const changefollowstatus = async (symbol: string,is_follow:boolean): Promise<any> => {
+export const changefollowstatus = async (
+  symbol: string,
+  is_follow: boolean
+): Promise<any> => {
   const userToken = localStorage.getItem("token");
   if (userToken) {
-    try{
-    const response = await fetch(`${API_BASE_URL}/user/follow/${symbol}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userToken}`,
-      },
-      body: JSON.stringify({ isfollow: is_follow }),
-    });
-    if (response.ok) {
-      const data = await response.json();
-      return data.is_follow;
-    } else {
-      toast.error("follow feature response false");
-    }
-
-  }catch (error) {
-      
+    try {
+      const response = await fetch(`${API_BASE_URL}/user/follow/${symbol}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify({ isfollow: is_follow }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        return data.is_follow;
+      } else {
+        toast.error("follow feature response false");
+      }
+    } catch (error) {
       toast.error("Error getting follow status:");
     }
-}
+  }
 };

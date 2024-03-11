@@ -1,6 +1,7 @@
+import pandas as pd
 from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
 from stock.changeprice import changeprice
-from stock.getStocks import get_stock_history,get_follow_stock_by_date, get_top_stock
+from stock.getStocks import get_stock_history, get_follow_stock_by_date, get_top_stock
 from stock.predict import chart_stock
 from datetime import datetime, timedelta, timezone
 import json
@@ -18,9 +19,8 @@ from models import (
 from sqlalchemy import desc
 from flask_cors import CORS
 import matplotlib
-from config import SQL_STRING, STOCK_NOT_FOUND, UN_AUTHORIZED_ACCESS, INCORRECT_LOGIN, LOGOUT_SUCCESSFUL, VALIDATE_SIGNUP_FORM, REGISTER_SUCCESSFUL, COMMENT_SUCCESSFULL, UN_AUTHORIZED,FOLLOWED,UN_FOLLOWED
+from config import SQL_STRING, STOCK_NOT_FOUND, UN_AUTHORIZED_ACCESS, INCORRECT_LOGIN, LOGOUT_SUCCESSFUL, VALIDATE_SIGNUP_FORM, REGISTER_SUCCESSFUL, COMMENT_SUCCESSFULL, UN_AUTHORIZED, FOLLOWED, UN_FOLLOWED
 matplotlib.use('Agg')
-import pandas as pd
 
 sqlstring = SQL_STRING
 app = Flask(__name__)
@@ -63,6 +63,7 @@ def stockchart(stockCode):
     dataSource, img_predict = chart_stock(stock_infos)
     return jsonify({"chart_data": dataSource, "img_predict": img_predict})
 
+
 @app.route('/stock/change/<stockCode>', methods=['GET'])
 def get_change_price(stockCode):
     stock = StockList.query.filter_by(symbol=stockCode).first()
@@ -75,6 +76,7 @@ def get_change_price(stockCode):
     )
     change_price = changeprice(stock_infos)
     return jsonify({"change_price": change_price})
+
 
 @app.route('/stock/<stockCode>', methods=['GET', 'POST', 'UPDATE'],)
 def get_stock_list(stockCode):
@@ -189,25 +191,25 @@ def follow_data(stockCode):
     followed = StockFollow.query.filter_by(
         userid=user.userid, stockid=stock.stockid
     ).first()
-    
+
     if request.method == "GET":
         if followed:
-            return jsonify({"is_follow": True}),200
+            return jsonify({"is_follow": True}), 200
         else:
-            return jsonify({"is_follow": False}),200
+            return jsonify({"is_follow": False}), 200
 
     if request.method == "POST":
         if followed:
             db.session.delete(followed)
             db.session.commit()
-            return jsonify({"message": f"{UN_FOLLOWED}{stockCode}.","is_follow": False}),200
+            return jsonify({"message": f"{UN_FOLLOWED}{stockCode}.", "is_follow": False}), 200
         else:
             new_followed = StockFollow(
                 followid=str(uuid.uuid4()), userid=user.userid, stockid=stock.stockid
             )
             db.session.add(new_followed)
             db.session.commit()
-            return jsonify({"message": f"{FOLLOWED}{stockCode}.","is_follow": True}),200
+            return jsonify({"message": f"{FOLLOWED}{stockCode}.", "is_follow": True}), 200
 
 
 @app.route('/token', methods=["POST"])
@@ -263,24 +265,28 @@ def signup():
 @app.route('/getAllStocks', methods=['GET'])
 def get_stock_lists():
     currentDate = "2024-03-04"
-    dataFilterByDate =  get_stock_history(currentDate)
+    dataFilterByDate = get_stock_history(currentDate)
     return (
         jsonify(dataFilterByDate)
     )
 
+
 @app.route('/getAllStocks/<date>', methods=['GET'])
 def get_stock_date(date):
-    dataFilterByDate =  get_stock_history(date)
+    dataFilterByDate = get_stock_history(date)
     return (
         jsonify(dataFilterByDate)
     )
+
+
 @app.route('/getTopStock', methods=['GET'])
 def get_top_stock_lists():
     currentDate = "2024-03-04"
-    topincrease,topdecrease =  get_top_stock(currentDate)
+    topincrease, topdecrease = get_top_stock(currentDate)
     return (
-        jsonify({"top_increase":topincrease,"top_decrease":topdecrease})
+        jsonify({"top_increase": topincrease, "top_decrease": topdecrease})
     )
+
 
 @app.route('/getAllStocks/follow/<date>', methods=['GET'])
 @jwt_required()
@@ -288,7 +294,7 @@ def get_follow_stock(date):
     email_user = get_jwt_identity()
     user = Users.query.filter_by(email=email_user).first()
     userID = user.userid
-    followStockList =  get_follow_stock_by_date(userID,date)
+    followStockList = get_follow_stock_by_date(userID, date)
     return (
         jsonify(followStockList)
     )
@@ -312,16 +318,17 @@ def user_profile():
 def update_user_profile():
     email_user = get_jwt_identity()
     email = request.json.get('email')
-    if(email_user==email):
-        fullname = request.json.get('fullname') 
+    if (email_user == email):
+        fullname = request.json.get('fullname')
         password = request.json.get('password')
         user = Users.query.filter_by(email=email).first()
         user.fullname = fullname
         user.password = password
-        db.session.commit()  
+        db.session.commit()
         return jsonify({"message": "Cập nhật thông tin thành công."}), 200
     else:
         return jsonify({"error": "Cập nhật thông tin thất bại"}), 401
+
 
 @app.route('/comment/showAll/<symbol>', methods=['GET'])
 def get_comment_lists(symbol):
@@ -336,7 +343,7 @@ def get_comment_lists(symbol):
         total_seconds = time_difference.total_seconds()
         hours = int(total_seconds // 3600)
         minutes = int((total_seconds % 3600) // 60)
-        if(hours>24):
+        if (hours > 24):
             days = int(hours//24)
             time = f"{days} ngày"
         else:
@@ -346,8 +353,8 @@ def get_comment_lists(symbol):
             "name": str(user.fullname),
             "userToken": str(tokenUser),
             "stockid": commentObject.stockid,
-            "comment_text":commentObject.comment_text,
-            "updated_at":time,
+            "comment_text": commentObject.comment_text,
+            "updated_at": time,
             "second": total_seconds,
         }
         commentStock.append(comment)
@@ -355,6 +362,7 @@ def get_comment_lists(symbol):
     return (
         jsonify(commentStock)
     )
+
 
 @app.route('/comment/create', methods=["POST"])
 @jwt_required()
@@ -391,18 +399,18 @@ def updateComment(commentid):
     else:
         return jsonify({"error": "You are not authorized to update this comment"}), 401
 
+
 @app.route("/comment/delete/<comment_id>", methods=["DELETE"])
-@jwt_required()  
+@jwt_required()
 def delete_comment(comment_id):
     emailUser = get_jwt_identity()
     user = Users.query.filter_by(email=emailUser).first()
-    # comment = Comments.query.filter_by(commentid=commentid).first()
     comment = Comments.query.get(comment_id)
-    # print(comment,'cmt del')
     if user.userid == comment.userid:
         db.session.delete(comment)
-        db.session.commit() 
+        db.session.commit()
     return jsonify({"message": "Comment deleted successfully"}), 200
+
 
 if __name__ == '__main__':
     app.run()

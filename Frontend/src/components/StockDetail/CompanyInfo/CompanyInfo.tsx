@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import classes from "./CompanyInfo.module.css";
 import { Star } from "@mui/icons-material";
 import { ToastContainer, toast } from "react-toastify";
-import { changefollowstatus, getCompanyData, isfollowstock } from "./CompanyInfoReq";
+import {
+  changefollowstatus,
+  getCompanyData,
+  isfollowstock,
+} from "./CompanyInfoReq";
 
 interface CompanyInfoProps {
   symbol: string;
@@ -19,8 +23,7 @@ const CompanyInfo: React.FC<CompanyInfoProps> = ({ symbol, follow }) => {
         const data = await getCompanyData(symbol);
         const isfollowdata = await isfollowstock(symbol);
         setCompanyData(data);
-        setIsFollow(isfollowdata)
-        
+        setIsFollow(isfollowdata);
       } catch (error) {
         console.error("Error fetching company data:", error);
       }
@@ -29,20 +32,16 @@ const CompanyInfo: React.FC<CompanyInfoProps> = ({ symbol, follow }) => {
     fetchData();
   }, [symbol]);
   const handlefollow = async () => {
-    try{
-      const isfollowdata= await changefollowstatus(symbol,isFollow)
+    try {
+      const isfollowdata = await changefollowstatus(symbol, isFollow);
       setIsFollow(isfollowdata);
-      if(isFollow){
-        toast.success("unfollowed")
+      if (isFollow) {
+        toast.success("unfollowed");
+      } else {
+        toast.success("followed");
       }
-      else{
-        toast.success("followed")
-      
-      }
-    }
-    catch(error){
+    } catch (error) {
       console.error("Error change follow data:", error);
-      
     }
   };
   return (
@@ -53,10 +52,11 @@ const CompanyInfo: React.FC<CompanyInfoProps> = ({ symbol, follow }) => {
       <div className={classes.symbol}>
         {symbol}
         <div
-          className={`${isFollow !== null && isFollow ? classes.follow :classes.unfollow}`}
+          className={`${
+            isFollow !== null && isFollow ? classes.follow : classes.unfollow
+          }`}
           onClick={handlefollow}
         >
-          
           <span>{isFollow}</span>
           <Star />
         </div>

@@ -21,7 +21,7 @@ import RangeSelector, {
   RangeSelectorTypes,
 } from "devextreme-react/range-selector";
 
-import React, { FC, useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { getStockImage } from "./CandlestickReq";
 import classes from "./Candlestick.module.css";
 

@@ -9,10 +9,10 @@ def cusum_filter(dataset, threshold):
         pos_sum = max(0, pos_sum + r["differences"])
         neg_sum = min(0, neg_sum + r["differences"])
         if pos_sum > threshold:
-            pos_sum = 0  # Reset
+            pos_sum = 0
             pos_dates.append(i)
         elif neg_sum < -threshold:
-            neg_sum = 0  # Reset
+            neg_sum = 0
             neg_dates.append(i)
     return pos_dates, neg_dates
 
@@ -26,15 +26,15 @@ def detect_peaks(y, lag, threshold, influence):
     for i in range(lag, len(y)):
         if np.abs(y[i] - avg_filter) > threshold * std_filter:
             if y[i] > avg_filter:
-                signals[i] = 1  # Positive signal
+                signals[i] = 1
             else:
-                signals[i] = -1  # Negative signal
+                signals[i] = -1
             if i < len(y) - 1:
                 filtered_y[i + 1] = (
                     influence * y[i + 1] + (1 - influence) * filtered_y[i]
                 )
         else:
-            signals[i] = 0  # No signal
+            signals[i] = 0
             if i < len(y) - 1:
                 filtered_y[i + 1] = y[i + 1]
 
