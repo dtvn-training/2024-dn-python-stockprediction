@@ -27,6 +27,13 @@ const TopStock = () => {
 
     return () => clearInterval(intervalId);
   }, []);
+  const [isLogedIn, setIsLogedIn] = useState(false)
+  let token = localStorage.getItem("token")
+  useEffect(() => {
+    if (token) {
+      setIsLogedIn(true);
+    }
+  }, []);
 
   return (
     <div className={classes.containertopstock}>
@@ -56,7 +63,7 @@ const TopStock = () => {
                   ) => {
                     const percentValue = parseFloat(stock.percent);
                     return (
-                      <Link to={`/stock/${stock.symbol}`}>
+                      <Link to={isLogedIn ? `/stock/${stock.symbol}` : "#"}>
                         <div key={index}>
                           <div className={classes.ItemStock}>
                             <span className={classes.symbol}>
@@ -98,7 +105,7 @@ const TopStock = () => {
                   ) => {
                     const percentValue = parseFloat(stock.percent);
                     return (
-                      <Link to={`/stock/${stock.symbol}`}>
+                      <Link to={isLogedIn ? `/stock/${stock.symbol}` : "#"}>
                         <div key={index}>
                           <div className={classes.ItemStock}>
                             <span className={classes.symbol}>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import classes from "./Discuss.module.css";
 import { Button } from "@mui/material";
 import { toast } from "react-toastify";
+import {API_BASE_URL} from '../../../services/api/baseURL'
 
 interface CommentProps {
   id: string;
@@ -22,7 +23,6 @@ const Discuss: React.FC<CommentProps> = ({
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedComment, setEditedComment] = useState(commenttext);
-  const API_BASE_URL = "http://127.0.0.1:5000";
   const [isComment, setIsComment] = useState(false);
   const userToken = localStorage.getItem("token");
 
@@ -107,6 +107,7 @@ const Discuss: React.FC<CommentProps> = ({
       <div className={classes.commenttext}>
         {isEditing ? (
           <textarea
+            className={classes.textcomment}
             value={editedComment}
             onChange={(event) => setEditedComment(event.target.value)}
             placeholder="Nhập bình luận của bạn"
