@@ -107,8 +107,8 @@ This Stock Prediction website enables users to experience and share opinions on 
 ### SQL Schema
 
 -- Host: localhost    Database: stock_prediction
--- ------------------------------------------------------
 --
+
 -- Table structure for table `comments`
 --
 DROP TABLE IF EXISTS `comments`;
@@ -125,9 +125,9 @@ CREATE TABLE `comments` (
   CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`),
   CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`stockid`) REFERENCES `stocklist` (`stockid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---
+
 -- Table structure for table `stockfollow`
---
+
 DROP TABLE IF EXISTS `stockfollow`;
 CREATE TABLE `stockfollow` (
   `followid` varchar(50) NOT NULL,
@@ -139,7 +139,7 @@ CREATE TABLE `stockfollow` (
   CONSTRAINT `stockfollow_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`),
   CONSTRAINT `stockfollow_ibfk_2` FOREIGN KEY (`stockid`) REFERENCES `stocklist` (`stockid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---
+
 -- Table structure for table `stockhistory`
 --
 DROP TABLE IF EXISTS `stockhistory`;
@@ -156,11 +156,10 @@ CREATE TABLE `stockhistory` (
   KEY `stockid` (`stockid`),
   CONSTRAINT `stockhistory_ibfk_1` FOREIGN KEY (`stockid`) REFERENCES `stocklist` (`stockid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20521 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---
+
 -- Table structure for table `stocklist`
 --
 DROP TABLE IF EXISTS `stocklist`;
-
 CREATE TABLE `stocklist` (
   `stockid` varchar(50) NOT NULL,
   `symbol` varchar(10) NOT NULL,
@@ -171,7 +170,7 @@ CREATE TABLE `stocklist` (
   UNIQUE KEY `symboy` (`symbol`),
   UNIQUE KEY `symbol` (`symbol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---
+
 -- Table structure for table `stockprediction`
 --
 DROP TABLE IF EXISTS `stockprediction`;
@@ -187,7 +186,7 @@ CREATE TABLE `stockprediction` (
   CONSTRAINT `stockprediction_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`),
   CONSTRAINT `stockprediction_ibfk_2` FOREIGN KEY (`stockid`) REFERENCES `stocklist` (`stockid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---
+
 -- Table structure for table `users`
 --
 DROP TABLE IF EXISTS `users`;
