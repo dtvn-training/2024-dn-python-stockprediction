@@ -1,15 +1,14 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 export function useToken() {
   function getToken(): string | null {
-    const userToken = localStorage.getItem('token');
+    const userToken = localStorage.getItem("token");
     return userToken ? userToken : null;
   }
 
   const [token, setToken] = useState<string | null>(getToken());
-
   function saveToken(userToken: string): void {
-    localStorage.setItem('token', userToken);
+    localStorage.setItem("token", userToken);
     setToken(userToken);
   }
 
@@ -21,6 +20,6 @@ export function useToken() {
   return {
     setToken: saveToken,
     token,
-    removeToken
+    removeToken,
   };
 }

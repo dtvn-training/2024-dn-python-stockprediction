@@ -10,10 +10,8 @@
   overflow-wrap: anywhere;
 }
 
-:where(.storybrainResets),
-:where(.storybrainResets) :not(span, a, ul, ol, li, p) {
-  display: flex;
-}
+
+
 
 :where(.storybrainResets) ul,
 :where(.storybrainResets) ol {

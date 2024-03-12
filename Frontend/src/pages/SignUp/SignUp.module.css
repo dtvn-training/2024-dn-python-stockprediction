@@ -5,10 +5,12 @@
   height: 19px;
   transform: translateY(-50%);
 }
+
 .icon {
   width: 100%;
   height: 100%;
 }
+
 .envelopeLightSolid.envelopeLightSolid {
   left: 270px;
   top: calc(50% - -30px);
@@ -16,18 +18,21 @@
   height: 20px;
   transform: translateY(-50%);
 }
+
 .icon2 {
   width: 100%;
   height: 100%;
 }
+
 .root {
   position: relative;
   width: 100%;
   height: 100%;
   align-items: flex-start;
-  background-color: #0f1729;
   overflow: hidden;
+  background-image: url("../../../public/assets/login-background.avif");
 }
+
 .line20 {
   position: absolute;
   left: 33px;
@@ -38,26 +43,23 @@
   max-height: 100%;
   overflow: visible;
 }
+
 .icon3 {
   width: 100%;
   height: 100%;
 }
-.image10 {
-  position: absolute;
-  left: 0;
-  top: 18px;
-  width: 188.1081px;
-  height: 48px;
-  background-image:/* webpackIgnore: true */ url('/assets/logo.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
 
-.registerForm{
+
+.registerForm {
+  width: fit-content;
   position: relative;
   display: block;
-  margin: 140px auto;
+  margin: 100px auto;
+  padding: 8px 24px 24px 24px;
+  border-radius: 10px;
+  background-color: #f1f7fe;
+  box-shadow: #00000043 0 5px 5px;
+
 }
 
 .frame2 {
@@ -65,12 +67,12 @@
   height: min-content;
   padding: 10px 0;
 }
+
 .AngKi {
-  color: #fff;
+  color: #000;
   font-size: 28px;
   font-weight: bold;
-  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
   width: min-content;
   height: min-content;
   white-space: nowrap;
@@ -78,12 +80,13 @@
 }
 
 .rectangle {
-  margin: 8px 0;
+  display: flex;
+  margin: 8px 0 16px;
   padding: 8px;
   width: 443px;
   height: 64px;
   border-radius: 10px;
-  background-color: #f5f5f7;
+  background-color: #fff;
 }
 
 .rectangleName {
@@ -95,42 +98,32 @@
   position: relative;
 }
 
-.rectanglePassword{
+.rectanglePassword {
   position: relative;
 }
 
 
-.labelRegister{
-  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-    font-size: 18px;
-  color: #fff;
+.labelRegister {
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
+  font-size: 18px;
+  color: #000;
 }
 
 .iconlyBoldProfile {
-  left: 28.3298%;
-  right: 69.1332%;
-  top: 29.625%;
-  bottom: 67.375%;
-  overflow: visible;
   width: 23px;
   height: 23px;
+  margin-top: 14px;
 }
+
 .icon4 {
   width: 100%;
   height: 100%;
 }
 
-/* icon name */
 .iconlyBoldProfile {
-  position: absolute;
-  top: 22px;
-  left: 14px;
-  width: 23px;
-  height: 23px;
+  align-items: center;
 }
 
-/* icon email */
 .envelopeLightSolid.envelopeLightSolid {
   position: absolute;
   top: 33px;
@@ -140,7 +133,6 @@
   transform: translateY(-50%);
 }
 
-/* icon pass */
 .interfaceEssentialLock.interfaceEssentialLock {
   position: absolute;
   top: 24px;
@@ -148,31 +140,25 @@
   width: 25px;
   height: 23px;
 }
+
 .frame4 {
   left: 310px;
   top: 237px;
   width: min-content;
   height: min-content;
 }
+
 .ten {
   color: #8b8fa8;
   font-size: 16px;
   font-weight: 500;
-  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
   width: min-content;
   height: min-content;
   white-space: nowrap;
   flex-direction: column;
 }
-.rectangle12 {
-  left: 251px;
-  top: 304px;
-  width: 443px;
-  height: 64px;
-  border-radius: 10px;
-  background-color: #f5f5f7;
-}
+
 .frame8 {
   left: 310px;
   top: calc(50% - 63px);
@@ -183,63 +169,52 @@
 
 .input {
   padding-left: 40px;
-  outline: none;
-  color: #8b8fa8;
   width: 100%;
   font-size: 20px;
   font-weight: 500;
-  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
-  border-color: #fff;
-  /* width: 400px;
-  height: 64px; */
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
   border-radius: 10px;
-  background-color: #f5f5f7;
+  background-color: #fff;
   white-space: nowrap;
   flex-direction: column;
 }
 
-.inputName{
+.inputName {
   height: 48px;
 }
 
-.inputPass {
-
-}
 .next_BTN {
-  margin: 20px 0;
-  margin-left: auto;
+  display: flex;
   justify-content: flex-end;
-  width: 140px;
-  height: 70px;
-  flex-direction: column;
-  align-items: flex-start;
   padding: 18.5px;
   border-radius: 8px;
-  background-color: #007dfa;
 }
-.next_Icon {
-  width: 89px;
-  flex: 1;
-  align-items: flex-start;
-}
+
 .next {
-  width: min-content;
-  height: min-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
+  border: 0;
+  border-radius: 8px;
+  box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
   align-items: center;
-  background-color: #007dfa;
+  color: #FFFFFF;
+  padding: 10px;
+  width: fit-content;
 }
+
 .signIn {
   color: #fff;
   font-size: 22px;
   font-weight: 600;
-  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
   width: min-content;
   height: min-content;
   white-space: nowrap;
   flex-direction: column;
 }
+
 .icon5 {
   width: 33px;
   height: min-content;
@@ -249,47 +224,40 @@
   color: #393d6e;
   font-size: 16px;
   font-weight: 500;
-  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
   width: min-content;
   height: min-content;
   white-space: nowrap;
   flex-direction: column;
 }
+
 .frame9 {
   left: 603px;
   top: 619px;
   width: min-content;
   height: min-content;
 }
+
 .AngNhap {
   color: #007dfa;
   font-size: 16px;
   font-weight: 600;
-  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
   width: min-content;
   height: min-content;
   white-space: nowrap;
   flex-direction: column;
 }
+
 .line2 {
   left: 251px;
   top: 602px;
-  width: 443px;
+  width: 100%;
   max-width: 100%;
   height: 0;
   max-height: 100%;
-  border-bottom: solid 1px #ececf0;
+  border-bottom: solid 1px #fff;
   margin-bottom: -1px;
-}
-.rectangle3 {
-  left: 251px;
-  top: 398px;
-  width: 443px;
-  height: 64px;
-  border-radius: 10px;
-  background-color: #f5f5f7;
 }
 
 .frame3 {
@@ -305,25 +273,43 @@
   transform: translateY(-50%);
 }
 
-.loginGroup{
+.loginGroup {
   display: block;
   margin: 8px 0;
   padding: 8px 0;
 }
 
-.loginAction{
+.loginAction {
   display: flex;
   margin: 12px 0;
   justify-content: space-between;
 }
+
 .AngNhap2 {
   color: #fff;
   font-size: 22px;
   font-weight: 600;
-  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    'Liberation Sans', sans-serif;
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
   width: min-content;
   height: min-content;
   white-space: nowrap;
   flex-direction: column;
+}
+
+.inputerror {
+  border: 2px solid rgb(255, 43, 43) !important;
+}
+
+.errorMessage {
+  position: absolute;
+  bottom: -20px;
+  color: red;
+  font-size: 14px;
+}
+
+@media (max-width: 576px) {
+  .rectangle {
+    width: 100%;
+    margin: 8px 0px 24px 0px
+  }
 }

@@ -1,30 +1,30 @@
 .header {
     display: flex;
     flex-direction: row;
-    margin: 0px 100px;
-    margin-top: 20px;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+
 }
 
 .leftheader {
+    display: flex;
     align-items: center;
 }
 
 .rightheader {
-    position: absolute;
-    right: 114px;
+    position: relative;
     display: flex;
     margin-right: 50px;
     flex-direction: row;
     align-items: center;
-    gap: 20px;
 }
 
 .userCircle.userCircle {
     left: 824px;
     top: calc(50% - 709px);
+    color: #000;
 }
 
 .darkmode {
@@ -48,7 +48,7 @@
 .logo {
     width: 188.1081px;
     height: 48px;
-    background-image: url('../../../../public/assets/logo dark.jpg');
+    background-image: url('../../../../public/assets/logo.jpg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

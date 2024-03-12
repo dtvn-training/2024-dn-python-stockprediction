@@ -8,6 +8,7 @@
   overflow: hidden;
   transform: translateY(-50%);
 }
+
 .union1 {
   position: absolute;
   left: 8.3333%;
@@ -16,6 +17,7 @@
   bottom: 8.3333%;
   overflow: visible;
 }
+
 .icon {
   width: 100%;
   height: 100%;
